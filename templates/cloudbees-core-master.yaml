@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: CloudBees Core Master Template (new VPC)
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: Required
+        Parameters:
+          - KeyPairName
+          - QSS3BucketName
+          - QSS3KeyPrefix
+          - AvailabilityZones
+
+Parameters:
+  KeyPairName:
+    Description: The name of an existing key pair, used for connecting
+      to EKS worker nodes on EC2
+    Type: AWS::EC2::KeyPair::KeyName
+  QSS3BucketName:
+    AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
+    ConstraintDescription:
+      Quick Start bucket name can include numbers, lowercase
+      letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen
+      (-).
+    Default: quickstart-cloudbees-core
+    Description:
+      S3 bucket name for the Quick Start assets. This string can include
+      numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start
+      or end with a hyphen (-).
+    Type: String
+  QSS3KeyPrefix:
+    AllowedPattern: ^[0-9a-zA-Z-/]*$
+    ConstraintDescription:
+      Quick Start key prefix can include numbers, lowercase letters,
+      uppercase letters, hyphens (-), and forward slash (/).
+    Default: test-local/
+    Description:
+      S3 key prefix for the Quick Start assets. Quick Start key prefix
+      can include numbers, lowercase letters, uppercase letters, hyphens (-), and
+      forward slash (/).
+    Type: String
+  AvailabilityZones:
+    Description: List of Availability Zones to use for the subnets in the VPC. Two
+      Availability Zones are used for this deployment, and the logical order of your
+      selections is preserved.
+    Type: List<AWS::EC2::AvailabilityZone::Name>
+
+Resources:
+  VPCStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://s3.amazonaws.com/${QSS3BucketName}/${QSS3KeyPrefix}submodules/quickstart-aws-vpc/templates/aws-vpc.template"
+      Parameters:
+        AvailabilityZones: !Join [",", !Ref "AvailabilityZones"] 
+        KeyPairName: !Ref "KeyPairName"
+        NumberOfAZs: "2"
+        # TODO: add CIDRs for VPC, Pub/Pri Subnets
+        # TODO: add "admin ingress" or "remote access CIDR"
