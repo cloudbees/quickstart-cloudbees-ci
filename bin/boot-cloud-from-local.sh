@@ -43,15 +43,15 @@ aws s3 sync --acl=public-read ./scripts "s3://${S3_BUCKET}/${S3_PREFIX}scripts/"
 #Validate the template(s)
 aws cloudformation validate-template --template-url https://s3.amazonaws.com/${S3_BUCKET}/${S3_PREFIX}templates/cloudbees-core-master.yaml
 
- aws cloudformation create-stack \
-   --region "${REGION}" \
-   --stack-name "${STACK}" \
-   --template-url "https://s3.amazonaws.com/${S3_BUCKET}/${S3_PREFIX}templates/cloudbees-core-master.yaml" \
-   --parameters \
-     ParameterKey=KeyPairName,ParameterValue="${KEYNAME}" \
-     ParameterKey=QSS3BucketName,ParameterValue="${S3_BUCKET}" \
-     ParameterKey=QSS3KeyPrefix,ParameterValue="${S3_PREFIX}" \
-     ParameterKey=AvailabilityZones,ParameterValue="${AVAILABILITY_ZONES}"
-#     ParameterKey=AdminIngressLocation,ParameterValue="${INGRESS}" \
-#   --capabilities=CAPABILITY_IAM
-#   --disable-rollback
+aws cloudformation create-stack \
+    --region "${REGION}" \
+    --stack-name "${STACK}" \
+    --template-url "https://s3.amazonaws.com/${S3_BUCKET}/${S3_PREFIX}templates/cloudbees-core-master.yaml" \
+    --parameters \
+        ParameterKey=KeyPairName,ParameterValue="${KEYNAME}" \
+        ParameterKey=QSS3BucketName,ParameterValue="${S3_BUCKET}" \
+        ParameterKey=QSS3KeyPrefix,ParameterValue="${S3_PREFIX}" \
+        ParameterKey=AvailabilityZones,ParameterValue="${AVAILABILITY_ZONES}" \
+        ParameterKey=RemoteAccessCIDR,ParameterValue="0.0.0.0/0" \
+    --capabilities=CAPABILITY_IAM
+    #   --disable-rollback
