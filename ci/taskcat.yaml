@@ -1,6 +1,6 @@
 global:
   marketplace-ami: false
-  owner: quickstart-eng@amazon.com
+  owner: dschott@cloudbees.com
   qsname: quickstart-cloudbees-core
   regions:
     # - ap-northeast-1
@@ -19,6 +19,6 @@ global:
   reporting: true
  
 tests:
-  cloudbees-core-new-vpc:
-    parameter_input: cloudbees-core-new-vpc-params.json
-    template_file: cloudbees-core-master.yaml
+  cloudbees-core:
+    parameter_input: cloudbees-core-default-params.json
+    template_file: cloudbees-core-master.template.yaml
