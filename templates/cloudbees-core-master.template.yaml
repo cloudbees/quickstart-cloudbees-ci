@@ -144,6 +144,8 @@ Resources:
       TemplateURL:
         Fn::Sub: https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-linux-bastion/templates/linux-bastion.template
       Parameters:
+        AlternativeInitializationScript: 
+          Fn::Sub: https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}scripts/bootstrap.sh
         # BastionAMIOS:
         #   Ref: BastionAMIOS
         # BastionInstanceType:
