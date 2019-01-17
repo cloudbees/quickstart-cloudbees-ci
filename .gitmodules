@@ -1,3 +1,9 @@
+[submodule "quickstart-aws-vpc"]
+	path = submodules/quickstart-aws-vpc
+	url = https://github.com/aws-quickstart/quickstart-aws-vpc.git
+[submodule "quickstart-linux-bastion"]
+	path = submodules/quickstart-linux-bastion
+	url = https://github.com/aws-quickstart/quickstart-linux-bastion
 [submodule "quickstart-aws-eks"]
 	path = submodules/quickstart-aws-eks
 	url = https://github.com/aws-quickstart/quickstart-aws-eks
