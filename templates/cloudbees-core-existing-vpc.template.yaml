@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Deploys CloudBees Core into a new VPC
+Description: Deploys CloudBees Core into an existing VPC
 
 Metadata:
   AWS::CloudFormation::Interface:
@@ -13,14 +13,13 @@ Metadata:
       - Label:
           default: Network Configuration
         Parameters:
-          - AvailabilityZones
+          - VPCID
           - VPCCIDR
-          - PrivateSubnet1CIDR
-          - PrivateSubnet2CIDR
-          - PrivateSubnet3CIDR
-          - PublicSubnet1CIDR
-          - PublicSubnet2CIDR
-          - PublicSubnet3CIDR
+          - PrivateSubnet1ID
+          - PrivateSubnet2ID
+          - PrivateSubnet3ID
+          - PublicSubnet1ID
+          - PublicSubnet2ID
       - Label:
           default: EKS Configuration
         Parameters:
@@ -40,22 +39,20 @@ Metadata:
         default: Allowed External Access CIDR
       AdditionalEKSAdminArns:
         default: Additional EKS Admin ARNs
-      AvailabilityZones:
-        default: Availability Zones
+      VPCID:
+        default: VPC ID
       VPCCIDR:
         default: VPC CIDR
-      PrivateSubnet1CIDR:
-        default: Private Subnet 1 CIDR
-      PrivateSubnet2CIDR:
-        default: Private Subnet 2 CIDR
-      PrivateSubnet3CIDR:
-        default: Private Subnet 3 CIDR
-      PublicSubnet1CIDR:
-        default: Public Subnet 1 CIDR
-      PublicSubnet2CIDR:
-        default: Public Subnet 2 CIDR
-      PublicSubnet3CIDR:
-        default: Public Subnet 3 CIDR
+      PrivateSubnet1ID:
+        default: Private Subnet 1 ID
+      PrivateSubnet2ID:
+        default: Private Subnet 2 ID
+      PrivateSubnet3ID:
+        default: Private Subnet 3 ID
+      PublicSubnet1ID:
+        default: Public Subnet 1 ID
+      PublicSubnet2ID:
+        default: Public Subnet 2 ID
       NodeInstanceType:
         default: Nodes Instance Type
       NumberOfNodes:
@@ -86,59 +83,35 @@ Parameters:
     Default: ""
     Description: "[OPTIONAL] Comma separated list of IAM users/roles to be granted admin access to the EKS cluster"
     Type: CommaDelimitedList
-  AvailabilityZones:
-    Description:
-      List of Availability Zones to use for the subnets in the VPC. Three
-      Availability Zones are used for this deployment, and the logical order of your
-      selections is preserved.
-    Type: List<AWS::EC2::AvailabilityZone::Name>
+  VPCID:
+    Description: ID of your existing VPC for deployment
+    Type: AWS::EC2::VPC::Id
   VPCCIDR:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
     Default: 10.0.0.0/16
     Description: CIDR block for the VPC
     Type: String
-  PrivateSubnet1CIDR:
-    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
-    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-    Default: 10.0.0.0/19
-    Description: CIDR block for private subnet 1 located in Availability Zone 1
-    Type: String
-  PrivateSubnet2CIDR:
-    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
-    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-    Default: 10.0.32.0/19
-    Description: CIDR block for private subnet 2 located in Availability Zone 2
-    Type: String
-  PrivateSubnet3CIDR:
-    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
-    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-    Default: 10.0.64.0/19
-    Description: CIDR block for private subnet 3 located in Availability Zone 3
-    Type: String
-  PublicSubnet1CIDR:
-    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
-    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-    Default: 10.0.128.0/20
-    Description:
-      CIDR block for the public (DMZ) subnet 1 located in Availability
-      Zone 1
-    Type: String
-  PublicSubnet2CIDR:
-    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
-    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-    Default: 10.0.144.0/20
-    Description:
-      CIDR block for the public (DMZ) subnet 2 located in Availability
-      Zone 2
-    Type: String
-  PublicSubnet3CIDR:
-    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
-    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
-    Default: 10.0.160.0/20
-    Description: CIDR block for the public (DMZ) subnet 2 located in Availability
-      Zone 3
-    Type: String
+  PrivateSubnet1ID:
+    Description: ID of private subnet 1 in Availability Zone 1 for the Workload (e.g.,
+      subnet-a0246dcd)
+    Type: AWS::EC2::Subnet::Id
+  PrivateSubnet2ID:
+    Description: ID of private subnet 2 in Availability Zone 2 for the Workload (e.g.,
+      subnet-b1f432cd)
+    Type: AWS::EC2::Subnet::Id
+  PrivateSubnet3ID:
+    Description: ID of private subnet 3 in Availability Zone 3 for the Workload (e.g.,
+      subnet-b1f4a2cd)
+    Type: AWS::EC2::Subnet::Id
+  PublicSubnet1ID:
+    Description: ID of public subnet 1 in Availability Zone 1 for the ELB load balancer
+      (e.g., subnet-9bc642ac)
+    Type: AWS::EC2::Subnet::Id
+  PublicSubnet2ID:
+    Description: ID of public subnet 2 in Availability Zone 2 for the ELB load balancer
+      (e.g., subnet-e3246d8e)
+    Type: AWS::EC2::Subnet::Id
   KubernetesVersion:
     Type: String
     AllowedValues: [ "1.11", "1.10" ]
@@ -241,43 +214,26 @@ Parameters:
     Type: String
 
 Resources:
-  VPCStack:
+  EKSStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Sub "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-eks/submodules/quickstart-aws-vpc/templates/aws-vpc.template"
-      Parameters:
-        KeyPairName: !Ref KeyPairName
-        AvailabilityZones: !Join [",", !Ref AvailabilityZones]
-        NumberOfAZs: '3'
-        VPCCIDR: !Ref VPCCIDR
-        PrivateSubnet1ACIDR: !Ref 'PrivateSubnet1CIDR'
-        PrivateSubnet2ACIDR: !Ref 'PrivateSubnet2CIDR'
-        PrivateSubnet3ACIDR: !Ref 'PrivateSubnet3CIDR'
-        PrivateSubnetATag2: !Sub "kubernetes.io/cluster/${AWS::StackName}-${AWS::Region}=owned"
-        PrivateSubnetATag3: "kubernetes.io/role/internal-elb="
-        PublicSubnet1CIDR: !Ref 'PublicSubnet1CIDR'
-        PublicSubnet2CIDR: !Ref 'PublicSubnet2CIDR'
-        PublicSubnet3CIDR: !Ref 'PublicSubnet3CIDR'
-        PublicSubnetTag2: !Sub "kubernetes.io/cluster/${AWS::StackName}-${AWS::Region}=owned"
-        PublicSubnetTag3: "kubernetes.io/role/elb="
-  CloudBeesCoreExistingVPCStack:
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/cloudbees-core-existing-vpc.template.yaml"
+      TemplateURL: !Sub "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-eks/templates/aws-eks.template.yaml"
       Parameters:
         KeyPairName: !Ref KeyPairName
         RemoteAccessCIDR: !Ref RemoteAccessCIDR
         AdditionalEKSAdminArns: !Join [ ",", !Ref AdditionalEKSAdminArns ]
-        VPCID: !GetAtt 'VPCStack.Outputs.VPCID'
-        PrivateSubnet1ID: !GetAtt 'VPCStack.Outputs.PrivateSubnet1AID'
-        PrivateSubnet2ID: !GetAtt 'VPCStack.Outputs.PrivateSubnet2AID'
-        PrivateSubnet3ID: !GetAtt 'VPCStack.Outputs.PrivateSubnet3AID'
-        PublicSubnet1ID: !GetAtt 'VPCStack.Outputs.PublicSubnet1ID'
-        PublicSubnet2ID: !GetAtt 'VPCStack.Outputs.PublicSubnet2ID'
+        VPCID: !Ref VPCID
+        PrivateSubnet1ID: !Ref PrivateSubnet1ID
+        PrivateSubnet2ID: !Ref PrivateSubnet2ID
+        PrivateSubnet3ID: !Ref PrivateSubnet3ID
+        PublicSubnet1ID: !Ref PublicSubnet1ID
+        PublicSubnet2ID: !Ref PublicSubnet2ID
         KubernetesVersion: !Ref KubernetesVersion
         NodeInstanceType: !Ref NodeInstanceType
         NumberOfNodes: !Ref NumberOfNodes
         NodeGroupName: !Ref NodeGroupName
         NodeVolumeSize: !Ref NodeVolumeSize
         QSS3BucketName: !Ref QSS3BucketName
-        QSS3KeyPrefix: !Ref QSS3KeyPrefix
+        QSS3KeyPrefix: !Sub "${QSS3KeyPrefix}submodules/quickstart-aws-eks/"
+        #LambdaZipsBucketName: ??
+  #CloudBeesCoreStack:

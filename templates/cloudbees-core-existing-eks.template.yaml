@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Deploys CloudBees Core into an existing EKS cluster
+
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: Security Configuration
+        Parameters:
+          - KeyPairName
+    ParameterLabels:
+      KeyPairName:
+        default: SSH Key Name
+
+Parameters:
+  KeyPairName:
+    Description: The name of an existing public/private key pair, which allows you
+      to securely connect to your instance after it launches
+    Type: AWS::EC2::KeyPair::KeyName
+
+Resources:
+  RegularAgentNodes: #move up?
+  SpotAgentNodes: #move up?
+  ClusterAutoscaler: #move up?
+  NginxIngressController:
+  CloudBeesCore:
