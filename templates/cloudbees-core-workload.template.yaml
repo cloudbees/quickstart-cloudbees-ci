@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Deploys CloudBees Core into an existing EKS cluster
+
+Parameters:
+  KubeManifestLambdaArn:
+    Type: String
+  HelmLambdaArn:
+    Type: String
+  KubeConfigPath:
+    Type: String
+  KubeConfigKmsContext:
+    Type: String
+    Default: "EKSQuickStart"
+  KubeClusterName:
+    Type: String
+  NodeInstanceProfile:
+    Type: String
+
+Resources:
+  NginxIngressController:
+    Type: "Custom::Helm"
+    Version: '1.0'
+    Properties:
+      ServiceToken: !Ref HelmLambdaArn
+      KubeConfigPath: !Ref KubeConfigPath
+      KubeConfigKmsContext: !Ref KubeConfigKmsContext
+      # If the chart is not in the stable repo then supply a repo url
+      #RepoUrl: https://svc-catalog-charts.storage.googleapis.com
+      # namespace is optional, in most cases it's best to leave this out so that a namespace is dynamically generated.
+      # If namespace does not exist it will be created
+      #
+      Namespace: ingress-nginx
+      #
+      # supply chart name in "repo-name/chart-name" or "https://repo-hostname/repo-path/chart-package.tgz"
+      Chart: stable/nginx-ingress
+      # Custom values can optionally be specified
+      Values:
+        rbac.create: true
+        controller.service.externalTrafficPolicy: Local
+  #CloudBeesCore:
+
+Outputs:
+  # NginxIngressControllerUid:
+  #   Value: !GetAtt NginxIngressController.uid
+  NginxIngressControllerSelfLink:
+    Value: !Ref NginxIngressController

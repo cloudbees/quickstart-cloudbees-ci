@@ -253,13 +253,11 @@ Resources:
         PrivateSubnet1ACIDR: !Ref 'PrivateSubnet1CIDR'
         PrivateSubnet2ACIDR: !Ref 'PrivateSubnet2CIDR'
         PrivateSubnet3ACIDR: !Ref 'PrivateSubnet3CIDR'
-        PrivateSubnetATag2: !Sub "kubernetes.io/cluster/${AWS::StackName}-${AWS::Region}=owned"
-        PrivateSubnetATag3: "kubernetes.io/role/internal-elb="
+        PrivateSubnetATag2: "kubernetes.io/role/internal-elb="
         PublicSubnet1CIDR: !Ref 'PublicSubnet1CIDR'
         PublicSubnet2CIDR: !Ref 'PublicSubnet2CIDR'
         PublicSubnet3CIDR: !Ref 'PublicSubnet3CIDR'
-        PublicSubnetTag2: !Sub "kubernetes.io/cluster/${AWS::StackName}-${AWS::Region}=owned"
-        PublicSubnetTag3: "kubernetes.io/role/elb="
+        PublicSubnetTag2: "kubernetes.io/role/elb="
   CloudBeesCoreExistingVPCStack:
     Type: AWS::CloudFormation::Stack
     Properties:
@@ -274,6 +272,7 @@ Resources:
         PrivateSubnet3ID: !GetAtt 'VPCStack.Outputs.PrivateSubnet3AID'
         PublicSubnet1ID: !GetAtt 'VPCStack.Outputs.PublicSubnet1ID'
         PublicSubnet2ID: !GetAtt 'VPCStack.Outputs.PublicSubnet2ID'
+        PublicSubnet3ID: !GetAtt 'VPCStack.Outputs.PublicSubnet3ID'
         KubernetesVersion: !Ref KubernetesVersion
         NodeInstanceType: !Ref NodeInstanceType
         NumberOfNodes: !Ref NumberOfNodes

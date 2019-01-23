@@ -20,6 +20,7 @@ Metadata:
           - PrivateSubnet3ID
           - PublicSubnet1ID
           - PublicSubnet2ID
+          - PublicSubnet3ID
       - Label:
           default: EKS Configuration
         Parameters:
@@ -53,6 +54,8 @@ Metadata:
         default: Public Subnet 1 ID
       PublicSubnet2ID:
         default: Public Subnet 2 ID
+      PublicSubnet3ID:
+        default: Public Subnet 3 ID
       NodeInstanceType:
         default: Nodes Instance Type
       NumberOfNodes:
@@ -111,6 +114,10 @@ Parameters:
   PublicSubnet2ID:
     Description: ID of public subnet 2 in Availability Zone 2 for the ELB load balancer
       (e.g., subnet-e3246d8e)
+    Type: AWS::EC2::Subnet::Id
+  PublicSubnet3ID:
+    Description: ID of public subnet 3 in Availability Zone 3 for the ELB load balancer
+      (e.g., subnet-5e26bac2)
     Type: AWS::EC2::Subnet::Id
   KubernetesVersion:
     Type: String
@@ -228,6 +235,7 @@ Resources:
         PrivateSubnet3ID: !Ref PrivateSubnet3ID
         PublicSubnet1ID: !Ref PublicSubnet1ID
         PublicSubnet2ID: !Ref PublicSubnet2ID
+        PublicSubnet3ID: !Ref PublicSubnet3ID
         KubernetesVersion: !Ref KubernetesVersion
         NodeInstanceType: !Ref NodeInstanceType
         NumberOfNodes: !Ref NumberOfNodes
@@ -236,4 +244,17 @@ Resources:
         QSS3BucketName: !Ref QSS3BucketName
         QSS3KeyPrefix: !Sub "${QSS3KeyPrefix}submodules/quickstart-aws-eks/"
         #LambdaZipsBucketName: ??
-  #CloudBeesCoreStack:
+  #RegularAgentNodes:
+  #SpotAgentNodes:
+  #ClusterAutoscaler:
+  CloudBeesCoreStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: !Sub "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/cloudbees-core-workload.template.yaml"
+      Parameters:
+        KubeManifestLambdaArn: !GetAtt 'EKSStack.Outputs.KubeManifestLambdaArn'
+        HelmLambdaArn: !GetAtt 'EKSStack.Outputs.HelmLambdaArn'
+        KubeConfigPath: !GetAtt 'EKSStack.Outputs.KubeConfigPath'
+        #KubeConfigKmsContext: !GetAtt 'EKSStack.Outputs.KubeConfigKmsContext'
+        KubeClusterName: !GetAtt 'EKSStack.Outputs.EKSClusterName'
+        NodeInstanceProfile: !GetAtt 'EKSStack.Outputs.NodeGroupIAMRole'
