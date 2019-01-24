@@ -1,0 +1,38 @@
+[
+    {
+        "ParameterKey": "KeyPairName",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "VPCID",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "PrivateSubnet1ID",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "PrivateSubnet2ID",
+        "ParameterValue": "EKSQuickStart"
+    },
+    {
+        "ParameterKey": "PrivateSubnet3ID",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "PublicSubnet1ID",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "PublicSubnet2ID",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "PublicSubnet3ID",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "QSS3BucketName",
+        "ParameterValue": "$[taskcat_autobucket]"
+    }
+]
