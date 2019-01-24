@@ -10,6 +10,7 @@ Metadata:
           - KeyPairName
           - RemoteAccessCIDR
           - AdditionalEKSAdminArns
+          # - KubeConfigKmsContext - s3cret p4ssw0rd?
       - Label:
           default: Network Configuration
         Parameters:
@@ -244,17 +245,33 @@ Resources:
         QSS3BucketName: !Ref QSS3BucketName
         QSS3KeyPrefix: !Sub "${QSS3KeyPrefix}submodules/quickstart-aws-eks/"
         #LambdaZipsBucketName: ??
-  #RegularAgentNodes:
-  #SpotAgentNodes:
-  #ClusterAutoscaler:
+  AdditionalAgentNodesStack:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: !Sub 'https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/cloudbees-core-addl-nodes.template.yaml'
+      Parameters:
+        KeyPairName: !Ref KeyPairName
+        PrivateSubnet1ID: !Ref PrivateSubnet1ID
+        PrivateSubnet2ID: !Ref PrivateSubnet2ID
+        PrivateSubnet3ID: !Ref PrivateSubnet3ID
+        VPCID: !Ref VPCID
+        NodeInstanceType: !Ref NodeInstanceType
+        NumberOfNodes: !Ref NumberOfNodes
+        NodeGroupName: !Ref NodeGroupName
+        NodeVolumeSize: !Ref NodeVolumeSize
+        EKSControlPlane: !GetAtt EKSStack.Outputs.EKSClusterName
+        ControlPlaneSecurityGroup: !GetAtt EKSStack.Outputs.ControlPlaneSecurityGroup
+        NodeInstanceProfile: !GetAtt EKSStack.Outputs.NodeInstanceProfile
+        KubernetesVersion: !Ref KubernetesVersion
+        QSS3BucketName: !Ref QSS3BucketName
+        QSS3KeyPrefix: !Ref QSS3KeyPrefix
+  #ClusterAutoscalerStack: ??
   CloudBeesCoreStack:
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: !Sub "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/cloudbees-core-workload.template.yaml"
       Parameters:
-        KubeManifestLambdaArn: !GetAtt 'EKSStack.Outputs.KubeManifestLambdaArn'
-        HelmLambdaArn: !GetAtt 'EKSStack.Outputs.HelmLambdaArn'
-        KubeConfigPath: !GetAtt 'EKSStack.Outputs.KubeConfigPath'
+        KubeManifestLambdaArn: !GetAtt EKSStack.Outputs.KubeManifestLambdaArn
+        HelmLambdaArn: !GetAtt EKSStack.Outputs.HelmLambdaArn
+        KubeConfigPath: !GetAtt EKSStack.Outputs.KubeConfigPath
         #KubeConfigKmsContext: !GetAtt 'EKSStack.Outputs.KubeConfigKmsContext'
-        KubeClusterName: !GetAtt 'EKSStack.Outputs.EKSClusterName'
-        NodeInstanceProfile: !GetAtt 'EKSStack.Outputs.NodeGroupIAMRole'

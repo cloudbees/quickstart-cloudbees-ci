@@ -11,10 +11,6 @@ Parameters:
   KubeConfigKmsContext:
     Type: String
     Default: "EKSQuickStart"
-  KubeClusterName:
-    Type: String
-  NodeInstanceProfile:
-    Type: String
 
 Resources:
   NginxIngressController:

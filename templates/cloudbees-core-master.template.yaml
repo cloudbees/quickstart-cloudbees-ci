@@ -10,6 +10,7 @@ Metadata:
           - KeyPairName
           - RemoteAccessCIDR
           - AdditionalEKSAdminArns
+          # - KubeConfigKmsContext - s3cret p4ssw0rd?
       - Label:
           default: Network Configuration
         Parameters:
