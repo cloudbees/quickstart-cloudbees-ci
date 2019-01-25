@@ -16,16 +16,16 @@ tests:
   #   template_file: cloudbees-core-master.template.yaml
   #   regions:
   #     - us-east-1
-  cloudbees-core-existing-vpc:
-    parameter_input: cloudbees-core-existing-vpc.json
-    template_file: cloudbees-core-existing-vpc.template.yaml
-    regions:
-      - us-east-1
-  # cloudbees-core-addl-nodes:
-  #   parameter_input: cloudbees-core-addl-nodes.json
-  #   template_file: cloudbees-core-addl-nodes.template.yaml
+  # cloudbees-core-existing-vpc:
+  #   parameter_input: cloudbees-core-existing-vpc.json
+  #   template_file: cloudbees-core-existing-vpc.template.yaml
   #   regions:
   #     - us-east-1
+  cloudbees-core-addl-nodes:
+    parameter_input: cloudbees-core-addl-nodes.json
+    template_file: cloudbees-core-addl-nodes.template.yaml
+    regions:
+      - us-east-1
   # cloudbees-core-workload:
   #   parameter_input: cloudbees-core-workload.json
   #   template_file: cloudbees-core-workload.template.yaml
