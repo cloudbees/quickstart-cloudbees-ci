@@ -6,16 +6,16 @@ Parameters:
     Description: The name of an existing public/private key pair, which allows you
       to securely connect to your instance after it launches
     Type: AWS::EC2::KeyPair::KeyName
+  VPCID:
+    Type: "AWS::EC2::VPC::Id"
   PrivateSubnet1ID:
     Type: "AWS::EC2::Subnet::Id"
   PrivateSubnet2ID:
     Type: "AWS::EC2::Subnet::Id"
   PrivateSubnet3ID:
     Type: "AWS::EC2::Subnet::Id"
-  VPCID:
-    Type: "AWS::EC2::VPC::Id"
   NodeInstanceType:
-    Default: t2.medium
+    Default: m5.large
     AllowedValues:
     - t2.small
     - t2.medium
@@ -80,7 +80,7 @@ Parameters:
     Description: Number of EKS node instances
     Type: Number
   NodeGroupName:
-    Default: Default
+    Default: cloudbees-core-regular-agents
     Description: Name for EKS node group
     Type: String
   NodeVolumeSize:
@@ -90,7 +90,7 @@ Parameters:
   EKSControlPlane: 
     Type: String
   ControlPlaneSecurityGroup: 
-    Type: String
+    Type: AWS::EC2::SecurityGroup::Id
   NodeInstanceProfile: 
     Type: String
   KubernetesVersion: 
@@ -109,7 +109,7 @@ Parameters:
     AllowedPattern: ^[0-9a-zA-Z-/]*$
     ConstraintDescription: Quick Start key prefix can include numbers, lowercase letters,
       uppercase letters, hyphens (-), and forward slash (/).
-    Default: quickstart-aws-eks/
+    Default: quickstart-cloudbees-core/
     Description: S3 key prefix for the Quick Start assets. Quick Start key prefix
       can include numbers, lowercase letters, uppercase letters, hyphens (-), and
       forward slash (/).
@@ -134,5 +134,23 @@ Resources:
         ControlPlaneSecurityGroup: !Ref ControlPlaneSecurityGroup
         NodeInstanceProfile: !Ref NodeInstanceProfile
         KubernetesVersion: !Ref KubernetesVersion
-  #SpotAgentNodesStack:
+        BootstrapArguments: "--kubelet-extra-args '--node-labels=partition=regular'"
+  SpotAgentNodesStack:
+    Type: "AWS::CloudFormation::Stack"
+    Properties:
+      TemplateURL: !Sub 'https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/cloudbees-core-spot-nodes.template.yaml'
+      Parameters:
+        KeyPairName: !Ref 'KeyPairName'
+        PrivateSubnet1ID: !Ref PrivateSubnet1ID
+        PrivateSubnet2ID: !Ref PrivateSubnet2ID
+        PrivateSubnet3ID: !Ref PrivateSubnet3ID
+        VPCID: !Ref VPCID
+        NodeInstanceType: !Ref NodeInstanceType
+        NumberOfNodes: !Ref NumberOfNodes
+        NodeGroupName: "cloudbees-core-spot-agents"
+        NodeVolumeSize: !Ref NodeVolumeSize
+        EKSControlPlane: !Ref EKSControlPlane
+        ControlPlaneSecurityGroup: !Ref ControlPlaneSecurityGroup
+        NodeInstanceProfile: !Ref NodeInstanceProfile
+        KubernetesVersion: !Ref KubernetesVersion
   #ClusterAutoscalerStack:

@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Deploys CloudBees Core into an existing VPC
+Description: Deploys an EKS cluster with CloudBees Core into an existing VPC
 
 Metadata:
   AWS::CloudFormation::Interface:
