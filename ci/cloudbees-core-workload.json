@@ -4,23 +4,15 @@
         "ParameterValue": "override"
     },
     {
+        "ParameterKey": "KubeGetLambdaArn",
+        "ParameterValue": "override"
+    },
+    {
         "ParameterKey": "HelmLambdaArn",
         "ParameterValue": "override"
     },
     {
         "ParameterKey": "KubeConfigPath",
-        "ParameterValue": "override"
-    },
-    {
-        "ParameterKey": "KubeConfigKmsContext",
-        "ParameterValue": "EKSQuickStart"
-    },
-    {
-        "ParameterKey": "KubeClusterName",
-        "ParameterValue": "override"
-    },
-    {
-        "ParameterKey": "NodeInstanceProfile",
         "ParameterValue": "override"
     }
 ]

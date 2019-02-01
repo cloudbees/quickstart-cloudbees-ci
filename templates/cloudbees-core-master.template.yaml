@@ -10,7 +10,7 @@ Metadata:
           - KeyPairName
           - RemoteAccessCIDR
           - AdditionalEKSAdminArns
-          # - KubeConfigKmsContext - s3cret p4ssw0rd?
+          - KubeConfigKmsContext
       - Label:
           default: Network Configuration
         Parameters:
@@ -25,9 +25,15 @@ Metadata:
       - Label:
           default: EKS Configuration
         Parameters:
-          - NodeInstanceType
-          - NumberOfNodes
-          - NodeGroupName
+          - MasterNodeInstanceType
+          - RegularNodeInstanceType
+          - SpotNodeInstanceType1
+          - SpotNodeInstanceType2
+          - SpotNodeInstanceType3
+          - SpotNodeInstanceType4
+          - NumberOfMasterNodes
+          - NumberOfRegularNodes
+          - NumberOfSpotNodes
           - NodeVolumeSize
       - Label:
           default: AWS Quick Start Configuration
@@ -41,6 +47,8 @@ Metadata:
         default: Allowed External Access CIDR
       AdditionalEKSAdminArns:
         default: Additional EKS Admin ARNs
+      KubeConfigKmsContext:
+        default: Kubernetes Configuration KMS Context
       AvailabilityZones:
         default: Availability Zones
       VPCCIDR:
@@ -57,12 +65,24 @@ Metadata:
         default: Public Subnet 2 CIDR
       PublicSubnet3CIDR:
         default: Public Subnet 3 CIDR
-      NodeInstanceType:
-        default: Nodes Instance Type
-      NumberOfNodes:
-        default: Number of Nodes
-      NodeGroupName:
-        default: Node Group Name
+      MasterNodeInstanceType:
+        default: Master Nodes Instance Type
+      RegularNodeInstanceType:
+        default: Regular Agent Nodes Instance Type
+      SpotNodeInstanceType1:
+        default: Spot Agent Nodes Instance Type (1 of 4)
+      SpotNodeInstanceType2:
+        default: Spot Agent Nodes Instance Type (2 of 4)
+      SpotNodeInstanceType3:
+        default: Spot Agent Nodes Instance Type (3 of 4)
+      SpotNodeInstanceType4:
+        default: Spot Agent Nodes Instance Type (4 of 4)
+      NumberOfMasterNodes:
+        default: Number of Master Nodes
+      NumberOfRegularNodes:
+        default: Number of Regular Agent Nodes
+      NumberOfSpotNodes:
+        default: Number of Spot Agent Nodes
       NodeVolumeSize:
         default: Node Volume Size
       QSS3BucketName:
@@ -87,6 +107,10 @@ Parameters:
     Default: ""
     Description: "[OPTIONAL] Comma separated list of IAM users/roles to be granted admin access to the EKS cluster"
     Type: CommaDelimitedList
+  KubeConfigKmsContext:
+    Description: Secret passphrase used by KMS to encrypt/decrypt Kubernetes configuration
+    Type: String
+    Default: "Cl0udB33s"
   AvailabilityZones:
     Description:
       List of Availability Zones to use for the subnets in the VPC. Three
@@ -144,7 +168,7 @@ Parameters:
     Type: String
     AllowedValues: [ "1.11", "1.10" ]
     Default: "1.11"
-  NodeInstanceType:
+  MasterNodeInstanceType:
     Default: m5.large
     AllowedValues:
     - t2.small
@@ -203,16 +227,325 @@ Parameters:
     - p3.8xlarge
     - p3.16xlarge
     ConstraintDescription: Must be a valid EC2 instance type
-    Description: Type of EC2 instance for the Node instances
+    Description: Type of EC2 instance for the "Masters" node group
     Type: String
-  NumberOfNodes:
-    Default: 3
-    Description: Number of EKS node instances
+  RegularNodeInstanceType:
+    Default: m5.large
+    AllowedValues:
+    - t2.small
+    - t2.medium
+    - t2.large
+    - t2.xlarge
+    - t2.2xlarge
+    - m3.medium
+    - m3.large
+    - m3.xlarge
+    - m3.2xlarge
+    - m4.large
+    - m4.xlarge
+    - m4.2xlarge
+    - m4.4xlarge
+    - m4.10xlarge
+    - m5.large
+    - m5.xlarge
+    - m5.2xlarge
+    - m5.4xlarge
+    - m5.12xlarge
+    - m5.24xlarge
+    - c4.large
+    - c4.xlarge
+    - c4.2xlarge
+    - c4.4xlarge
+    - c4.8xlarge
+    - c5.large
+    - c5.xlarge
+    - c5.2xlarge
+    - c5.4xlarge
+    - c5.9xlarge
+    - c5.18xlarge
+    - i3.large
+    - i3.xlarge
+    - i3.2xlarge
+    - i3.4xlarge
+    - i3.8xlarge
+    - i3.16xlarge
+    - r3.xlarge
+    - r3.2xlarge
+    - r3.4xlarge
+    - r3.8xlarge
+    - r4.large
+    - r4.xlarge
+    - r4.2xlarge
+    - r4.4xlarge
+    - r4.8xlarge
+    - r4.16xlarge
+    - x1.16xlarge
+    - x1.32xlarge
+    - p2.xlarge
+    - p2.8xlarge
+    - p2.16xlarge
+    - p3.2xlarge
+    - p3.8xlarge
+    - p3.16xlarge
+    ConstraintDescription: Must be a valid EC2 instance type
+    Description: Type of EC2 instance for the "Regular Agents" node group
+    Type: String
+  SpotNodeInstanceType1:
+    Default: m5.large
+    AllowedValues:
+    - t2.small
+    - t2.medium
+    - t2.large
+    - t2.xlarge
+    - t2.2xlarge
+    - m3.medium
+    - m3.large
+    - m3.xlarge
+    - m3.2xlarge
+    - m4.large
+    - m4.xlarge
+    - m4.2xlarge
+    - m4.4xlarge
+    - m4.10xlarge
+    - m5.large
+    - m5.xlarge
+    - m5.2xlarge
+    - m5.4xlarge
+    - m5.12xlarge
+    - m5.24xlarge
+    - c4.large
+    - c4.xlarge
+    - c4.2xlarge
+    - c4.4xlarge
+    - c4.8xlarge
+    - c5.large
+    - c5.xlarge
+    - c5.2xlarge
+    - c5.4xlarge
+    - c5.9xlarge
+    - c5.18xlarge
+    - i3.large
+    - i3.xlarge
+    - i3.2xlarge
+    - i3.4xlarge
+    - i3.8xlarge
+    - i3.16xlarge
+    - r3.xlarge
+    - r3.2xlarge
+    - r3.4xlarge
+    - r3.8xlarge
+    - r4.large
+    - r4.xlarge
+    - r4.2xlarge
+    - r4.4xlarge
+    - r4.8xlarge
+    - r4.16xlarge
+    - x1.16xlarge
+    - x1.32xlarge
+    - p2.xlarge
+    - p2.8xlarge
+    - p2.16xlarge
+    - p3.2xlarge
+    - p3.8xlarge
+    - p3.16xlarge
+    ConstraintDescription: Must be a valid EC2 instance type
+    Description: Type of EC2 instance for the "Spot Agents" node group (1 of 4)
+    Type: String
+  SpotNodeInstanceType2:
+    Default: m5.xlarge
+    AllowedValues:
+    - t2.small
+    - t2.medium
+    - t2.large
+    - t2.xlarge
+    - t2.2xlarge
+    - m3.medium
+    - m3.large
+    - m3.xlarge
+    - m3.2xlarge
+    - m4.large
+    - m4.xlarge
+    - m4.2xlarge
+    - m4.4xlarge
+    - m4.10xlarge
+    - m5.large
+    - m5.xlarge
+    - m5.2xlarge
+    - m5.4xlarge
+    - m5.12xlarge
+    - m5.24xlarge
+    - c4.large
+    - c4.xlarge
+    - c4.2xlarge
+    - c4.4xlarge
+    - c4.8xlarge
+    - c5.large
+    - c5.xlarge
+    - c5.2xlarge
+    - c5.4xlarge
+    - c5.9xlarge
+    - c5.18xlarge
+    - i3.large
+    - i3.xlarge
+    - i3.2xlarge
+    - i3.4xlarge
+    - i3.8xlarge
+    - i3.16xlarge
+    - r3.xlarge
+    - r3.2xlarge
+    - r3.4xlarge
+    - r3.8xlarge
+    - r4.large
+    - r4.xlarge
+    - r4.2xlarge
+    - r4.4xlarge
+    - r4.8xlarge
+    - r4.16xlarge
+    - x1.16xlarge
+    - x1.32xlarge
+    - p2.xlarge
+    - p2.8xlarge
+    - p2.16xlarge
+    - p3.2xlarge
+    - p3.8xlarge
+    - p3.16xlarge
+    ConstraintDescription: Must be a valid EC2 instance type
+    Description: Type of EC2 instance for the "Spot Agents" node group (2 of 4)
+    Type: String
+  SpotNodeInstanceType3:
+    Default: t2.large
+    AllowedValues:
+    - t2.small
+    - t2.medium
+    - t2.large
+    - t2.xlarge
+    - t2.2xlarge
+    - m3.medium
+    - m3.large
+    - m3.xlarge
+    - m3.2xlarge
+    - m4.large
+    - m4.xlarge
+    - m4.2xlarge
+    - m4.4xlarge
+    - m4.10xlarge
+    - m5.large
+    - m5.xlarge
+    - m5.2xlarge
+    - m5.4xlarge
+    - m5.12xlarge
+    - m5.24xlarge
+    - c4.large
+    - c4.xlarge
+    - c4.2xlarge
+    - c4.4xlarge
+    - c4.8xlarge
+    - c5.large
+    - c5.xlarge
+    - c5.2xlarge
+    - c5.4xlarge
+    - c5.9xlarge
+    - c5.18xlarge
+    - i3.large
+    - i3.xlarge
+    - i3.2xlarge
+    - i3.4xlarge
+    - i3.8xlarge
+    - i3.16xlarge
+    - r3.xlarge
+    - r3.2xlarge
+    - r3.4xlarge
+    - r3.8xlarge
+    - r4.large
+    - r4.xlarge
+    - r4.2xlarge
+    - r4.4xlarge
+    - r4.8xlarge
+    - r4.16xlarge
+    - x1.16xlarge
+    - x1.32xlarge
+    - p2.xlarge
+    - p2.8xlarge
+    - p2.16xlarge
+    - p3.2xlarge
+    - p3.8xlarge
+    - p3.16xlarge
+    ConstraintDescription: Must be a valid EC2 instance type
+    Description: Type of EC2 instance for the "Spot Agents" node group (3 of 4)
+    Type: String
+  SpotNodeInstanceType4:
+    Default: t2.xlarge
+    AllowedValues:
+    - t2.small
+    - t2.medium
+    - t2.large
+    - t2.xlarge
+    - t2.2xlarge
+    - m3.medium
+    - m3.large
+    - m3.xlarge
+    - m3.2xlarge
+    - m4.large
+    - m4.xlarge
+    - m4.2xlarge
+    - m4.4xlarge
+    - m4.10xlarge
+    - m5.large
+    - m5.xlarge
+    - m5.2xlarge
+    - m5.4xlarge
+    - m5.12xlarge
+    - m5.24xlarge
+    - c4.large
+    - c4.xlarge
+    - c4.2xlarge
+    - c4.4xlarge
+    - c4.8xlarge
+    - c5.large
+    - c5.xlarge
+    - c5.2xlarge
+    - c5.4xlarge
+    - c5.9xlarge
+    - c5.18xlarge
+    - i3.large
+    - i3.xlarge
+    - i3.2xlarge
+    - i3.4xlarge
+    - i3.8xlarge
+    - i3.16xlarge
+    - r3.xlarge
+    - r3.2xlarge
+    - r3.4xlarge
+    - r3.8xlarge
+    - r4.large
+    - r4.xlarge
+    - r4.2xlarge
+    - r4.4xlarge
+    - r4.8xlarge
+    - r4.16xlarge
+    - x1.16xlarge
+    - x1.32xlarge
+    - p2.xlarge
+    - p2.8xlarge
+    - p2.16xlarge
+    - p3.2xlarge
+    - p3.8xlarge
+    - p3.16xlarge
+    ConstraintDescription: Must be a valid EC2 instance type
+    Description: Type of EC2 instance for the "Spot Agents" node group (4 of 4)
+    Type: String
+  NumberOfMasterNodes:
+    Default: 2
+    Description: Initial number of "Masters" node instances
     Type: Number
-  NodeGroupName:
-    Default: cloudbees-core-masters
-    Description: Name for EKS node group
-    Type: String
+  NumberOfRegularNodes:
+    Default: 1
+    Description: Initial number of "Regular Agents" node instances
+    Type: Number
+  NumberOfSpotNodes:
+    Default: 1
+    Description: Initial number of "Spot Agents" node instances
+    Type: Number
   NodeVolumeSize:
     Default: 20
     Description: Size for node volumes
@@ -267,6 +600,7 @@ Resources:
         KeyPairName: !Ref KeyPairName
         RemoteAccessCIDR: !Ref RemoteAccessCIDR
         AdditionalEKSAdminArns: !Join [ ",", !Ref AdditionalEKSAdminArns ]
+        KubeConfigKmsContext: !Ref KubeConfigKmsContext
         VPCID: !GetAtt 'VPCStack.Outputs.VPCID'
         PrivateSubnet1ID: !GetAtt 'VPCStack.Outputs.PrivateSubnet1AID'
         PrivateSubnet2ID: !GetAtt 'VPCStack.Outputs.PrivateSubnet2AID'
@@ -275,9 +609,15 @@ Resources:
         PublicSubnet2ID: !GetAtt 'VPCStack.Outputs.PublicSubnet2ID'
         PublicSubnet3ID: !GetAtt 'VPCStack.Outputs.PublicSubnet3ID'
         KubernetesVersion: !Ref KubernetesVersion
-        NodeInstanceType: !Ref NodeInstanceType
-        NumberOfNodes: !Ref NumberOfNodes
-        NodeGroupName: !Ref NodeGroupName
+        MasterNodeInstanceType: !Ref MasterNodeInstanceType
+        RegularNodeInstanceType: !Ref RegularNodeInstanceType
+        SpotNodeInstanceType1: !Ref SpotNodeInstanceType1
+        SpotNodeInstanceType2: !Ref SpotNodeInstanceType2
+        SpotNodeInstanceType3: !Ref SpotNodeInstanceType3
+        SpotNodeInstanceType4: !Ref SpotNodeInstanceType4
+        NumberOfMasterNodes: !Ref NumberOfMasterNodes
+        NumberOfRegularNodes: !Ref NumberOfRegularNodes
+        NumberOfSpotNodes: !Ref NumberOfSpotNodes
         NodeVolumeSize: !Ref NodeVolumeSize
         QSS3BucketName: !Ref QSS3BucketName
         QSS3KeyPrefix: !Ref QSS3KeyPrefix

@@ -14,8 +14,8 @@ Parameters:
     Type: "AWS::EC2::Subnet::Id"
   PrivateSubnet3ID:
     Type: "AWS::EC2::Subnet::Id"
-  NodeInstanceType:
-    Default: t2.medium
+  SpotNodeInstanceType1:
+    Default: m5.large
     AllowedValues:
     - t2.small
     - t2.medium
@@ -73,10 +73,193 @@ Parameters:
     - p3.8xlarge
     - p3.16xlarge
     ConstraintDescription: Must be a valid EC2 instance type
-    Description: Type of EC2 instance for the Node instances
+    Description: Type of EC2 instance for the Spot Node group (1 of 4)
+    Type: String
+  SpotNodeInstanceType2:
+    Default: m5.xlarge
+    AllowedValues:
+    - t2.small
+    - t2.medium
+    - t2.large
+    - t2.xlarge
+    - t2.2xlarge
+    - m3.medium
+    - m3.large
+    - m3.xlarge
+    - m3.2xlarge
+    - m4.large
+    - m4.xlarge
+    - m4.2xlarge
+    - m4.4xlarge
+    - m4.10xlarge
+    - m5.large
+    - m5.xlarge
+    - m5.2xlarge
+    - m5.4xlarge
+    - m5.12xlarge
+    - m5.24xlarge
+    - c4.large
+    - c4.xlarge
+    - c4.2xlarge
+    - c4.4xlarge
+    - c4.8xlarge
+    - c5.large
+    - c5.xlarge
+    - c5.2xlarge
+    - c5.4xlarge
+    - c5.9xlarge
+    - c5.18xlarge
+    - i3.large
+    - i3.xlarge
+    - i3.2xlarge
+    - i3.4xlarge
+    - i3.8xlarge
+    - i3.16xlarge
+    - r3.xlarge
+    - r3.2xlarge
+    - r3.4xlarge
+    - r3.8xlarge
+    - r4.large
+    - r4.xlarge
+    - r4.2xlarge
+    - r4.4xlarge
+    - r4.8xlarge
+    - r4.16xlarge
+    - x1.16xlarge
+    - x1.32xlarge
+    - p2.xlarge
+    - p2.8xlarge
+    - p2.16xlarge
+    - p3.2xlarge
+    - p3.8xlarge
+    - p3.16xlarge
+    ConstraintDescription: Must be a valid EC2 instance type
+    Description: Type of EC2 instance for the Spot Node group (2 of 4)
+    Type: String
+  SpotNodeInstanceType3:
+    Default: t2.large
+    AllowedValues:
+    - t2.small
+    - t2.medium
+    - t2.large
+    - t2.xlarge
+    - t2.2xlarge
+    - m3.medium
+    - m3.large
+    - m3.xlarge
+    - m3.2xlarge
+    - m4.large
+    - m4.xlarge
+    - m4.2xlarge
+    - m4.4xlarge
+    - m4.10xlarge
+    - m5.large
+    - m5.xlarge
+    - m5.2xlarge
+    - m5.4xlarge
+    - m5.12xlarge
+    - m5.24xlarge
+    - c4.large
+    - c4.xlarge
+    - c4.2xlarge
+    - c4.4xlarge
+    - c4.8xlarge
+    - c5.large
+    - c5.xlarge
+    - c5.2xlarge
+    - c5.4xlarge
+    - c5.9xlarge
+    - c5.18xlarge
+    - i3.large
+    - i3.xlarge
+    - i3.2xlarge
+    - i3.4xlarge
+    - i3.8xlarge
+    - i3.16xlarge
+    - r3.xlarge
+    - r3.2xlarge
+    - r3.4xlarge
+    - r3.8xlarge
+    - r4.large
+    - r4.xlarge
+    - r4.2xlarge
+    - r4.4xlarge
+    - r4.8xlarge
+    - r4.16xlarge
+    - x1.16xlarge
+    - x1.32xlarge
+    - p2.xlarge
+    - p2.8xlarge
+    - p2.16xlarge
+    - p3.2xlarge
+    - p3.8xlarge
+    - p3.16xlarge
+    ConstraintDescription: Must be a valid EC2 instance type
+    Description: Type of EC2 instance for the Spot Node group (3 of 4)
+    Type: String
+  SpotNodeInstanceType4:
+    Default: t2.xlarge
+    AllowedValues:
+    - t2.small
+    - t2.medium
+    - t2.large
+    - t2.xlarge
+    - t2.2xlarge
+    - m3.medium
+    - m3.large
+    - m3.xlarge
+    - m3.2xlarge
+    - m4.large
+    - m4.xlarge
+    - m4.2xlarge
+    - m4.4xlarge
+    - m4.10xlarge
+    - m5.large
+    - m5.xlarge
+    - m5.2xlarge
+    - m5.4xlarge
+    - m5.12xlarge
+    - m5.24xlarge
+    - c4.large
+    - c4.xlarge
+    - c4.2xlarge
+    - c4.4xlarge
+    - c4.8xlarge
+    - c5.large
+    - c5.xlarge
+    - c5.2xlarge
+    - c5.4xlarge
+    - c5.9xlarge
+    - c5.18xlarge
+    - i3.large
+    - i3.xlarge
+    - i3.2xlarge
+    - i3.4xlarge
+    - i3.8xlarge
+    - i3.16xlarge
+    - r3.xlarge
+    - r3.2xlarge
+    - r3.4xlarge
+    - r3.8xlarge
+    - r4.large
+    - r4.xlarge
+    - r4.2xlarge
+    - r4.4xlarge
+    - r4.8xlarge
+    - r4.16xlarge
+    - x1.16xlarge
+    - x1.32xlarge
+    - p2.xlarge
+    - p2.8xlarge
+    - p2.16xlarge
+    - p3.2xlarge
+    - p3.8xlarge
+    - p3.16xlarge
+    ConstraintDescription: Must be a valid EC2 instance type
+    Description: Type of EC2 instance for the Spot Node group (4 of 4)
     Type: String
   NumberOfNodes:
-    Default: 3
+    Default: 1
     Description: Number of EKS node instances
     Type: Number
   NodeGroupName:
@@ -348,14 +531,16 @@ Resources:
             LaunchTemplateId: !Ref NodeLaunchTemplate
             Version: !GetAtt NodeLaunchTemplate.LatestVersionNumber
           Overrides:
-            - InstanceType: !Ref NodeInstanceType
-            - InstanceType: t2.large
+            - InstanceType: !Ref SpotNodeInstanceType1
+            - InstanceType: !Ref SpotNodeInstanceType2
+            - InstanceType: !Ref SpotNodeInstanceType3
+            - InstanceType: !Ref SpotNodeInstanceType4
         InstancesDistribution:
           #OnDemandAllocationStrategy: prioritized
           #OnDemandBaseCapacity: 0
           OnDemandPercentageAboveBaseCapacity: 0 #Spot only
           #SpotAllocationStrategy: lowest-price 
-          #SpotInstancePools: 2
+          SpotInstancePools: 4
           #SpotMaxPrice: auto set to on demand price
     UpdatePolicy:
       AutoScalingRollingUpdate:
@@ -407,9 +592,9 @@ Resources:
           - !Ref KubernetesVersion
           - !FindInMap
             - InstanceTypes
-            - !Ref NodeInstanceType
+            - !Ref SpotNodeInstanceType1
             - Type
-        InstanceType: !Ref NodeInstanceType
+        InstanceType: !Ref SpotNodeInstanceType1
         #RamDiskId: String
         #Monitoring: Monitoring
         #CreditSpecification: CreditSpecification
@@ -419,7 +604,9 @@ Resources:
             !Sub |
               #!/bin/bash
               set -o xtrace
-              /etc/eks/bootstrap.sh ${EKSControlPlane} --kubelet-extra-args '--node-labels=partition=spot'
+              /etc/eks/bootstrap.sh ${EKSControlPlane} --kubelet-extra-args \
+                '--node-labels=partition=spot-agents' \
+                '--register-with-taints=partition=spot-agents' \
               /opt/aws/bin/cfn-signal --exit-code $? \
                     --stack  ${AWS::StackName} \
                     --resource NodeGroup  \

@@ -28,6 +28,10 @@
         "ParameterValue": "override"
     },
     {
+        "ParameterKey": "InitialNodeGroupSecurityGroup",
+        "ParameterValue": "override"
+    },
+    {
         "ParameterKey": "NodeInstanceProfile",
         "ParameterValue": "override"
     },
