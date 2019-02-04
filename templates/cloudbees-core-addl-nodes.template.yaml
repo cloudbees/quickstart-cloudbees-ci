@@ -380,7 +380,7 @@ Resources:
         ControlPlaneSecurityGroup: !Ref ControlPlaneSecurityGroup
         NodeInstanceProfile: !Ref NodeInstanceProfile
         KubernetesVersion: !Ref KubernetesVersion
-        BootstrapArguments: "--kubelet-extra-args '--node-labels=partition=regular-agents' '--register-with-taints=partition=regular-agents'"
+        BootstrapArguments: "--kubelet-extra-args '--node-labels=partition=regular-agents --register-with-taints=partition=regular-agents:NoSchedule'"
   SpotAgentNodesStack:
     Type: "AWS::CloudFormation::Stack"
     Properties:

@@ -605,8 +605,8 @@ Resources:
               #!/bin/bash
               set -o xtrace
               /etc/eks/bootstrap.sh ${EKSControlPlane} --kubelet-extra-args \
-                '--node-labels=partition=spot-agents' \
-                '--register-with-taints=partition=spot-agents' \
+                '--node-labels=partition=spot-agents \
+                --register-with-taints=partition=spot-agents:NoSchedule' \
               /opt/aws/bin/cfn-signal --exit-code $? \
                     --stack  ${AWS::StackName} \
                     --resource NodeGroup  \
