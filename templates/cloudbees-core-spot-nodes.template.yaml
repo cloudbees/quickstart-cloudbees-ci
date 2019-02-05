@@ -15,7 +15,7 @@ Parameters:
   PrivateSubnet3ID:
     Type: "AWS::EC2::Subnet::Id"
   SpotNodeInstanceType1:
-    Default: m5.large
+    Default: m4.large #2x8
     AllowedValues:
     - t2.small
     - t2.medium
@@ -32,6 +32,8 @@ Parameters:
     - m4.4xlarge
     - m4.10xlarge
     - m5.large
+    - m5a.large
+    - m5d.large
     - m5.xlarge
     - m5.2xlarge
     - m5.4xlarge
@@ -76,7 +78,7 @@ Parameters:
     Description: Type of EC2 instance for the Spot Node group (1 of 4)
     Type: String
   SpotNodeInstanceType2:
-    Default: m5.xlarge
+    Default: m5.large #2x8
     AllowedValues:
     - t2.small
     - t2.medium
@@ -93,6 +95,8 @@ Parameters:
     - m4.4xlarge
     - m4.10xlarge
     - m5.large
+    - m5a.large
+    - m5d.large
     - m5.xlarge
     - m5.2xlarge
     - m5.4xlarge
@@ -137,7 +141,7 @@ Parameters:
     Description: Type of EC2 instance for the Spot Node group (2 of 4)
     Type: String
   SpotNodeInstanceType3:
-    Default: t2.large
+    Default: m5a.large #2x8
     AllowedValues:
     - t2.small
     - t2.medium
@@ -154,6 +158,8 @@ Parameters:
     - m4.4xlarge
     - m4.10xlarge
     - m5.large
+    - m5a.large
+    - m5d.large
     - m5.xlarge
     - m5.2xlarge
     - m5.4xlarge
@@ -198,7 +204,7 @@ Parameters:
     Description: Type of EC2 instance for the Spot Node group (3 of 4)
     Type: String
   SpotNodeInstanceType4:
-    Default: t2.xlarge
+    Default: m5d.large #2x8
     AllowedValues:
     - t2.small
     - t2.medium
@@ -215,6 +221,8 @@ Parameters:
     - m4.4xlarge
     - m4.10xlarge
     - m5.large
+    - m5a.large
+    - m5d.large
     - m5.xlarge
     - m5.2xlarge
     - m5.4xlarge
