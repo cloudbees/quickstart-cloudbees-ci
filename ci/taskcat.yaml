@@ -4,9 +4,9 @@ global:
   qsname: quickstart-cloudbees-core
   s3bucket: dschott-bucket
   regions:
-    - eu-west-1
+    #- eu-west-1
     - us-east-1
-    - us-west-2
+    #- us-west-2
   reporting: true
  
 tests:
