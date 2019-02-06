@@ -23,7 +23,7 @@ Metadata:
           - PublicSubnet2CIDR
           - PublicSubnet3CIDR
       - Label:
-          default: EKS Configuration
+          default: CloudBees Core Configuration
         Parameters:
           - MasterNodeInstanceType
           - RegularNodeInstanceType
@@ -44,7 +44,7 @@ Metadata:
       KeyPairName:
         default: SSH Key Name
       RemoteAccessCIDR:
-        default: Allowed External Access CIDR
+        default: Remote Access CIDR
       AdditionalEKSAdminArns:
         default: Additional EKS Admin ARNs
       KubeConfigKmsContext:
@@ -100,7 +100,7 @@ Parameters:
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/x
     Default: 0.0.0.0/0
     Description:
-      The CIDR IP range that is permitted to access the instances. We recommend
+      The CIDR IP range that is permitted to access the bastion host. We recommend
       that you set this value to a trusted IP range.
     Type: String
   AdditionalEKSAdminArns:
@@ -161,7 +161,7 @@ Parameters:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
     Default: 10.0.160.0/20
-    Description: CIDR block for the public (DMZ) subnet 2 located in Availability
+    Description: CIDR block for the public (DMZ) subnet 3 located in Availability
       Zone 3
     Type: String
   KubernetesVersion:
@@ -543,15 +543,15 @@ Parameters:
     Description: Type of EC2 instance for the "Spot Agents" node group (4 of 4)
     Type: String
   NumberOfMasterNodes:
-    Default: 1
+    Default: 3
     Description: Initial number of "Masters" node instances
     Type: Number
   NumberOfRegularNodes:
-    Default: 1
+    Default: 3
     Description: Initial number of "Regular Agents" node instances
     Type: Number
   NumberOfSpotNodes:
-    Default: 1
+    Default: 3
     Description: Initial number of "Spot Agents" node instances
     Type: Number
   NodeVolumeSize:

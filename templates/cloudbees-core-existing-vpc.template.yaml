@@ -22,7 +22,7 @@ Metadata:
           - PublicSubnet2ID
           - PublicSubnet3ID
       - Label:
-          default: EKS Configuration
+          default: CloudBees Core Configuration
         Parameters:
           - MasterNodeInstanceType
           - RegularNodeInstanceType
@@ -43,7 +43,7 @@ Metadata:
       KeyPairName:
         default: SSH Key Name
       RemoteAccessCIDR:
-        default: Allowed External Access CIDR
+        default: Remote Access CIDR
       AdditionalEKSAdminArns:
         default: Additional EKS Admin ARNs
       KubeConfigKmsContext:
@@ -97,7 +97,7 @@ Parameters:
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/x
     Default: 0.0.0.0/0
     Description:
-      The CIDR IP range that is permitted to access the instances. We recommend
+      The CIDR IP range that is permitted to access the bastion host. We recommend
       that you set this value to a trusted IP range.
     Type: String
   AdditionalEKSAdminArns:
