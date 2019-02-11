@@ -635,8 +635,8 @@ Resources:
 
 Outputs:
   CloudBeesJenkinsOperationsCenterUrl:
-    Value: !GetAtt CloudBeesCoreExistingVpcStack.Outputs.CloudBeesJenkinsOperationsCenterUrl
+    Value: !GetAtt CloudBeesCoreExistingVPCStack.Outputs.CloudBeesJenkinsOperationsCenterUrl
   BastionIP:
-    Value: !GetAtt CloudBeesCoreExistingVpcStack.Outputs.BastionIP
+    Value: !GetAtt CloudBeesCoreExistingVPCStack.Outputs.BastionIP
   KubeConfigPath:
-    Value: !GetAtt EKSStack.Outputs.KubeConfigPath
+    Value: !GetAtt CloudBeesCoreExistingVPCStack.Outputs.KubeConfigPath
