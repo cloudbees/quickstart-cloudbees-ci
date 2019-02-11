@@ -11,9 +11,9 @@ Parameters:
   KubeConfigPath:
     Type: String
   KubeConfigKmsContext:
-    Description: Secret passphrase used by KMS to encrypt/decrypt Kubernetes configuration
+    Description: String value used by KMS to encrypt/decrypt Kubernetes configuration
     Type: String
-    Default: "Cl0udB33s"
+    Default: "CloudBeesCore"
 
 Resources:
   NginxIngressController:
@@ -39,27 +39,6 @@ Resources:
       Namespace: ingress-nginx
       Name: !Sub 'svc/${NginxIngressController.Service0}'
       JsonPath: '{.status.loadBalancer.ingress[0].hostname}'
-  # CloudBeesCoreStorageClassDefault: not req'd since 1.11
-  #   DependsOn: IngressHostName
-  #   Type: "Custom::KubeManifest"
-  #   Version: '1.0'
-  #   Properties:
-  #     ServiceToken: !Ref KubeManifestLambdaArn
-  #     KubeConfigPath: !Ref KubeConfigPath
-  #     KubeConfigKmsContext: !Ref KubeConfigKmsContext
-  #     Manifest: |
-  #       kind: StorageClass
-  #       apiVersion: storage.k8s.io/v1
-  #       metadata:
-  #         name: gp2
-  #         annotations: 
-  #           storageclass.kubernetes.io/is-default-class: "true"
-  #       provisioner: kubernetes.io/aws-ebs
-  #       parameters:
-  #         type: gp2
-  #         encrypted: "true"
-  #       mountOptions:
-  #         - debug
   CloudBeesCoreServiceAccount:
     DependsOn: IngressHostName
     Type: "Custom::KubeManifest"
@@ -489,4 +468,4 @@ Resources:
 Outputs:
   CloudBeesJenkinsOperationsCenterUrl:
     Value: !Sub "http://${IngressHostName}/cjoc"
-  #InitialAdminPassword: requires `Custom::KubeExec`
+  #InitialAdminPassword: requires `Custom::KubeExec` or similar

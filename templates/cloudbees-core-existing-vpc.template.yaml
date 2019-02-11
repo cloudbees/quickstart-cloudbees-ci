@@ -105,9 +105,9 @@ Parameters:
     Description: "[OPTIONAL] Comma separated list of IAM users/roles to be granted admin access to the EKS cluster"
     Type: CommaDelimitedList
   KubeConfigKmsContext:
-    Description: Secret passphrase used by KMS to encrypt/decrypt Kubernetes configuration
+    Description: String value used by KMS to encrypt/decrypt Kubernetes configuration
     Type: String
-    Default: "Cl0udB33s"
+    Default: "CloudBeesCore"
   VPCID:
     Description: ID of your existing VPC for deployment
     Type: AWS::EC2::VPC::Id
