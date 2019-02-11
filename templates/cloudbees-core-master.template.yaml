@@ -43,55 +43,55 @@ Metadata:
           - QSS3KeyPrefix
     ParameterLabels:
       KeyPairName:
-        default: SSH Key Name
+        default: SSH key name
       RemoteAccessCIDR:
-        default: Remote Access CIDR
+        default: Remote access CIDR
       AdditionalEKSAdminArns:
-        default: Additional EKS Admin ARNs
+        default: Additional EKS admin ARNs
       KubeConfigKmsContext:
-        default: Kubernetes Configuration KMS Context
+        default: Kubernetes configuration KMS context
       AvailabilityZones:
-        default: Availability Zones
+        default: Availability zones
       VPCCIDR:
         default: VPC CIDR
       PrivateSubnet1CIDR:
-        default: Private Subnet 1 CIDR
+        default: Private subnet 1 CIDR
       PrivateSubnet2CIDR:
-        default: Private Subnet 2 CIDR
+        default: Private subnet 2 CIDR
       PrivateSubnet3CIDR:
-        default: Private Subnet 3 CIDR
+        default: Private subnet 3 CIDR
       PublicSubnet1CIDR:
-        default: Public Subnet 1 CIDR
+        default: Public subnet 1 CIDR
       PublicSubnet2CIDR:
-        default: Public Subnet 2 CIDR
+        default: Public subnet 2 CIDR
       PublicSubnet3CIDR:
-        default: Public Subnet 3 CIDR
+        default: Public subnet 3 CIDR
       MasterNodeInstanceType:
-        default: Master Nodes Instance Type
+        default: Master nodes instance type
       RegularNodeInstanceType:
-        default: Regular Agent Nodes Instance Type
+        default: Regular agent nodes instance type
       SpotNodeInstanceType1:
-        default: Spot Agent Nodes Instance Type (1 of 4)
+        default: Spot agent nodes instance type (1 of 4)
       SpotNodeInstanceType2:
-        default: Spot Agent Nodes Instance Type (2 of 4)
+        default: Spot agent nodes instance type (2 of 4)
       SpotNodeInstanceType3:
-        default: Spot Agent Nodes Instance Type (3 of 4)
+        default: Spot agent nodes instance type (3 of 4)
       SpotNodeInstanceType4:
-        default: Spot Agent Nodes Instance Type (4 of 4)
+        default: Spot agent nodes instance type (4 of 4)
       NumberOfMasterNodes:
-        default: Number of Master Nodes
+        default: Number of master nodes
       NumberOfRegularNodes:
-        default: Number of Regular Agent Nodes
+        default: Number of regular agent nodes
       NumberOfSpotNodes:
-        default: Number of Spot Agent Nodes
+        default: Number of spot agent nodes
       NodeVolumeSize:
-        default: Node Volume Size
+        default: Node volume size
       KubernetesVersion:
-        default: Kubernetes Version
+        default: Kubernetes version
       QSS3BucketName:
-        default: Quick Start S3 Bucket Name
+        default: Quick start S3 bucket name
       QSS3KeyPrefix:
-        default: Quick Start S3 Key Prefix
+        default: Quick start S3 key prefix
 
 Parameters:
   KeyPairName:
