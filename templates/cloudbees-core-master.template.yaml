@@ -631,3 +631,11 @@ Resources:
         NodeVolumeSize: !Ref NodeVolumeSize
         QSS3BucketName: !Ref QSS3BucketName
         QSS3KeyPrefix: !Ref QSS3KeyPrefix
+
+Outputs:
+  CloudBeesJenkinsOperationsCenterUrl:
+    Value: !GetAtt CloudBeesCoreExistingVpcStack.Outputs.CloudBeesJenkinsOperationsCenterUrl
+  BastionIP:
+    Value: !GetAtt CloudBeesCoreExistingVpcStack.Outputs.BastionIP
+  KubeConfigPath:
+    Value: !GetAtt EKSStack.Outputs.KubeConfigPath

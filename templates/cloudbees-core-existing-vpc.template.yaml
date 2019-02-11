@@ -617,3 +617,11 @@ Resources:
         HelmLambdaArn: !GetAtt EKSStack.Outputs.HelmLambdaArn
         KubeConfigPath: !GetAtt EKSStack.Outputs.KubeConfigPath
         KubeConfigKmsContext: !Ref KubeConfigKmsContext
+
+Outputs:
+  CloudBeesJenkinsOperationsCenterUrl:
+    Value: !GetAtt CloudBeesCoreStack.Outputs.CloudBeesJenkinsOperationsCenterUrl
+  BastionIP:
+    Value: !GetAtt EKSStack.Outputs.BastionIP
+  KubeConfigPath:
+    Value: !GetAtt EKSStack.Outputs.KubeConfigPath
