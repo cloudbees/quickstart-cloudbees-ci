@@ -34,6 +34,7 @@ Metadata:
           - NumberOfRegularNodes
           - NumberOfSpotNodes
           - NodeVolumeSize
+          - KubernetesVersion
       - Label:
           default: AWS Quick Start Configuration
         Parameters:
@@ -82,6 +83,8 @@ Metadata:
         default: Number of Spot Agent Nodes
       NodeVolumeSize:
         default: Node Volume Size
+      KubernetesVersion:
+        default: Kubernetes Version
       QSS3BucketName:
         default: Quick Start S3 Bucket Name
       QSS3KeyPrefix:
@@ -135,10 +138,6 @@ Parameters:
     Description: ID of public subnet 3 in Availability Zone 3 for the ELB load balancer
       (e.g., subnet-5e26bac2)
     Type: AWS::EC2::Subnet::Id
-  KubernetesVersion:
-    Type: String
-    AllowedValues: [ "1.11", "1.10" ]
-    Default: "1.11"
   MasterNodeInstanceType:
     Default: r5.large
     AllowedValues:
@@ -531,6 +530,11 @@ Parameters:
     Default: 20
     Description: Size for node volumes
     Type: String
+  KubernetesVersion:
+    Description: "[Optional] Version of Kubernetes to deploy"
+    Type: String
+    AllowedValues: [ "1.11", "1.10" ]
+    Default: "1.11"
   QSS3BucketName:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
     ConstraintDescription:

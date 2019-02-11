@@ -35,6 +35,7 @@ Metadata:
           - NumberOfRegularNodes
           - NumberOfSpotNodes
           - NodeVolumeSize
+          - KubernetesVersion
       - Label:
           default: AWS Quick Start Configuration
         Parameters:
@@ -85,6 +86,8 @@ Metadata:
         default: Number of Spot Agent Nodes
       NodeVolumeSize:
         default: Node Volume Size
+      KubernetesVersion:
+        default: Kubernetes Version
       QSS3BucketName:
         default: Quick Start S3 Bucket Name
       QSS3KeyPrefix:
@@ -146,28 +149,21 @@ Parameters:
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
     Default: 10.0.128.0/20
     Description:
-      CIDR block for the public (DMZ) subnet 1 located in Availability
-      Zone 1
+      CIDR block for the public (DMZ) subnet 1 located in Availability Zone 1
     Type: String
   PublicSubnet2CIDR:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
     Default: 10.0.144.0/20
     Description:
-      CIDR block for the public (DMZ) subnet 2 located in Availability
-      Zone 2
+      CIDR block for the public (DMZ) subnet 2 located in Availability Zone 2
     Type: String
   PublicSubnet3CIDR:
     AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/(1[6-9]|2[0-8]))$
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/16-28
     Default: 10.0.160.0/20
-    Description: CIDR block for the public (DMZ) subnet 3 located in Availability
-      Zone 3
+    Description: CIDR block for the public (DMZ) subnet 3 located in Availability Zone 3
     Type: String
-  KubernetesVersion:
-    Type: String
-    AllowedValues: [ "1.11", "1.10" ]
-    Default: "1.11"
   MasterNodeInstanceType:
     Default: r5.large
     AllowedValues:
@@ -560,6 +556,11 @@ Parameters:
     Default: 20
     Description: Size for node volumes
     Type: String
+  KubernetesVersion:
+    Description: "[Optional] Version of Kubernetes to deploy"
+    Type: String
+    AllowedValues: [ "1.11", "1.10" ]
+    Default: "1.11"
   QSS3BucketName:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
     ConstraintDescription:
