@@ -140,7 +140,7 @@ Parameters:
     AllowedValues: [ "1.11", "1.10" ]
     Default: "1.11"
   MasterNodeInstanceType:
-    Default: m5.large
+    Default: r5.large
     AllowedValues:
     - t2.small
     - t2.medium
@@ -189,6 +189,8 @@ Parameters:
     - r4.4xlarge
     - r4.8xlarge
     - r4.16xlarge
+    - r5.large
+    - r5.xlarge
     - x1.16xlarge
     - x1.32xlarge
     - p2.xlarge
