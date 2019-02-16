@@ -347,6 +347,8 @@ Parameters:
     Type: AWS::EC2::SecurityGroup::Id
   NodeInstanceProfile: 
     Type: String
+  NodeInstanceRoleName:
+    Type: String
   KubernetesVersion: 
     Type: String
   QSS3BucketName:
@@ -373,7 +375,7 @@ Resources:
   RegularAgentNodesStack:
     Type: "AWS::CloudFormation::Stack"
     Properties:
-      TemplateURL: !Sub 'https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-eks/templates/aws-eks-nodegroup.template.yaml'
+      TemplateURL: !Sub 'https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-eks/templates/amazon-eks-nodegroup.template.yaml'
       Parameters:
         KeyPairName: !Ref 'KeyPairName'
         PrivateSubnet1ID: !Ref PrivateSubnet1ID
@@ -387,6 +389,7 @@ Resources:
         EKSControlPlane: !Ref EKSControlPlane
         ControlPlaneSecurityGroup: !Ref ControlPlaneSecurityGroup
         NodeInstanceProfile: !Ref NodeInstanceProfile
+        NodeInstanceRoleName: !Ref NodeInstanceRoleName
         KubernetesVersion: !Ref KubernetesVersion
         BootstrapArguments: "--kubelet-extra-args '--node-labels=partition=regular-agents --register-with-taints=partition=regular-agents:NoSchedule'"
   SpotAgentNodesStack:
@@ -447,4 +450,3 @@ Resources:
       IpProtocol: '-1'
       FromPort: 0
       ToPort: 65535
-  #ClusterAutoscalerStack:

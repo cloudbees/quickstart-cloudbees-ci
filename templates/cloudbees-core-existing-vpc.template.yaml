@@ -563,7 +563,7 @@ Resources:
   EKSStack:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: !Sub "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-eks/templates/aws-eks.template.yaml"
+      TemplateURL: !Sub "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}submodules/quickstart-aws-eks/templates/amazon-eks.template.yaml"
       Parameters:
         KeyPairName: !Ref KeyPairName
         RemoteAccessCIDR: !Ref RemoteAccessCIDR
@@ -584,7 +584,6 @@ Resources:
         BootstrapArguments: "--kubelet-extra-args '--node-labels=partition=masters'"
         QSS3BucketName: !Ref QSS3BucketName
         QSS3KeyPrefix: !Sub "${QSS3KeyPrefix}submodules/quickstart-aws-eks/"
-        #LambdaZipsBucketName: ??
   AdditionalAgentNodesStack:
     Type: "AWS::CloudFormation::Stack"
     Properties:
@@ -607,6 +606,7 @@ Resources:
         ControlPlaneSecurityGroup: !GetAtt EKSStack.Outputs.ControlPlaneSecurityGroup
         InitialNodeGroupSecurityGroup: !GetAtt EKSStack.Outputs.NodeGroupSecurityGroup
         NodeInstanceProfile: !GetAtt EKSStack.Outputs.NodeInstanceProfile
+        NodeInstanceRoleName: !GetAtt EKSStack.Outputs.NodeInstanceRoleName
         KubernetesVersion: !Ref KubernetesVersion
         QSS3BucketName: !Ref QSS3BucketName
         QSS3KeyPrefix: !Ref QSS3KeyPrefix
