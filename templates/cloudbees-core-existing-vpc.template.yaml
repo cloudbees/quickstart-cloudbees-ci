@@ -139,7 +139,7 @@ Parameters:
       (e.g., subnet-5e26bac2)
     Type: AWS::EC2::Subnet::Id
   MasterNodeInstanceType:
-    Default: r5.large
+    Default: r5.xlarge
     AllowedValues:
     - t2.small
     - t2.medium
