@@ -1,0 +1,3 @@
+[submodule "quickstart-aws-eks"]
+	path = submodules/quickstart-aws-eks
+	url = https://github.com/aws-quickstart/quickstart-aws-eks

@@ -1,0 +1,46 @@
+[
+    {
+        "ParameterKey": "KeyPairName",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "VPCID",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "PrivateSubnet1ID",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "PrivateSubnet2ID",
+        "ParameterValue": "EKSQuickStart"
+    },
+    {
+        "ParameterKey": "PrivateSubnet3ID",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "EKSControlPlane",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "ControlPlaneSecurityGroup",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "InitialNodeGroupSecurityGroup",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "NodeInstanceProfile",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "KubernetesVersion",
+        "ParameterValue": "1.11"
+    },
+    {
+        "ParameterKey": "QSS3BucketName",
+        "ParameterValue": "$[taskcat_autobucket]"
+    }
+]
