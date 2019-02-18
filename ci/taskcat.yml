@@ -2,14 +2,13 @@ global:
   marketplace-ami: false
   owner: dschott@cloudbees.com
   qsname: quickstart-cloudbees-core
-  s3bucket: dschott-bucket
   regions:
     - us-east-2
     - us-east-1
     - us-west-2
-    - eu-central-1
+    # - eu-central-1
     - eu-west-1
-    - eu-north-1
+    # - eu-north-1
   reporting: true
  
 tests:
