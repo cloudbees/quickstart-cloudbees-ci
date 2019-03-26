@@ -610,7 +610,6 @@ Resources:
         KubernetesVersion: !Ref KubernetesVersion
         QSS3BucketName: !Ref QSS3BucketName
         QSS3KeyPrefix: !Ref QSS3KeyPrefix
-  #ClusterAutoscalerStack: ??
   CloudBeesCoreStack:
     Type: AWS::CloudFormation::Stack
     Properties:
