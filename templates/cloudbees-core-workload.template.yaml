@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Deploys CloudBees Core into an existing EKS cluster
+Description: Deploys CloudBees Core into an existing Kubernetes cluster
 
 Parameters:
   KubeManifestLambdaArn:
@@ -11,9 +11,7 @@ Parameters:
   KubeConfigPath:
     Type: String
   KubeConfigKmsContext:
-    Description: String value used by KMS to encrypt/decrypt Kubernetes configuration
     Type: String
-    Default: "CloudBeesCore"
 
 Resources:
   NginxIngressController:

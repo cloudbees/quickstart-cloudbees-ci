@@ -6,9 +6,7 @@ global:
     - us-east-2
     - us-east-1
     - us-west-2
-    # - eu-central-1
     - eu-west-1
-    # - eu-north-1
   reporting: true
  
 tests:
@@ -27,6 +25,7 @@ tests:
   #   template_file: cloudbees-core-addl-nodes.template.yaml
   #   regions:
   #     - us-east-1
+  # cloudbees-core-existing-cluster:
   # cloudbees-core-workload:
   #   parameter_input: cloudbees-core-workload.json
   #   template_file: cloudbees-core-workload.template.yaml
