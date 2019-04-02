@@ -14,5 +14,29 @@
     {
         "ParameterKey": "KubeConfigPath",
         "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "KubeConfigKmsContext",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "InitialNodeGroupSecurityGroup",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "PrivateSubnet1ID",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "PrivateSubnet2ID",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "PrivateSubnet3ID",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "QSS3BucketName",
+        "ParameterValue": "$[taskcat_autobucket]"
     }
 ]

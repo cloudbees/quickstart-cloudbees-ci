@@ -871,6 +871,12 @@ Resources:
         HelmLambdaArn: !GetAtt EKSStack.Outputs.HelmLambdaArn
         KubeConfigPath: !GetAtt EKSStack.Outputs.KubeConfigPath
         KubeConfigKmsContext: !Ref KubeConfigKmsContext
+        InitialNodeGroupSecurityGroup: !GetAtt EKSStack.Outputs.NodeGroupSecurityGroup
+        PrivateSubnet1ID: !Ref PrivateSubnet1ID
+        PrivateSubnet2ID: !Ref PrivateSubnet2ID
+        PrivateSubnet3ID: !Ref PrivateSubnet3ID
+        QSS3BucketName: !Ref QSS3BucketName
+        QSS3KeyPrefix: !Ref QSS3KeyPrefix
 
 Outputs:
   CloudBeesJenkinsOperationsCenterUrl:
