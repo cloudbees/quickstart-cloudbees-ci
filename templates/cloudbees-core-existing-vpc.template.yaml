@@ -758,10 +758,10 @@ Parameters:
     Description: Size for node volumes
     Type: String
   KubernetesVersion:
-    Description: "[Optional] Version of Kubernetes to deploy"
     Type: String
-    AllowedValues: [ "1.11", "1.10" ]
-    Default: "1.11"
+    AllowedValues: [ "1.12", "1.11", "1.10" ]
+    Default: "1.12"
+    Description: The Kubernetes control plane version
   QSS3BucketName:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
     ConstraintDescription:

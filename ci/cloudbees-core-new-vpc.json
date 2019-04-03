@@ -4,6 +4,10 @@
         "ParameterValue": "override"
     },
     {
+        "ParameterKey": "KubernetesVersion",
+        "ParameterValue": "override"
+    },
+    {
         "ParameterKey": "RemoteAccessCIDR",
         "ParameterValue": "10.0.0.0/16"
     },
