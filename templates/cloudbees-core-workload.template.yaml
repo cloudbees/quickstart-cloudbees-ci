@@ -265,7 +265,7 @@ Resources:
               accessModes: [ "ReadWriteOnce" ]
               resources:
                 requests:
-                  storage: 20Gi
+                  storage: 50Gi
               storageClassName: efs
   CloudBeesCoreService:
     DependsOn: CloudBeesCoreStatefulSet
