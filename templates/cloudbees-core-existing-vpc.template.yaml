@@ -33,7 +33,8 @@ Metadata:
           - NumberOfMasterNodes
           - NumberOfRegularNodes
           - NumberOfSpotNodes
-          - NodeVolumeSize
+          - MasterNodeVolumeSize
+          - AgentNodeVolumeSize
           - KubernetesVersion
       - Label:
           default: AWS Quick Start Configuration
@@ -82,8 +83,10 @@ Metadata:
         default: Number of regular agent nodes
       NumberOfSpotNodes:
         default: Number of spot agent nodes
-      NodeVolumeSize:
-        default: Node volume size
+      MasterNodeVolumeSize:
+        default: Size of "Masters" EBS volumes
+      AgentNodeVolumeSize:
+        default: Size of all agent EBS volumes
       KubernetesVersion:
         default: Kubernetes version
       QSS3BucketName:
@@ -753,9 +756,13 @@ Parameters:
     Default: 3
     Description: Initial number of "Spot Agents" node instances
     Type: Number
-  NodeVolumeSize:
+  MasterNodeVolumeSize:
     Default: 20
-    Description: Size for node volumes
+    Description: Size of "Masters" EBS volumes
+    Type: String
+  AgentNodeVolumeSize:
+    Default: 500
+    Description: Size of all agent EBS volumes
     Type: String
   KubernetesVersion:
     Type: String
@@ -829,7 +836,7 @@ Resources:
         NodeInstanceType: !Ref MasterNodeInstanceType
         NumberOfNodes: !Ref NumberOfMasterNodes
         NodeGroupName: "cloudbees-core-masters"
-        NodeVolumeSize: !Ref NodeVolumeSize
+        NodeVolumeSize: !Ref MasterNodeVolumeSize
         KubeConfigKmsContext: !Ref KubeConfigKmsContext
         BootstrapArguments: "--kubelet-extra-args '--node-labels=partition=masters'"
         QSS3BucketName: !Ref QSS3BucketName
@@ -852,7 +859,7 @@ Resources:
         SpotNodeInstanceType4: !Ref SpotNodeInstanceType4
         NumberOfRegularNodes: !Ref NumberOfRegularNodes
         NumberOfSpotNodes: !Ref NumberOfSpotNodes
-        NodeVolumeSize: !Ref NodeVolumeSize
+        NodeVolumeSize: !Ref AgentNodeVolumeSize
         EKSControlPlane: !GetAtt EKSStack.Outputs.EKSClusterName
         ControlPlaneSecurityGroup: !GetAtt EKSStack.Outputs.ControlPlaneSecurityGroup
         InitialNodeGroupSecurityGroup: !GetAtt EKSStack.Outputs.NodeGroupSecurityGroup
