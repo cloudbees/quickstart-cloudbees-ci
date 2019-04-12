@@ -37,6 +37,7 @@ Metadata:
           - MasterNodeVolumeSize
           - AgentNodeVolumeSize
           - KubernetesVersion
+          - StorageType
       - Label:
           default: AWS Quick Start Configuration
         Parameters:
@@ -92,6 +93,8 @@ Metadata:
         default: Size of all agent EBS volumes
       KubernetesVersion:
         default: Kubernetes version
+      StorageType:
+        default: Storage type
       QSS3BucketName:
         default: Quick start S3 bucket name
       QSS3KeyPrefix:
@@ -794,6 +797,13 @@ Parameters:
     AllowedValues: [ "1.12", "1.11", "1.10" ]
     Default: "1.12"
     Description: The Kubernetes control plane version
+  StorageType:
+    Type: String
+    AllowedValues: ["gp2", "efs"]
+    Default: "gp2"
+    Description: 
+      Type of storage to use for JENKINS_HOME data. Choices are 
+      gp2 (Elastic Block Store) and efs (Elastic File System)
   QSS3BucketName:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
     ConstraintDescription:
@@ -876,6 +886,7 @@ Resources:
         PublicSubnet2ID: !GetAtt 'VPCStack.Outputs.PublicSubnet2ID'
         PublicSubnet3ID: !GetAtt 'VPCStack.Outputs.PublicSubnet3ID'
         KubernetesVersion: !Ref KubernetesVersion
+        StorageType: !Ref StorageType
         MasterNodeInstanceType: !Ref MasterNodeInstanceType
         RegularNodeInstanceType: !Ref RegularNodeInstanceType
         SpotNodeInstanceType1: !Ref SpotNodeInstanceType1

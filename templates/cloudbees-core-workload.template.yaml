@@ -12,6 +12,8 @@ Parameters:
     Type: String
   KubeConfigKmsContext:
     Type: String
+  StorageType:
+    Type: String
   InitialNodeGroupSecurityGroup:
     Type: AWS::EC2::SecurityGroup::Id
   PrivateSubnet1ID:
@@ -40,8 +42,12 @@ Parameters:
       forward slash (/).
     Type: String
 
+Conditions:
+  EFSCondition: !Equals [!Ref 'StorageType', 'efs']
+
 Resources:
   EFSStack:
+    Condition: EFSCondition
     Type: AWS::CloudFormation::Stack
     Properties:
       TemplateURL: !Sub "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/cloudbees-core-efs.template.yaml"
@@ -216,7 +222,8 @@ Resources:
                 - name: JAVA_OPTS
                   # To allocate masters using a non-default storage class, add the following
                   # -Dcom.cloudbees.masterprovisioning.kubernetes.KubernetesMasterProvisioning.storageClassName=some-storage-class
-                  value: >-
+                  value: !Sub
+                    >- 
                     -XshowSettings:vm
                     -XX:MaxRAMFraction=1
                     -XX:+UnlockExperimentalVMOptions
@@ -227,7 +234,7 @@ Resources:
                     -Dcom.cloudbees.opscenter.analytics.reporter.metrics.AperiodicMetricSubmitter.PERIOD=120
                     -Dcom.cloudbees.opscenter.analytics.FeederConfiguration.PERIOD=120
                     -Dcom.cloudbees.masterprovisioning.kubernetes.KubernetesMasterProvisioning.fsGroup=1000
-                    -Dcom.cloudbees.masterprovisioning.kubernetes.KubernetesMasterProvisioning.storageClassName=efs
+                    -Dcom.cloudbees.masterprovisioning.kubernetes.KubernetesMasterProvisioning.storageClassName=${StorageType}
                     -Dhudson.lifecycle=hudson.lifecycle.ExitLifecycle
                     -Dcom.cloudbees.jce.masterprovisioning.DockerImageDefinitionConfiguration.disableAutoConfiguration=true
                     -Dcom.cloudbees.jce.masterprovisioning.DockerImageDefinitionConfiguration.masterImageName="CloudBees Core - Managed Master 2.150.2.3"
@@ -266,7 +273,7 @@ Resources:
               resources:
                 requests:
                   storage: 50Gi
-              storageClassName: efs
+              storageClassName: !Sub ${StorageType}
   CloudBeesCoreService:
     DependsOn: CloudBeesCoreStatefulSet
     Type: "Custom::KubeManifest"
