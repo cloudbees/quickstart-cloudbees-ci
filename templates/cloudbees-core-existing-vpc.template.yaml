@@ -874,6 +874,7 @@ Resources:
         EKSControlPlane: !GetAtt EKSStack.Outputs.EKSClusterName
         ControlPlaneSecurityGroup: !GetAtt EKSStack.Outputs.ControlPlaneSecurityGroup
         InitialNodeGroupSecurityGroup: !GetAtt EKSStack.Outputs.NodeGroupSecurityGroup
+        BastionSecurityGroup: !GetAtt EKSStack.Outputs.BastionSecurityGroup
         NodeInstanceProfile: !GetAtt EKSStack.Outputs.NodeInstanceProfile
         NodeInstanceRoleName: !GetAtt EKSStack.Outputs.NodeInstanceRoleName
         KubernetesVersion: !Ref KubernetesVersion
