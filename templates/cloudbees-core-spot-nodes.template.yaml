@@ -795,7 +795,7 @@ Resources:
         #InstanceMarketOptions: InstanceMarketOptions
         NetworkInterfaces: 
           - DeviceIndex: 0
-            AssociatePublicIpAddress: true
+            AssociatePublicIpAddress: false
             Description: String
             Groups: 
               - !Ref NodeSecurityGroup
