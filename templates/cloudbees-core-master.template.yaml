@@ -5,14 +5,14 @@ Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
       - Label:
-          default: Security Configuration
+          default: Security configuration
         Parameters:
           - KeyPairName
           - RemoteAccessCIDR
           - AdditionalEKSAdminArns
           - KubeConfigKmsContext
       - Label:
-          default: Network Configuration
+          default: Network configuration
         Parameters:
           - AvailabilityZones
           - VPCCIDR
@@ -23,7 +23,7 @@ Metadata:
           - PublicSubnet2CIDR
           - PublicSubnet3CIDR
       - Label:
-          default: CloudBees Core Configuration
+          default: CloudBees Core configuration
         Parameters:
           - MasterNodeInstanceType
           - RegularNodeInstanceType
@@ -39,7 +39,7 @@ Metadata:
           - KubernetesVersion
           - StorageType
       - Label:
-          default: AWS Quick Start Configuration
+          default: AWS Quick Start configuration
         Parameters:
           - QSS3BucketName
           - QSS3KeyPrefix
@@ -54,7 +54,7 @@ Metadata:
       KubeConfigKmsContext:
         default: Kubernetes configuration KMS context
       AvailabilityZones:
-        default: Availability zones
+        default: Availability Zones
       VPCCIDR:
         default: VPC CIDR
       PrivateSubnet1CIDR:
@@ -88,7 +88,7 @@ Metadata:
       NumberOfSpotNodes:
         default: Number of spot agent nodes
       MasterNodeVolumeSize:
-        default: Size of "Masters" EBS volumes
+        default: Size of Masters EBS volumes
       AgentNodeVolumeSize:
         default: Size of all agent EBS volumes
       KubernetesVersion:
@@ -96,9 +96,9 @@ Metadata:
       StorageType:
         default: Storage type
       QSS3BucketName:
-        default: Quick start S3 bucket name
+        default: Quick Start S3 bucket name
       QSS3KeyPrefix:
-        default: Quick start S3 key prefix
+        default: Quick Start S3 key prefix
       LambdaZipsBucketName:
         default: Lambda zips bucket name
 Parameters:
@@ -116,7 +116,7 @@ Parameters:
     Type: String
   AdditionalEKSAdminArns:
     Default: ""
-    Description: "[OPTIONAL] Comma separated list of IAM users/roles to be granted admin access to the EKS cluster"
+    Description: "[OPTIONAL] Comma-separated list of IAM users/roles to be granted admin access to the EKS cluster"
     Type: CommaDelimitedList
   KubeConfigKmsContext:
     Description: String value used by KMS to encrypt/decrypt Kubernetes configuration
@@ -802,9 +802,9 @@ Parameters:
     AllowedValues: ["gp2", "efs"]
     Default: "efs"
     Description: 
-      Type of storage to use for JENKINS_HOME data. Choices are efs (Elastic File System) 
-      or gp2 (Elastic Block Store, WARNING this doesn't provide high availability in case 
-      of outage of an availability zone)
+      Type of storage to use for JENKINS_HOME data. Choices are efs (Amazon EFS) 
+      or gp2 (Amazon EBS). WARNING: Amazon EBS doesn't provide high availability in case 
+      of outage of an Availability Zone.)
 
   QSS3BucketName:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
