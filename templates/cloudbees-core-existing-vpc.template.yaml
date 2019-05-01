@@ -71,13 +71,13 @@ Metadata:
       RegularNodeInstanceType:
         default: Regular agent nodes instance type
       SpotNodeInstanceType1:
-        default: Spot agent nodes instance type (1 of 4)
+        default: First Spot agent nodes instance type
       SpotNodeInstanceType2:
-        default: Spot agent nodes instance type (2 of 4)
+        default: Second spot agent nodes instance type
       SpotNodeInstanceType3:
-        default: Spot agent nodes instance type (3 of 4)
+        default: Third spot agent nodes instance type
       SpotNodeInstanceType4:
-        default: Spot agent nodes instance type (4 of 4)
+        default: Fourth spot agent nodes instance type
       NumberOfMasterNodes:
         default: Number of master nodes
       NumberOfRegularNodes:
@@ -85,9 +85,9 @@ Metadata:
       NumberOfSpotNodes:
         default: Number of spot agent nodes
       MasterNodeVolumeSize:
-        default: Size of Masters EBS volumes
+        default: Master node EBS volume size
       AgentNodeVolumeSize:
-        default: Size of all agent EBS volumes
+        default: Agent node EBS volume size
       KubernetesVersion:
         default: Kubernetes version
       StorageType:
@@ -245,7 +245,7 @@ Parameters:
       - z1d.6xlarge
       - z1d.12xlarge
     ConstraintDescription: Must be a valid EC2 instance type
-    Description: Type of EC2 instance for the "Masters" node group
+    Description: The Amazon EC2 instance type for the masters node group.
     Type: String
   RegularNodeInstanceType:
     Default: m5.large
@@ -345,7 +345,7 @@ Parameters:
       - z1d.6xlarge
       - z1d.12xlarge
     ConstraintDescription: Must be a valid EC2 instance type
-    Description: Type of EC2 instance for the "Regular Agents" node group
+    Description: The Amazon EC2 instance type for the regular agents node group.
     Type: String
   SpotNodeInstanceType1:
     Default: m4.large #2x8
@@ -445,7 +445,7 @@ Parameters:
       - z1d.6xlarge
       - z1d.12xlarge
     ConstraintDescription: Must be a valid EC2 instance type
-    Description: Type of EC2 instance for the "Spot Agents" node group (1 of 4)
+    Description: The first Amazon EC2 instance type for the spot agents node group.
     Type: String
   SpotNodeInstanceType2:
     Default: m5.large #2x8
@@ -545,7 +545,7 @@ Parameters:
       - z1d.6xlarge
       - z1d.12xlarge
     ConstraintDescription: Must be a valid EC2 instance type
-    Description: Type of EC2 instance for the "Spot Agents" node group (2 of 4)
+    Description: The second Amazon EC2 instance type for the spot agents node group.
     Type: String
   SpotNodeInstanceType3:
     Default: m5a.large #2x8
@@ -645,7 +645,7 @@ Parameters:
       - z1d.6xlarge
       - z1d.12xlarge
     ConstraintDescription: Must be a valid EC2 instance type
-    Description: Type of EC2 instance for the "Spot Agents" node group (3 of 4)
+    Description: The third Amazon EC2 instance type for the spot agents node group.
     Type: String
   SpotNodeInstanceType4:
     Default: m5d.large #2x8
@@ -745,27 +745,27 @@ Parameters:
       - z1d.6xlarge
       - z1d.12xlarge
     ConstraintDescription: Must be a valid EC2 instance type
-    Description: Type of EC2 instance for the "Spot Agents" node group (4 of 4)
+    Description: The fourth Amazon EC2 instance type for the spot agents node group.
     Type: String
   NumberOfMasterNodes:
     Default: 3
-    Description: Initial number of "Masters" node instances
+    Description: The initial number of master node instances to create.
     Type: Number
   NumberOfRegularNodes:
     Default: 3
-    Description: Initial number of "Regular Agents" node instances
+    Description: The initial number of regular agent node instances to create.
     Type: Number
   NumberOfSpotNodes:
     Default: 3
-    Description: Initial number of "Spot Agents" node instances
+    Description: The initial number of spot agent node instances to create.
     Type: Number
   MasterNodeVolumeSize:
     Default: 20
-    Description: Size of "Masters" EBS volumes
+    Description: The size of EBS volumes for master node instances, in GiB
     Type: String
   AgentNodeVolumeSize:
     Default: 500
-    Description: Size of all agent EBS volumes
+    Description: The EBS volume size for each agent node instance, in GiB.
     Type: String
   KubernetesVersion:
     Type: String
@@ -778,7 +778,7 @@ Parameters:
     Default: "efs"
     Description: 
       Type of storage to use for JENKINS_HOME data. Choices are efs (Amazon EFS) 
-      or gp2 (Amazon EBS). WARNING: Amazon EBS doesn't provide high availability in case 
+      or gp2 (Amazon EBS). WARNING Amazon EBS doesn't provide high availability in case 
       of outage of an Availability Zone.
   QSS3BucketName:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
@@ -901,7 +901,10 @@ Resources:
 Outputs:
   CloudBeesJenkinsOperationsCenterUrl:
     Value: !GetAtt CloudBeesCoreStack.Outputs.CloudBeesJenkinsOperationsCenterUrl
+    Description: Open this URL to begin using CloudBees Core
   BastionIP:
     Value: !GetAtt EKSStack.Outputs.BastionIP
+    Description: Bastion host IP address. Log in (via SSH) to retrieve the initial admin password and administer CloudBees Core.
   KubeConfigPath:
     Value: !GetAtt EKSStack.Outputs.KubeConfigPath
+    Description: (Advanced) Amazon S3 bucket containing encrypted Kubernetes configuration which can be used to access the Kubernetes API.

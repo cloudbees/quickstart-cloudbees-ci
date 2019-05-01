@@ -178,7 +178,9 @@ Resources:
             hudson.ExtensionList.lookupSingleton(com.cloudbees.jenkins.support.impl.cloudbees.TcpSlaveAgentListenerMonitor.class).disable(true)
             jenkins.model.JenkinsLocationConfiguration.get().setUrl("http://${IngressHostName}/cjoc");
   CloudBeesCoreStatefulSet:
-    DependsOn: CloudBeesCoreCjocConfigMap
+    DependsOn: 
+    - CloudBeesCoreCjocConfigMap
+    - EFSStack
     Type: "Custom::KubeManifest"
     Version: '1.0'
     Properties:

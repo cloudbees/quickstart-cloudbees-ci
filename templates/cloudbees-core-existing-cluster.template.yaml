@@ -327,3 +327,4 @@ Resources:
 Outputs:
   CloudBeesJenkinsOperationsCenterUrl:
     Value: !GetAtt CloudBeesCoreStack.Outputs.CloudBeesJenkinsOperationsCenterUrl
+    Description: Open this URL to begin using CloudBees Core
