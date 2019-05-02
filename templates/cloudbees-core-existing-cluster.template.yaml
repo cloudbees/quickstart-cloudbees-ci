@@ -1,11 +1,52 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: "Deploys CloudBees Core into an existing Kubernetes cluster"
+Metadata:
+  AWS::CloudFormation::Interface:
+    ParameterGroups:
+      - Label:
+          default: Network configuration
+        Parameters:
+          - VPCID
+          - K8sSubnetIds
+      - Label:
+          default: Kubernetes configuration
+        Parameters:
+          - ControlPlaneSecurityGroup
+          - KubeConfigPath
+          - KubeConfigKmsContext
+      - Label:
+          default: AWS Quick Start configuration
+        Parameters:
+          - QSS3BucketName
+          - QSS3KeyPrefix
+          - LambdaZipsBucketName
+    ParameterLabels:
+      KubeConfigPath:
+        default: Kubernetes config S3 path
+      RemoteAccessCIDR:
+        default: Remote access CIDR
+      AdditionalEKSAdminArns:
+        default: Additional EKS admin ARNs
+      KubeConfigKmsContext:
+        default: Kubernetes configuration KMS context
+      VPCID:
+        default: VPC ID
+      QSS3BucketName:
+        default: Quick Start S3 bucket name
+      QSS3KeyPrefix:
+        default: Quick Start S3 key prefix
+      LambdaZipsBucketName:
+        default: Lambda zips bucket name
 Parameters:
   KubeConfigPath:
     Type: String
+    Description: 'S3 URI (e.g., s3://my-bucket/config.enc) to a KMS encrypted Kubernetes configuration file in S3. This
+          config will be used to authenticate against kubernetes to provision resources into the cluster.'
   KubeConfigKmsContext:
     Type: String
     Default: "CloudBeesCore"
+    Description: 'The string value used by AWS Key Management Service (AWS KMS) to encrypt/decrypt Kubernetes
+          configuration.'
   LambdaZipsBucketName:
     Description: 'OPTIONAL: Bucket Name where the lambda zip files should be placed,
           if left blank a bucket will be created.'
@@ -13,10 +54,14 @@ Parameters:
     Default: ''
   K8sSubnetIds:
     Type: List<AWS::EC2::Subnet::Id>
+    Description: 'The IDs of the subnets that contain your existing Kubernetes cluster, must include subnets that
+          contain node groups, and any subnets that may contain Elastic Load Balancers provisioned by kubernetes.'
   VPCID:
     Type: AWS::EC2::VPC::Id
+    Description: The ID of your existing VPC (e.g., vpc-0343606e) that contains your Kubernetes cluster.
   ControlPlaneSecurityGroup:
     Type: AWS::EC2::SecurityGroup::Id
+    Description: The security group ID for the existing Kubernetes control plane.
   QSS3BucketName:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
     ConstraintDescription: Quick Start bucket name can include numbers, lowercase
