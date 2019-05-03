@@ -1,6 +1,16 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: "Deploys CloudBees Core into an existing Kubernetes cluster"
 Metadata:
+  LintSpellExclude:
+    - Kubernetes
+    - IDs
+    - encrypted
+    - encrypt
+    - decrypt
+    - .enc
+    - Key Management Service
+    - vpc
+    - Elastic Load
   AWS::CloudFormation::Interface:
     ParameterGroups:
       - Label:
@@ -23,10 +33,8 @@ Metadata:
     ParameterLabels:
       KubeConfigPath:
         default: Kubernetes config S3 path
-      RemoteAccessCIDR:
-        default: Remote access CIDR
-      AdditionalEKSAdminArns:
-        default: Additional EKS admin ARNs
+      ControlPlaneSecurityGroup:
+        default: Control plane security group
       KubeConfigKmsContext:
         default: Kubernetes configuration KMS context
       VPCID:
@@ -37,6 +45,8 @@ Metadata:
         default: Quick Start S3 key prefix
       LambdaZipsBucketName:
         default: Lambda zips bucket name
+      K8sSubnetIds:
+        default: Kubernetes subnet IDs
 Parameters:
   KubeConfigPath:
     Type: String
@@ -48,7 +58,7 @@ Parameters:
     Description: 'The string value used by AWS Key Management Service (AWS KMS) to encrypt/decrypt Kubernetes
           configuration.'
   LambdaZipsBucketName:
-    Description: 'OPTIONAL: Bucket Name where the lambda zip files should be placed,
+    Description: '[OPTIONAL] Bucket name where the lambda zip files should be placed,
           if left blank a bucket will be created.'
     Type: String
     Default: ''
