@@ -5,11 +5,11 @@
     },
     {
         "ParameterKey": "KubernetesVersion",
-        "ParameterValue": "override"
+        "ParameterValue": "1.12"
     },
     {
         "ParameterKey": "StorageType",
-        "ParameterValue": "override"
+        "ParameterValue": "efs"
     },
     {
         "ParameterKey": "RemoteAccessCIDR",
