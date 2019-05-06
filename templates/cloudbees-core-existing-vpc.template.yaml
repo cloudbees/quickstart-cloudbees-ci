@@ -51,7 +51,7 @@ Metadata:
       AdditionalEKSAdminArns:
         default: Additional EKS admin ARNs
       KubeConfigKmsContext:
-        default: Kubernetes configuration KMS context
+        default: Kubernetes config KMS context
       VPCID:
         default: VPC ID
       PrivateSubnet1ID:
@@ -116,7 +116,7 @@ Parameters:
     Description: "[OPTIONAL] Comma-separated list of IAM users/roles to be granted admin access to the EKS cluster"
     Type: CommaDelimitedList
   KubeConfigKmsContext:
-    Description: String value used by KMS to encrypt/decrypt Kubernetes configuration
+    Description: String value used by KMS to encrypt/decrypt Kubernetes config
     Type: String
     Default: "CloudBeesCore"
   VPCID:
@@ -906,4 +906,4 @@ Outputs:
     Description: Bastion host IP address. Log in (via SSH) to retrieve the initial admin password and administer CloudBees Core.
   KubeConfigPath:
     Value: !GetAtt EKSStack.Outputs.KubeConfigPath
-    Description: (Advanced) Amazon S3 bucket containing encrypted Kubernetes configuration which can be used to access the Kubernetes API.
+    Description: (Advanced) Amazon S3 bucket containing encrypted Kubernetes config which can be used to access the Kubernetes API.

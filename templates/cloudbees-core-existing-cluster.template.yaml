@@ -36,7 +36,7 @@ Metadata:
       ControlPlaneSecurityGroup:
         default: Control plane security group
       KubeConfigKmsContext:
-        default: Kubernetes configuration KMS context
+        default: Kubernetes config KMS context
       VPCID:
         default: VPC ID
       QSS3BucketName:
@@ -50,13 +50,13 @@ Metadata:
 Parameters:
   KubeConfigPath:
     Type: String
-    Description: 'S3 URI (e.g., s3://my-bucket/config.enc) to a KMS encrypted Kubernetes configuration file in S3. This
+    Description: 'S3 URI (e.g., s3://my-bucket/config.enc) to a KMS encrypted Kubernetes config file in S3. This
           config will be used to authenticate against kubernetes to provision resources into the cluster.'
   KubeConfigKmsContext:
     Type: String
     Default: "CloudBeesCore"
     Description: 'The string value used by AWS Key Management Service (AWS KMS) to encrypt/decrypt Kubernetes
-          configuration.'
+          config file.'
   LambdaZipsBucketName:
     Description: '[OPTIONAL] Bucket name where the lambda zip files should be placed,
           if left blank a bucket will be created.'
