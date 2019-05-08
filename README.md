@@ -16,7 +16,7 @@ The Quick Start offers three deployment options:
 
 You can also use the AWS CloudFormation templates as a starting point for your own implementation.
 
-![Quick Start architecture for CloudBees Core on AWS](https://d1.awsstatic.com/partner-network/QuickStart/datasheets/cloudbees-core-architecture-on-aws.png)
+![Quick Start architecture for CloudBees Core on AWS](https://d0.awsstatic.com/partner-network/QuickStart/datasheets/cloudbees-core-architecture-on-aws.png)
 
 For architectural details, best practices, step-by-step instructions, and customization options, see the 
 [deployment guide](https://aws-quickstart.s3.amazonaws.com/quickstart-cloudbees-core/doc/cloudbees-core-on-the-aws-cloud.pdf).
