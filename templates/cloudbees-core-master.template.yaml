@@ -111,7 +111,8 @@ Parameters:
     ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/x
     Description:
       The CIDR IP range that is permitted to access the bastion host. We recommend
-      that you set this value to a trusted IP range.
+      that you set this value to a trusted IP range. Setting this parameter to 0.0.0/0 
+      will open SSH access to the bastion host from any source address.
     Type: String
   AdditionalEKSAdminArns:
     Default: ""
