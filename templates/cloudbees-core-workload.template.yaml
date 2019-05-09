@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Deploys CloudBees Core into an existing Kubernetes cluster
+Description: Deploys CloudBees Core into an existing Kubernetes cluster (qs-1pipqrqje)
 
 Parameters:
   KubeManifestLambdaArn:

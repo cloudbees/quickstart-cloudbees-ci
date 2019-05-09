@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Deploys a multi-instance Spot node pool to an existing EKS Quick Start cluster
+Description: Deploys a multi-instance Spot node pool to an existing EKS Quick Start cluster (qs-1pipqrqj1)
 
 Parameters:
   KeyPairName:

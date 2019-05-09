@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Deploys additional node pools to an EKS Quick Start cluster
+Description: Deploys additional node pools to an EKS Quick Start cluster (qs-1pipqrqef)
 
 Parameters:
   KeyPairName:

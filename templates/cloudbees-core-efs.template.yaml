@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: 2010-09-09
-Description: Deploys an EFS file system and efs-provisioner
+Description: Deploys an EFS file system and efs-provisioner (qs-1pipqrqhi)
 
 Parameters:
   HelmLambdaArn:
