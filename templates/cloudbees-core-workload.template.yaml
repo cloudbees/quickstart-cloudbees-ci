@@ -215,7 +215,7 @@ Resources:
               terminationGracePeriodSeconds: 10
               containers:
               - name: jenkins
-                image: cloudbees/cloudbees-cloud-core-oc:2.164.2.1
+                image: cloudbees/cloudbees-cloud-core-oc:2.164.3.2
                 env:
                 - name: ENVIRONMENT
                   value: KUBERNETES
@@ -239,8 +239,8 @@ Resources:
                     -Dcom.cloudbees.masterprovisioning.kubernetes.KubernetesMasterProvisioning.storageClassName=${StorageType}
                     -Dhudson.lifecycle=hudson.lifecycle.ExitLifecycle
                     -Dcom.cloudbees.jce.masterprovisioning.DockerImageDefinitionConfiguration.disableAutoConfiguration=true
-                    -Dcom.cloudbees.jce.masterprovisioning.DockerImageDefinitionConfiguration.masterImageName="CloudBees Core - Managed Master 2.164.2.1"
-                    -Dcom.cloudbees.jce.masterprovisioning.DockerImageDefinitionConfiguration.masterImage=cloudbees/cloudbees-core-mm:2.164.2.1
+                    -Dcom.cloudbees.jce.masterprovisioning.DockerImageDefinitionConfiguration.masterImageName="CloudBees Core - Managed Master 2.164.3.2"
+                    -Dcom.cloudbees.jce.masterprovisioning.DockerImageDefinitionConfiguration.masterImage=cloudbees/cloudbees-core-mm:2.164.3.2
                 ports:
                 - containerPort: 8080
                 - containerPort: 50000

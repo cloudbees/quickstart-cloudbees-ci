@@ -20,6 +20,10 @@
         "ParameterValue": "override"
     },
     {
+        "ParameterKey": "StorageType",
+        "ParameterValue": "override"
+    },
+    {
         "ParameterKey": "InitialNodeGroupSecurityGroup",
         "ParameterValue": "override"
     },
