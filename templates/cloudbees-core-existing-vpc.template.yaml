@@ -769,8 +769,8 @@ Parameters:
     Type: String
   KubernetesVersion:
     Type: String
-    AllowedValues: [ "1.12", "1.11", "1.10" ]
-    Default: "1.12"
+    AllowedValues: [ "1.13", "1.12", "1.11" ]
+    Default: "1.13"
     Description: The Kubernetes control plane version
   StorageType:
     Type: String
