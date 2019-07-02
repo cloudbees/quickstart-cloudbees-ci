@@ -303,8 +303,8 @@ Resources:
               - Effect: Allow
                 Action: s3:*
                 Resource:
-                  - !Sub 'arn:aws:s3:::${LambdaZipsBucketName}/*'
-                  - !Sub 'arn:aws:s3:::${LambdaZipsBucketName}'
+                  - !If [ CreateLambdaZipsBucket, !Sub 'arn:aws:s3:::${LambdaZipsBucket}/*', !Sub 'arn:aws:s3:::${LambdaZipsBucketName}/*' ]
+                  - !If [ CreateLambdaZipsBucket, !Sub 'arn:aws:s3:::${LambdaZipsBucket}', !Sub 'arn:aws:s3:::${LambdaZipsBucketName}' ]
   CopyZipsRole:
     Type: AWS::IAM::Role
     Properties:
@@ -329,7 +329,7 @@ Resources:
                 Action:
                   - s3:PutObject
                   - s3:DeleteObject
-                Resource: !Sub 'arn:aws:s3:::${LambdaZipsBucketName}/${QSS3KeyPrefix}*'
+                Resource: !If [ CreateLambdaZipsBucket, !Sub 'arn:aws:s3:::${LambdaZipsBucket}/${QSS3KeyPrefix}*', !Sub 'arn:aws:s3:::${LambdaZipsBucketName}/${QSS3KeyPrefix}*' ]
   ManifestRole:
     Type: "AWS::IAM::Role"
     Properties:
