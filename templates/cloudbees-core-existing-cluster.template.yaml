@@ -110,7 +110,7 @@ Resources:
     Type: Custom::CopyZips
     Properties:
       ServiceToken: !GetAtt 'CopyZipsFunction.Arn'
-      DestBucket: !Ref LambdaZipsBucketName
+      DestBucket: !If [ CreateLambdaZipsBucket, !Ref LambdaZipsBucket, !Ref LambdaZipsBucketName ]
       SourceBucket: !Ref 'QSS3BucketName'
       Prefix: !Ref 'QSS3KeyPrefix'
       Objects:
@@ -135,7 +135,7 @@ Resources:
       Runtime: python2.7
       Timeout: 900
       Code:
-        S3Bucket: !Ref LambdaZipsBucketName
+        S3Bucket: !If [ CreateLambdaZipsBucket, !Ref LambdaZipsBucket, !Ref LambdaZipsBucketName ]
         S3Key: !Sub '${QSS3KeyPrefix}functions/packages/LambdaEniCleanup/lambda.zip'
   HelmLambda:
     DependsOn: CopyZips
@@ -147,7 +147,7 @@ Resources:
       Runtime: python3.6
       Timeout: 900
       Code:
-        S3Bucket: !Ref LambdaZipsBucketName
+        S3Bucket: !If [ CreateLambdaZipsBucket, !Ref LambdaZipsBucket, !Ref LambdaZipsBucketName ]
         S3Key: !Sub '${QSS3KeyPrefix}functions/packages/Helm/lambda.zip'
       VpcConfig:
         SecurityGroupIds: [ !Ref EKSLambdaSecurityGroup ]
@@ -162,7 +162,7 @@ Resources:
       Runtime: python3.6
       Timeout: 900
       Code:
-        S3Bucket: !Ref LambdaZipsBucketName
+        S3Bucket: !If [ CreateLambdaZipsBucket, !Ref LambdaZipsBucket, !Ref LambdaZipsBucketName ]
         S3Key: !Sub '${QSS3KeyPrefix}functions/packages/KubeManifest/lambda.zip'
       VpcConfig:
         SecurityGroupIds: [ !Ref EKSLambdaSecurityGroup ]
@@ -177,7 +177,7 @@ Resources:
       Runtime: python3.6
       Timeout: 900
       Code:
-        S3Bucket: !Ref LambdaZipsBucketName
+        S3Bucket: !If [ CreateLambdaZipsBucket, !Ref LambdaZipsBucket, !Ref LambdaZipsBucketName ]
         S3Key: !Sub '${QSS3KeyPrefix}functions/packages/KubeGet/lambda.zip'
       VpcConfig:
         SecurityGroupIds: [ !Ref EKSLambdaSecurityGroup ]
@@ -192,7 +192,7 @@ Resources:
       Runtime: python2.7
       Timeout: 900
       Code:
-        S3Bucket: !Ref LambdaZipsBucketName
+        S3Bucket: !If [ CreateLambdaZipsBucket, !Ref LambdaZipsBucket, !Ref LambdaZipsBucketName ]
         S3Key: !Sub '${QSS3KeyPrefix}functions/packages/DeleteBucketContents/lambda.zip'
   CopyZipsFunction:
     Type: AWS::Lambda::Function
@@ -303,8 +303,8 @@ Resources:
               - Effect: Allow
                 Action: s3:*
                 Resource:
-                  - !Sub 'arn:aws:s3:::${LambdaZipsBucketName}/*'
-                  - !Sub 'arn:aws:s3:::${LambdaZipsBucketName}'
+                  - !If [ CreateLambdaZipsBucket, !Sub 'arn:aws:s3:::${LambdaZipsBucket}/*', !Sub 'arn:aws:s3:::${LambdaZipsBucketName}/*' ]
+                  - !If [ CreateLambdaZipsBucket, !Sub 'arn:aws:s3:::${LambdaZipsBucket}', !Sub 'arn:aws:s3:::${LambdaZipsBucketName}' ]
   CopyZipsRole:
     Type: AWS::IAM::Role
     Properties:
@@ -329,7 +329,7 @@ Resources:
                 Action:
                   - s3:PutObject
                   - s3:DeleteObject
-                Resource: !Sub 'arn:aws:s3:::${LambdaZipsBucketName}/${QSS3KeyPrefix}*'
+                Resource: !If [ CreateLambdaZipsBucket, !Sub 'arn:aws:s3:::${LambdaZipsBucket}/${QSS3KeyPrefix}*', !Sub 'arn:aws:s3:::${LambdaZipsBucketName}/${QSS3KeyPrefix}*' ]
   ManifestRole:
     Type: "AWS::IAM::Role"
     Properties:
