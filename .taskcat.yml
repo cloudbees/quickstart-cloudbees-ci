@@ -1,0 +1,23 @@
+project:
+  name: quickstart-cloudbees-core
+  owner: dschott@cloudbees.com
+  package_lambda: false
+  regions:
+  - us-east-1
+  - us-east-2
+  - us-west-2
+  - eu-west-1
+  s3_bucket: ''
+tests:
+  cloudbees-core:
+    parameters:
+      AvailabilityZones: $[taskcat_genaz_3]
+      KeyPairName: override
+      KubernetesVersion: '1.12'
+      QSS3BucketName: $[taskcat_autobucket]
+      RemoteAccessCIDR: 10.0.0.0/16
+      StorageType: efs
+    regions:
+    - us-east-1
+    s3_bucket: ''
+    template: templates/cloudbees-core-master.template.yaml
