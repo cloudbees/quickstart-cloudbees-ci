@@ -5,11 +5,23 @@
     },
     {
         "ParameterKey": "KubernetesVersion",
-        "ParameterValue": "1.12"
+        "ParameterValue": "override"
     },
     {
         "ParameterKey": "StorageType",
-        "ParameterValue": "efs"
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "NumberOfMasterNodes",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "NumberOfRegularNodes",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "NumberOfSpotNodes",
+        "ParameterValue": "override"
     },
     {
         "ParameterKey": "RemoteAccessCIDR",
