@@ -1,9 +1,5 @@
 [
     {
-        "ParameterKey": "KubeManifestLambdaArn",
-        "ParameterValue": "override"
-    },
-    {
         "ParameterKey": "KubeGetLambdaArn",
         "ParameterValue": "override"
     },
