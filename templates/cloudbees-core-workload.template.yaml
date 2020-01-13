@@ -101,10 +101,6 @@ Resources:
         OperationsCenter:
           HostName: ${IngressHostName}
           Platform: eks
-          ServiceType: ClusterIP
-          Ingress:
-            tls:
-              Enable: false
         Persistence:
           StorageClass: ${StorageType}
         NetworkPolicy:
