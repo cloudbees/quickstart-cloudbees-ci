@@ -101,7 +101,7 @@ Resources:
     Properties:
       TemplateURL: !Sub 'https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/cloudbees-core-workload.template.yaml'
       Parameters:
-        KubeManifestLambdaArn: !GetAtt KubeManifestLambda.Arn
+        #KubeManifestLambdaArn: !GetAtt KubeManifestLambda.Arn
         KubeGetLambdaArn: !GetAtt KubeGetLambda.Arn
         HelmLambdaArn: !GetAtt HelmLambda.Arn
         KubeConfigPath: !Ref KubeConfigPath
