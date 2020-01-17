@@ -112,6 +112,8 @@ Resources:
                 matchLabels:
                   app: nginx-ingress
                   component: controller
+      #Uncomment CustomValueYaml after https://github.com/aws-quickstart/quickstart-amazon-eks/pull/80
+      #CustomValueYaml: https://raw.githubusercontent.com/schottsfired/my-custom-values/master/customValues.yaml
 
 Outputs:
   CloudBeesJenkinsOperationsCenterUrl:
