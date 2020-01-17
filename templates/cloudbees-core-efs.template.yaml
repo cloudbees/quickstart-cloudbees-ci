@@ -57,8 +57,10 @@ Resources:
       ServiceToken: !Ref HelmLambdaArn
       KubeConfigPath: !Ref KubeConfigPath
       KubeConfigKmsContext: !Ref KubeConfigKmsContext
-      Namespace: efs-provisioner
       Chart: stable/efs-provisioner
+      Version: 0.10.0
+      Name: efs-provisioner
+      Namespace: efs-provisioner
       Values:
         efsProvisioner.efsFileSystemId: !Ref EFSFileSystem
         efsProvisioner.awsRegion: !Ref "AWS::Region"

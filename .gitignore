@@ -1,3 +1,7 @@
+# taskcat CLI
 taskcat_outputs/
 alchemist
 taskcat
+
+# IDE
+.vscode

@@ -774,8 +774,8 @@ Parameters:
     Description: The Kubernetes control plane version
   StorageType:
     Type: String
-    AllowedValues: ["gp2", "efs"]
-    Default: "efs"
+    AllowedValues: ["gp2", "aws-efs"]
+    Default: "aws-efs"
     Description: 
       Type of storage to use for JENKINS_HOME data. Choices are efs (Amazon EFS) 
       or gp2 (Amazon EBS). WARNING Amazon EBS doesn't provide high availability in case 
@@ -885,7 +885,7 @@ Resources:
     Properties:
       TemplateURL: !Sub "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/cloudbees-core-workload.template.yaml"
       Parameters:
-        KubeManifestLambdaArn: !GetAtt EKSStack.Outputs.KubeManifestLambdaArn
+        #KubeManifestLambdaArn: !GetAtt EKSStack.Outputs.KubeManifestLambdaArn
         KubeGetLambdaArn: !GetAtt EKSStack.Outputs.KubeGetLambdaArn
         HelmLambdaArn: !GetAtt EKSStack.Outputs.HelmLambdaArn
         KubeConfigPath: !GetAtt EKSStack.Outputs.KubeConfigPath
