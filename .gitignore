@@ -5,3 +5,6 @@ taskcat
 
 # IDE
 .vscode
+
+# Python (pyenv / pyenv-virtualenv)
+.python-version
