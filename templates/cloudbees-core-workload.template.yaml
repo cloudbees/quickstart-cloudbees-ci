@@ -101,6 +101,22 @@ Resources:
         OperationsCenter:
           HostName: ${IngressHostName}
           Platform: eks
+          ExtraConfigMaps:
+          - name: cloudbees-referrer
+            labels:
+              app.kubernetes.io/component: trial-telemetry
+            data:
+              .cloudbees-referrer.txt: |
+                Core on AWS Quick Start
+          ExtraVolumes:
+            - name: cloudbees-referrer
+              configMap:
+                name:  cloudbees-referrer
+          ExtraVolumeMounts:
+          - name: cloudbees-referrer
+            mountPath: /var/jenkins_home/.cloudbees-referrer.txt
+            subPath: .cloudbees-referrer.txt
+            readOnly: true
         Persistence:
           StorageClass: ${StorageType}
         NetworkPolicy:
