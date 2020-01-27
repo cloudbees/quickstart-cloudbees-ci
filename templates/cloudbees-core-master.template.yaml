@@ -38,6 +38,7 @@ Metadata:
           - AgentNodeVolumeSize
           - KubernetesVersion
           - StorageType
+          - CustomValueYaml
       - Label:
           default: AWS Quick Start configuration
         Parameters:
@@ -95,6 +96,8 @@ Metadata:
         default: Kubernetes version
       StorageType:
         default: Storage type
+      CustomValueYaml:
+        default: Link to custom Helm values
       QSS3BucketName:
         default: Quick Start S3 bucket name
       QSS3KeyPrefix:
@@ -805,7 +808,12 @@ Parameters:
       Type of storage to use for JENKINS_HOME data. Choices are efs (Amazon EFS) 
       or gp2 (Amazon EBS). WARNING Amazon EBS doesn't provide high availability in case 
       of outage of an Availability Zone.)
-
+  CustomValueYaml:
+    Type: String
+    Default: ''
+    Description: HTTP(S) or S3 URL which points to raw yaml containing "custom" 
+      Helm values. Custom values are merged with "internal" (CloudFormation) 
+      values during Helm operations such as install and upgrade.
   QSS3BucketName:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
     ConstraintDescription:
@@ -889,6 +897,7 @@ Resources:
         PublicSubnet3ID: !GetAtt 'VPCStack.Outputs.PublicSubnet3ID'
         KubernetesVersion: !Ref KubernetesVersion
         StorageType: !Ref StorageType
+        CustomValueYaml: !Ref CustomValueYaml
         MasterNodeInstanceType: !Ref MasterNodeInstanceType
         RegularNodeInstanceType: !Ref RegularNodeInstanceType
         SpotNodeInstanceType1: !Ref SpotNodeInstanceType1
