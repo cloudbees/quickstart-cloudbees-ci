@@ -16,6 +16,8 @@ Parameters:
     Type: String
   InitialNodeGroupSecurityGroup:
     Type: AWS::EC2::SecurityGroup::Id
+  CustomValueYaml:
+    Type: String
   PrivateSubnet1ID:
     Type: AWS::EC2::Subnet::Id
   PrivateSubnet2ID:
@@ -128,8 +130,7 @@ Resources:
                 matchLabels:
                   app: nginx-ingress
                   component: controller
-      #Uncomment CustomValueYaml after https://github.com/aws-quickstart/quickstart-amazon-eks/pull/80
-      #CustomValueYaml: https://raw.githubusercontent.com/schottsfired/my-custom-values/master/customValues.yaml
+      CustomValueYaml: !Ref CustomValueYaml
 
 Outputs:
   CloudBeesJenkinsOperationsCenterUrl:

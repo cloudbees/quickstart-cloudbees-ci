@@ -24,6 +24,10 @@
         "ParameterValue": "override"
     },
     {
+        "ParameterKey": "CustomValueYaml",
+        "ParameterValue": "override"
+    },
+    {
         "ParameterKey": "PrivateSubnet1ID",
         "ParameterValue": "override"
     },

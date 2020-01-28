@@ -1,3 +1,4 @@
+# largely based on https://github.com/aws-quickstart/quickstart-amazon-eks/blob/master/templates/amazon-eks-nodegroup.template.yaml
 AWSTemplateFormatVersion: 2010-09-09
 Description: Deploys a multi-instance Spot node pool to an existing EKS Quick Start cluster (qs-1pipqrqj1)
 
@@ -434,20 +435,25 @@ Parameters:
     Type: String
   KubernetesVersion: 
     Type: String
-    AllowedValues: [ "1.13", "1.12", "1.11" ]
-    Default: "1.13"
+    AllowedValues: [ "1.14", "1.13", "1.12" ]
+    Default: "1.14"
   
+Conditions:
+  IsSingleInstance: !Equals
+    - !Ref NumberOfNodes
+    - 1
+
 Mappings:
   K8sVersionMap:
-    "1.13":
-      STD: AMZNEKS113
-      GPU: AMZNEKS113GPU
     "1.12":
       STD: AMZNEKS112
       GPU: AMZNEKS112GPU
-    "1.11":
-      STD: AMZNEKS111
-      GPU: AMZNEKS111GPU
+    "1.13":
+      STD: AMZNEKS113
+      GPU: AMZNEKS113GPU
+    "1.14":
+      STD: AMZNEKS114
+      GPU: AMZNEKS114GPU
   InstanceTypes:
     t2.small: { Type: STD }
     t2.medium: { Type: STD }
@@ -544,104 +550,104 @@ Mappings:
     z1d.6xlarge: { Type: STD }
     z1d.12xlarge: { Type: STD }
   AWSAMIRegionMap:
-    AMI:
-      AMZNEKS111: amazon-eks-node-1.11-v20
-      AMZNEKS111GPU: amazon-eks-gpu-node-1.11-v20
-      AMZNEKS112: amazon-eks-node-1.12-v20
-      AMZNEKS112GPU: amazon-eks-gpu-node-1.12-v20
-      AMZNEKS113: amazon-eks-node-1.13-v20
-      AMZNEKS113GPU: amazon-eks-gpu-node-1.13-v20
     ap-northeast-1:
-      AMZNEKS113: ami-0fde798d17145fae1
-      AMZNEKS113GPU: ami-04cf69bbd6c0fae0b
-      AMZNEKS111: ami-0a0b6606652f9b3b9
-      AMZNEKS111GPU: ami-0a8f4e1f9bf09a81f
-      AMZNEKS112: ami-0a9b3f8b4b65b402b
-      AMZNEKS112GPU: ami-0cd09d7293f31df8a
+      AMZNEKS114: ami-07296175bc6b826a5
+      AMZNEKS114GPU: ami-0e4846cf3cb2440e5
+      AMZNEKS113: ami-091dd4fc36f238059
+      AMZNEKS113GPU: ami-0f0b710ce601d5a06
+      AMZNEKS112: ami-0c892d7d66c48f7c8
+      AMZNEKS112GPU: ami-09e057b78700b6084
     ap-northeast-2:
-      AMZNEKS113: ami-07fd7609df6c8e39b
-      AMZNEKS113GPU: ami-0730e699ed0118737
-      AMZNEKS111: ami-0c84b3f055cda1afb
-      AMZNEKS111GPU: ami-01db6bb089f6adfcf
-      AMZNEKS112: ami-069f6a654a8795f72
-      AMZNEKS112GPU: ami-006549812c03748cb
+      AMZNEKS114: ami-0fa890749e8c893c0
+      AMZNEKS114GPU: ami-0bfd27f77f9bf86b3
+      AMZNEKS113: ami-01eb7af276f43d03d
+      AMZNEKS113GPU: ami-06cc9975bcb45fae3
+      AMZNEKS112: ami-0509ab452dcd63f43
+      AMZNEKS112GPU: ami-0bc32c46ba9b38888
     ap-south-1:
-      AMZNEKS113: ami-0a9b1c1807b1a40ab
-      AMZNEKS113GPU: ami-005b754faac73f0cc
-      AMZNEKS111: ami-00f1adebe5ab9a431
-      AMZNEKS111GPU: ami-04645af6384529c5d
-      AMZNEKS112: ami-01b6a163133c31994
-      AMZNEKS112GPU: ami-09ad3a49fb13389a0
+      AMZNEKS114: ami-096122757b4163b0e
+      AMZNEKS114GPU: ami-08a65b6849b5d0131
+      AMZNEKS113: ami-062a2b4b93aaf43a0
+      AMZNEKS113GPU: ami-01581a1df59e009c3
+      AMZNEKS112: ami-041504109ee98ddd7
+      AMZNEKS112GPU: ami-03f71141f8bf47701
     ap-southeast-1:
-      AMZNEKS113: ami-0361e14efd56a71c7
-      AMZNEKS113GPU: ami-07be5e97a529cd146
-      AMZNEKS111: ami-05e92412054db3f87
-      AMZNEKS111GPU: ami-0e001196bd450aa0c
-      AMZNEKS112: ami-03737a1ac334a5767
-      AMZNEKS112GPU: ami-01be8fddd9b16320c
+      AMZNEKS114: ami-024ce53b56277d5d5
+      AMZNEKS114GPU: ami-024a58dc3e6f0d78b
+      AMZNEKS113: ami-0c07dba3bf60e6ccd
+      AMZNEKS113GPU: ami-002999b2f9103152a
+      AMZNEKS112: ami-009ec8dd35b7e044b
+      AMZNEKS112GPU: ami-04e66e5c13dafa188
     ap-southeast-2:
-      AMZNEKS113: ami-0237d87bc27daba65
-      AMZNEKS113GPU: ami-0a2f4c3aeb596aa7e
-      AMZNEKS111: ami-07eb76498b1ba6cd6
-      AMZNEKS111GPU: ami-0c7132a332aa55aa6
-      AMZNEKS112: ami-07580768e8538626f
-      AMZNEKS112GPU: ami-0a1bf783357dd8492
+      AMZNEKS114: ami-029318fe7c3a1664b
+      AMZNEKS114GPU: ami-0b24ff00f0fb4b71f
+      AMZNEKS113: ami-0a83a14bcdd56d43d
+      AMZNEKS113GPU: ami-04b5d21eabfea81e4
+      AMZNEKS112: ami-015682376e8bc2170
+      AMZNEKS112GPU: ami-0a8f37eb75d55fcac
     eu-central-1:
-      AMZNEKS113: ami-0b7127e7a2a38802a
-      AMZNEKS113GPU: ami-0fbbd205f797ecccd
-      AMZNEKS111: ami-0234bc9c2b341aa02
-      AMZNEKS111GPU: ami-05cb4f6e8be8b83f1
-      AMZNEKS112: ami-0ee5ca4231511cafc
-      AMZNEKS112GPU: ami-0ae5976723472b6d4
+      AMZNEKS114: ami-07034b303e1ffc843
+      AMZNEKS114GPU: ami-08b45c59715f94f5f
+      AMZNEKS113: ami-0085eefa9ec412d21
+      AMZNEKS113GPU: ami-071b676ce3b3b343e
+      AMZNEKS112: ami-00a46e20956ca4a15
+      AMZNEKS112GPU: ami-0f3cdd1153555d766
     eu-north-1:
-      AMZNEKS113: ami-0fd05922165907b85
-      AMZNEKS113GPU: ami-0641def7f02a4cac5
-      AMZNEKS111: ami-02ebf24da505128f9
-      AMZNEKS111GPU: ami-078c260b9a737fc35
-      AMZNEKS112: ami-03e60b5a990893129
-      AMZNEKS112GPU: ami-0122b7e2a6736e3c5
+      AMZNEKS114: ami-0faf5ca58065599bc
+      AMZNEKS114GPU: ami-06f065fbe98f1b3a5
+      AMZNEKS113: ami-0dec739645f0ac8c9
+      AMZNEKS113GPU: ami-092b38a91b1c63089
+      AMZNEKS112: ami-02e4d88b448d1181e
+      AMZNEKS112GPU: ami-0eabd4dd4a214a6b0
     eu-west-1:
-      AMZNEKS113: ami-00ac2e6b3cb38a9b9
-      AMZNEKS113GPU: ami-0f9571a3e65dc4e20
-      AMZNEKS111: ami-06902949103360023
-      AMZNEKS111GPU: ami-02f337476a5c33f1b
-      AMZNEKS112: ami-0404d23c7e8188740
-      AMZNEKS112GPU: ami-042f9abf2f96a0097
+      AMZNEKS114: ami-0b9d2c11b47bd8264
+      AMZNEKS114GPU: ami-03b8e736123fd2b9b
+      AMZNEKS113: ami-03772b2e67db0c87b
+      AMZNEKS113GPU: ami-0238f5c2b74750b14
+      AMZNEKS112: ami-05961b098762d431f
+      AMZNEKS112GPU: ami-01133c5344c522d27
     eu-west-2:
-      AMZNEKS113: ami-0147919d2ff9a6ad5
-      AMZNEKS113GPU: ami-032348bd69c5dd665
-      AMZNEKS111: ami-0db100ad46c7966d2
-      AMZNEKS111GPU: ami-0aa2208dbb9bb7cc5
-      AMZNEKS112: ami-07346d8553f83f9d6
-      AMZNEKS112GPU: ami-0b87e9246afd42760
+      AMZNEKS114: ami-0726488afbd16de79
+      AMZNEKS114GPU: ami-03a9c642e26334ac0
+      AMZNEKS113: ami-09b6f282fa8a688fe
+      AMZNEKS113GPU: ami-01c1cd2a68c13b51f
+      AMZNEKS112: ami-0b72f4c68143942d3
+      AMZNEKS112GPU: ami-01527acf6f02de705
     eu-west-3:
-      AMZNEKS113: ami-0537ee9329c1628a2
-      AMZNEKS113GPU: ami-053962359d6859fec
-      AMZNEKS111: ami-052046d313576d0ba
-      AMZNEKS111GPU: ami-0f6ea479cb4e7a4d2
-      AMZNEKS112: ami-038cb36289174bac4
-      AMZNEKS112GPU: ami-0d9405868a6e9ee11
+      AMZNEKS114: ami-0649adce0eb85876e
+      AMZNEKS114GPU: ami-05e2c706ec723b102
+      AMZNEKS113: ami-0db9a057d2e5a2554
+      AMZNEKS113GPU: ami-0cf47cf38c28dbf82
+      AMZNEKS112: ami-0f7f1b6f6f16ce81b
+      AMZNEKS112GPU: ami-097c880e04cf85bf5
+    sa-east-1:
+      AMZNEKS114: ami-0c53683bb5f25f113
+      AMZNEKS114GPU: ami-0e2dec720570d5f5b
+      AMZNEKS113: ami-03fa8cb660993faa4
+      AMZNEKS113GPU: ami-053a7e4e104b49032
+      AMZNEKS112: ami-08d1476c01d4a7250
+      AMZNEKS112GPU: ami-0ba534d623957ed6d
     us-east-1:
-      AMZNEKS113: ami-0f2e8e5663e16b436
-      AMZNEKS113GPU: ami-0017d945a10387606
-      AMZNEKS111: ami-0a5f5d5b0f6f58199
-      AMZNEKS111GPU: ami-07207754196c1a8fc
-      AMZNEKS112: ami-0e380e0a62d368837
-      AMZNEKS112GPU: ami-06e46a15650294dfa
+      AMZNEKS114: ami-087a82f6b78a07557
+      AMZNEKS114GPU: ami-0730212bffaa1732a
+      AMZNEKS113: ami-002ee751a46c73abc
+      AMZNEKS113GPU: ami-0be4d1a45d5336fc9
+      AMZNEKS112: ami-007092a89ede24e62
+      AMZNEKS112GPU: ami-0196913a4743888c0
     us-east-2:
-      AMZNEKS113: ami-0485258c2d1c3608f
-      AMZNEKS113GPU: ami-0ccac9d9b57864000
-      AMZNEKS111: ami-03c6648b74285020f
-      AMZNEKS111GPU: ami-0b87186dda80931ee
-      AMZNEKS112: ami-0fe61ae4c397e710d
-      AMZNEKS112GPU: ami-067d88fb64d3d7990
+      AMZNEKS114: ami-080fbb09ee2d4d3fa
+      AMZNEKS114GPU: ami-095e1b9737cfe76bc
+      AMZNEKS113: ami-07f54fc065c3da9d7
+      AMZNEKS113GPU: ami-0c8d3734ac06376e4
+      AMZNEKS112: ami-03e49944b49ab1cfe
+      AMZNEKS112GPU: ami-01ed11d854b71028f
     us-west-2:
-      AMZNEKS113: ami-03a55127c613349a7
-      AMZNEKS113GPU: ami-08335952e837d087b
-      AMZNEKS111: ami-057d1c0dcb254a878
-      AMZNEKS111GPU: ami-052da6a4e0ae156ad
-      AMZNEKS112: ami-0355c210cb3f58aa2
-      AMZNEKS112GPU: ami-084e8e620163aa50e
+      AMZNEKS114: ami-0c13bb9cbfd007e56
+      AMZNEKS114GPU: ami-0ad9a8dc09680cfc2
+      AMZNEKS113: ami-09bcf0b1f5b446c5d
+      AMZNEKS113GPU: ami-0baa09d4698a02910
+      AMZNEKS112: ami-0267968f4310157f1
+      AMZNEKS112GPU: ami-02551cb499388bebb
 
 Resources:
   NodeSecurityGroup:
@@ -709,28 +715,9 @@ Resources:
   NodeGroup:
     Type: AWS::AutoScaling::AutoScalingGroup
     Properties:
-      #AutoScalingGroupName: String
-      # AvailabilityZones:
-      #   - String
-      #Cooldown: String
       DesiredCapacity: !Ref NumberOfNodes
-      #HealthCheckGracePeriod: Integer
-      #HealthCheckType: String
-      #InstanceId: String
-      #LaunchConfigurationName: String
-      #LaunchTemplate: !Ref NodeLaunchTemplate
-      # LifecycleHookSpecificationList: 
-      #   - LifecycleHookSpecification
-      # LoadBalancerNames:
-      #   - String
       MaxSize: !Ref NumberOfNodes
-      # MetricsCollection:
-      #   - MetricsCollection
       MinSize: !Ref NumberOfNodes
-      # NotificationConfigurations:
-      #   - NotificationConfiguration
-      #PlacementGroup: String
-      #ServiceLinkedRoleARN: String
       Tags:
       - Key: Name
         Value: !Sub "${EKSControlPlane}-${NodeGroupName}-SpotNode"
@@ -738,10 +725,12 @@ Resources:
       - Key: !Sub 'kubernetes.io/cluster/${EKSControlPlane}'
         Value: 'owned'
         PropagateAtLaunch: true
-      # TargetGroupARNs:
-      #   - String
-      # TerminationPolicies:
-      #   - String
+      - Key: k8s.io/cluster-autoscaler/enabled
+        Value: 'true'
+        PropagateAtLaunch: true
+      - Key: !Sub 'k8s.io/cluster-autoscaler/${EKSControlPlane}'
+        Value: ''
+        PropagateAtLaunch: true
       VPCZoneIdentifier: [ !Ref PrivateSubnet1ID, !Ref PrivateSubnet2ID, !Ref PrivateSubnet3ID ]
       MixedInstancesPolicy: 
         LaunchTemplate:
@@ -754,31 +743,18 @@ Resources:
             - InstanceType: !Ref SpotNodeInstanceType3
             - InstanceType: !Ref SpotNodeInstanceType4
         InstancesDistribution:
-          #OnDemandAllocationStrategy: prioritized
-          #OnDemandBaseCapacity: 0
           OnDemandPercentageAboveBaseCapacity: 0 #Spot only
-          #SpotAllocationStrategy: lowest-price 
           SpotInstancePools: 4
-          #SpotMaxPrice: auto set to on demand price
     UpdatePolicy:
       AutoScalingRollingUpdate:
-        MinInstancesInService: 1
+        MinInstancesInService: !If [IsSingleInstance, 0, 1]
         MaxBatchSize: 1
+        WaitOnResourceSignals : true
+        PauseTime: PT15M
   NodeLaunchTemplate:
     Type: AWS::EC2::LaunchTemplate
     Properties:
-      #LaunchTemplateName: 
       LaunchTemplateData:
-        #SecurityGroups: !Ref NodeSecurityGroup (EC2 classic, default VPC)
-        #SecurityGroupIds: [ !Ref NodeSecurityGroup ]
-        # TagSpecifications: 
-        #   ResourceType: instance
-        #   Tags:
-        #   - Key: Name
-        #     Value: !Sub "${EKSControlPlane}-${NodeGroupName}-LaunchTemplate"
-        #   - Key: !Sub 'kubernetes.io/cluster/${EKSControlPlane}'
-        #     Value: 'owned'
-        #InstanceInitiatedShutdownBehavior: `stop` or `terminate`
         BlockDeviceMappings: 
           - DeviceName: /dev/xvda
             Ebs:
@@ -787,21 +763,13 @@ Resources:
               DeleteOnTermination: true
         IamInstanceProfile: 
           Name: !Ref NodeInstanceProfile
-        #KernelId: String
-        #EbsOptimized: true or false
         KeyName: !Ref KeyPairName
-        #DisableApiTermination: Boolean
-        # ElasticGpuSpecifications: 
-        # - ElasticGpuSpecification
-        #Placement: Placement
-        #InstanceMarketOptions: InstanceMarketOptions
         NetworkInterfaces: 
           - DeviceIndex: 0
             AssociatePublicIpAddress: false
             Description: String
             Groups: 
               - !Ref NodeSecurityGroup
-            #SourceDestCheck: false
         ImageId: !FindInMap
         - AWSAMIRegionMap
         - !Ref "AWS::Region"
@@ -813,10 +781,6 @@ Resources:
             - !Ref SpotNodeInstanceType1
             - Type
         InstanceType: !Ref SpotNodeInstanceType1
-        #RamDiskId: String
-        #Monitoring: Monitoring
-        #CreditSpecification: CreditSpecification
-          #CpuCredits: The credit option for CPU usage of a T2 instance. Valid values include standard and unlimited.
         UserData: 
           Fn::Base64:
             !Sub |
@@ -833,3 +797,5 @@ Resources:
 Outputs:
   EKSNodeSecurityGroup:
     Value: !Ref NodeSecurityGroup
+  NodeAutoScalingGroup:
+    Value: !Ref NodeGroup

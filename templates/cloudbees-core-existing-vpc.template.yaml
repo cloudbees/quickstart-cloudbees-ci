@@ -37,6 +37,7 @@ Metadata:
           - AgentNodeVolumeSize
           - KubernetesVersion
           - StorageType
+          - CustomValueYaml
       - Label:
           default: AWS Quick Start configuration
         Parameters:
@@ -92,6 +93,8 @@ Metadata:
         default: Kubernetes version
       StorageType:
         default: Storage Type
+      CustomValueYaml:
+        default: Link to custom Helm values
       QSS3BucketName:
         default: Quick Start S3 bucket name
       QSS3KeyPrefix:
@@ -769,8 +772,8 @@ Parameters:
     Type: String
   KubernetesVersion:
     Type: String
-    AllowedValues: [ "1.13", "1.12", "1.11" ]
-    Default: "1.13"
+    AllowedValues: [ "1.14", "1.13", "1.12" ]
+    Default: "1.14"
     Description: The Kubernetes control plane version
   StorageType:
     Type: String
@@ -780,6 +783,12 @@ Parameters:
       Type of storage to use for JENKINS_HOME data. Choices are efs (Amazon EFS) 
       or gp2 (Amazon EBS). WARNING Amazon EBS doesn't provide high availability in case 
       of outage of an Availability Zone.
+  CustomValueYaml:
+    Type: String
+    Default: ''
+    Description: HTTP(S) or S3 URL which points to raw yaml containing "custom" 
+      Helm values. Custom values are merged with "internal" (CloudFormation) 
+      values during Helm operations such as install and upgrade.
   QSS3BucketName:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
     ConstraintDescription:
@@ -815,6 +824,7 @@ Rules:
           -  - us-west-2
              - us-east-1
              - us-east-2
+             - sa-east-1
              - eu-west-1
              - eu-west-2
              - eu-west-3
@@ -892,6 +902,7 @@ Resources:
         KubeConfigKmsContext: !Ref KubeConfigKmsContext
         StorageType: !Ref StorageType
         InitialNodeGroupSecurityGroup: !GetAtt EKSStack.Outputs.NodeGroupSecurityGroup
+        CustomValueYaml: !Ref CustomValueYaml
         PrivateSubnet1ID: !Ref PrivateSubnet1ID
         PrivateSubnet2ID: !Ref PrivateSubnet2ID
         PrivateSubnet3ID: !Ref PrivateSubnet3ID
