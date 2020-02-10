@@ -780,13 +780,21 @@ Parameters:
     AllowedValues: ["gp2", "aws-efs"]
     Default: "aws-efs"
     Description: 
-      Type of storage to use for JENKINS_HOME data. Choices are efs (Amazon EFS) 
+      Type of storage to use for JENKINS_HOME data. Choices are aws-efs (Amazon EFS) 
       or gp2 (Amazon EBS). WARNING Amazon EBS doesn't provide high availability in case 
       of outage of an Availability Zone.
+  ProvisionedThroughputInMibps:
+    Type: Number
+    MinValue: 160
+    Default: 160
+    Description:
+      Amount of Amazon EFS provisioned throughput in Mibps. This value is not used 
+      when "gp2" (Amazon EBS) is selected as the storage type. The default value 
+      (160Mibps) is recommended.
   CustomValueYaml:
     Type: String
     Default: ''
-    Description: HTTP(S) or S3 URL which points to raw yaml containing "custom" 
+    Description: HTTP(S) or Amazon S3 URL which points to raw yaml containing "custom" 
       Helm values. Custom values are merged with "internal" (CloudFormation) 
       values during Helm operations such as install and upgrade.
   QSS3BucketName:
@@ -902,6 +910,7 @@ Resources:
         KubeConfigKmsContext: !Ref KubeConfigKmsContext
         StorageType: !Ref StorageType
         InitialNodeGroupSecurityGroup: !GetAtt EKSStack.Outputs.NodeGroupSecurityGroup
+        ProvisionedThroughputInMibps: !Ref ProvisionedThroughputInMibps
         CustomValueYaml: !Ref CustomValueYaml
         PrivateSubnet1ID: !Ref PrivateSubnet1ID
         PrivateSubnet2ID: !Ref PrivateSubnet2ID

@@ -1,0 +1,22 @@
+[
+  {
+    "ParameterKey": "VPCID",
+    "ParameterValue": "override"
+  },
+  {
+    "ParameterKey": "K8sSubnetIds",
+    "ParameterValue": "override"
+  },
+  {
+    "ParameterKey": "ControlPlaneSecurityGroup",
+    "ParameterValue": "override"
+  },
+  {
+    "ParameterKey": "KubeConfigPath",
+    "ParameterValue": "override"
+  },
+  {
+    "ParameterKey": "QSS3BucketName",
+    "ParameterValue": "$[taskcat_autobucket]"
+  }
+]

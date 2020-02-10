@@ -16,6 +16,8 @@ Parameters:
     Type: String
   InitialNodeGroupSecurityGroup:
     Type: AWS::EC2::SecurityGroup::Id
+  ProvisionedThroughputInMibps:
+    Type: Number
   CustomValueYaml:
     Type: String
   PrivateSubnet1ID:
@@ -61,6 +63,7 @@ Resources:
         PrivateSubnet1ID: !Ref PrivateSubnet1ID
         PrivateSubnet2ID: !Ref PrivateSubnet2ID
         PrivateSubnet3ID: !Ref PrivateSubnet3ID
+        ProvisionedThroughputInMibps: !Ref ProvisionedThroughputInMibps
   NginxIngressController:
     Type: "Custom::Helm"
     Version: '1.0'
