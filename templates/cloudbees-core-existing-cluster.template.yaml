@@ -106,7 +106,7 @@ Resources:
         HelmLambdaArn: !GetAtt HelmLambda.Arn
         KubeConfigPath: !Ref KubeConfigPath
         KubeConfigKmsContext: !Ref KubeConfigKmsContext
-        #StorageType: gp2
+        #StorageClassName: gp2
         #CustomValueYaml: https://raw.githubusercontent.com/schottsfired/my-custom-values/master/customValues.yaml
   CopyZips:
     Type: Custom::CopyZips

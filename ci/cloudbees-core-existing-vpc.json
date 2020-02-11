@@ -8,6 +8,34 @@
         "ParameterValue": "override"
     },
     {
+        "ParameterKey": "KubernetesVersion",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "StorageClassName",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "CustomValueYaml",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "NumberOfMasterNodes",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "NumberOfRegularNodes",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "NumberOfSpotNodes",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "RemoteAccessCIDR",
+        "ParameterValue": "10.0.0.0/16"
+    },
+    {
         "ParameterKey": "PrivateSubnet1ID",
         "ParameterValue": "override"
     },

@@ -8,7 +8,11 @@
         "ParameterValue": "override"
     },
     {
-        "ParameterKey": "StorageType",
+        "ParameterKey": "StorageClassName",
+        "ParameterValue": "override"
+    },
+    {
+        "ParameterKey": "CustomValueYaml",
         "ParameterValue": "override"
     },
     {
