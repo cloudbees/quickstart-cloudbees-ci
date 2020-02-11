@@ -16,31 +16,11 @@
         "ParameterValue": "override"
     },
     {
-        "ParameterKey": "StorageType",
-        "ParameterValue": "override"
-    },
-    {
-        "ParameterKey": "InitialNodeGroupSecurityGroup",
+        "ParameterKey": "StorageClassName",
         "ParameterValue": "override"
     },
     {
         "ParameterKey": "CustomValueYaml",
         "ParameterValue": "override"
-    },
-    {
-        "ParameterKey": "PrivateSubnet1ID",
-        "ParameterValue": "override"
-    },
-    {
-        "ParameterKey": "PrivateSubnet2ID",
-        "ParameterValue": "override"
-    },
-    {
-        "ParameterKey": "PrivateSubnet3ID",
-        "ParameterValue": "override"
-    },
-    {
-        "ParameterKey": "QSS3BucketName",
-        "ParameterValue": "$[taskcat_autobucket]"
     }
 ]

@@ -12,58 +12,12 @@ Parameters:
     Type: String
   KubeConfigKmsContext:
     Type: String
-  StorageType:
+  StorageClassName:
     Type: String
-  InitialNodeGroupSecurityGroup:
-    Type: AWS::EC2::SecurityGroup::Id
-  ProvisionedThroughputInMibps:
-    Type: Number
   CustomValueYaml:
     Type: String
-  PrivateSubnet1ID:
-    Type: AWS::EC2::Subnet::Id
-  PrivateSubnet2ID:
-    Type: AWS::EC2::Subnet::Id
-  PrivateSubnet3ID:
-    Type: AWS::EC2::Subnet::Id
-  QSS3BucketName:
-    AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
-    ConstraintDescription: Quick Start bucket name can include numbers, lowercase
-      letters, uppercase letters, and hyphens (-). It cannot start or end with a hyphen
-      (-).
-    Default: aws-quickstart
-    Description: S3 bucket name for the Quick Start assets. This string can include
-      numbers, lowercase letters, uppercase letters, and hyphens (-). It cannot start
-      or end with a hyphen (-).
-    Type: String
-  QSS3KeyPrefix:
-    AllowedPattern: ^[0-9a-zA-Z-/]*$
-    ConstraintDescription: Quick Start key prefix can include numbers, lowercase letters,
-      uppercase letters, hyphens (-), and forward slash (/).
-    Default: quickstart-cloudbees-core/
-    Description: S3 key prefix for the Quick Start assets. Quick Start key prefix
-      can include numbers, lowercase letters, uppercase letters, hyphens (-), and
-      forward slash (/).
-    Type: String
-
-Conditions:
-  EFSCondition: !Equals [!Ref 'StorageType', 'aws-efs']
 
 Resources:
-  EFSStack:
-    Condition: EFSCondition
-    Type: AWS::CloudFormation::Stack
-    Properties:
-      TemplateURL: !Sub "https://${QSS3BucketName}.s3.amazonaws.com/${QSS3KeyPrefix}templates/cloudbees-core-efs.template.yaml"
-      Parameters:
-        HelmLambdaArn: !Ref HelmLambdaArn
-        KubeConfigPath: !Ref KubeConfigPath
-        KubeConfigKmsContext: !Ref KubeConfigKmsContext
-        InitialNodeGroupSecurityGroup: !Ref InitialNodeGroupSecurityGroup
-        PrivateSubnet1ID: !Ref PrivateSubnet1ID
-        PrivateSubnet2ID: !Ref PrivateSubnet2ID
-        PrivateSubnet3ID: !Ref PrivateSubnet3ID
-        ProvisionedThroughputInMibps: !Ref ProvisionedThroughputInMibps
   NginxIngressController:
     Type: "Custom::Helm"
     Version: '1.0'
@@ -123,7 +77,7 @@ Resources:
             subPath: .cloudbees-referrer.txt
             readOnly: true
         Persistence:
-          StorageClass: ${StorageType}
+          StorageClass: ${StorageClassName}
         NetworkPolicy:
           ingressControllerSelector:
             - namespaceSelector:
