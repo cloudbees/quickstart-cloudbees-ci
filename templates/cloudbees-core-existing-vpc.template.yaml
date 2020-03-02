@@ -901,6 +901,7 @@ Resources:
         KubernetesVersion: !Ref KubernetesVersion
         QSS3BucketName: !Ref QSS3BucketName
         QSS3KeyPrefix: !Ref QSS3KeyPrefix
+        EKSClusterName: !GetAtt EKSStack.Outputs.EKSClusterName
   EFSStack:
     Condition: EFSCondition
     Type: AWS::CloudFormation::Stack
