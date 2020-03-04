@@ -18,30 +18,6 @@ Parameters:
     Type: String
 
 Resources:
-  NginxIngressController:
-    Type: "Custom::Helm"
-    Version: '1.0'
-    Properties:
-      ServiceToken: !Ref HelmLambdaArn
-      KubeConfigPath: !Ref KubeConfigPath
-      KubeConfigKmsContext: !Ref KubeConfigKmsContext
-      Name: nginx-ingress
-      Namespace: nginx-ingress
-      Chart: stable/nginx-ingress
-      Values:
-        rbac.create: true
-        controller.service.externalTrafficPolicy: Local
-  IngressHostName:
-    DependsOn: NginxIngressController
-    Type: "Custom::KubeGet"
-    Version: '1.0'
-    Properties:
-      ServiceToken: !Ref KubeGetLambdaArn
-      KubeConfigPath: !Ref KubeConfigPath
-      KubeConfigKmsContext: !Ref KubeConfigKmsContext
-      Namespace: nginx-ingress
-      Name: !Sub 'svc/${NginxIngressController.Service0}'
-      JsonPath: '{.status.loadBalancer.ingress[0].hostname}'
   CloudBeesCore:
     Type: "Custom::Helm"
     Version: '1.0'
@@ -51,14 +27,13 @@ Resources:
       KubeConfigKmsContext: !Ref KubeConfigKmsContext
       RepoUrl: https://charts.cloudbees.com/public/cloudbees
       Chart: cloudbees/cloudbees-core
-      Version: 3.8.0+a0d07461ae1c
+      Version: 3.10.0+158fd11beafc
       Name: cloudbees-core
       Namespace: cloudbees-core
       ValueYaml: !Sub |
         nginx-ingress:
-          Enabled: false
+          Enabled: true
         OperationsCenter:
-          HostName: ${IngressHostName}
           Platform: eks
           ExtraConfigMaps:
           - name: cloudbees-referrer
@@ -78,16 +53,18 @@ Resources:
             readOnly: true
         Persistence:
           StorageClass: ${StorageClassName}
-        NetworkPolicy:
-          ingressControllerSelector:
-            - namespaceSelector:
-                matchLabels:
-                  name: nginx-ingress
-              podSelector:
-                matchLabels:
-                  app: nginx-ingress
-                  component: controller
       CustomValueYaml: !Ref CustomValueYaml
+  IngressHostName:
+    DependsOn: CloudBeesCore
+    Type: "Custom::KubeGet"
+    Version: '1.0'
+    Properties:
+      ServiceToken: !Ref KubeGetLambdaArn
+      KubeConfigPath: !Ref KubeConfigPath
+      KubeConfigKmsContext: !Ref KubeConfigKmsContext
+      Namespace: cloudbees-core
+      Name: 'svc/cloudbees-core-nginx-ingress-controller'
+      JsonPath: '{.status.loadBalancer.ingress[0].hostname}'
 
 Outputs:
   CloudBeesJenkinsOperationsCenterUrl:
