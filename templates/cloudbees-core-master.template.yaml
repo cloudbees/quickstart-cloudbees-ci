@@ -822,9 +822,9 @@ Parameters:
   CustomValueYaml:
     Type: String
     Default: ''
-    Description: HTTP(S) or Amazon S3 URL which points to raw yaml containing "custom" 
-      Helm values. Custom values are merged with "internal" (CloudFormation) 
-      values during Helm operations such as install and upgrade.
+    Description: '[OPTIONAL] HTTP(S) or Amazon S3 URL which points to raw yaml 
+      containing "custom" Helm values. Custom values are merged with "internal" 
+      (CloudFormation) values during Helm operations such as install and upgrade.'
   QSS3BucketName:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
     ConstraintDescription:
