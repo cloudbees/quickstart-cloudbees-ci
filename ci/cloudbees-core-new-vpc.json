@@ -5,27 +5,27 @@
     },
     {
         "ParameterKey": "KubernetesVersion",
-        "ParameterValue": "override"
+        "ParameterValue": "1.14"
     },
     {
         "ParameterKey": "StorageClassName",
-        "ParameterValue": "override"
+        "ParameterValue": "aws-efs"
     },
     {
         "ParameterKey": "CustomValueYaml",
-        "ParameterValue": "override"
+        "ParameterValue": ""
     },
     {
         "ParameterKey": "NumberOfMasterNodes",
-        "ParameterValue": "override"
+        "ParameterValue": "2"
     },
     {
         "ParameterKey": "NumberOfRegularNodes",
-        "ParameterValue": "override"
+        "ParameterValue": "1"
     },
     {
         "ParameterKey": "NumberOfSpotNodes",
-        "ParameterValue": "override"
+        "ParameterValue": "1"
     },
     {
         "ParameterKey": "RemoteAccessCIDR",

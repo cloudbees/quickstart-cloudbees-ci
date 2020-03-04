@@ -17,10 +17,10 @@
     },
     {
         "ParameterKey": "StorageClassName",
-        "ParameterValue": "override"
+        "ParameterValue": "aws-efs"
     },
     {
         "ParameterKey": "CustomValueYaml",
-        "ParameterValue": "override"
+        "ParameterValue": ""
     }
 ]
