@@ -13,7 +13,7 @@
     },
     {
         "ParameterKey": "KubeConfigKmsContext",
-        "ParameterValue": "override"
+        "ParameterValue": "CloudBeesCore"
     },
     {
         "ParameterKey": "StorageClassName",
