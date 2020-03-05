@@ -37,7 +37,7 @@
     },
     {
         "ParameterKey": "KubernetesVersion",
-        "ParameterValue": "1.11"
+        "ParameterValue": "1.14"
     },
     {
         "ParameterKey": "QSS3BucketName",

@@ -5,11 +5,27 @@
     },
     {
         "ParameterKey": "KubernetesVersion",
-        "ParameterValue": "1.12"
+        "ParameterValue": "1.14"
     },
     {
-        "ParameterKey": "StorageType",
-        "ParameterValue": "efs"
+        "ParameterKey": "StorageClassName",
+        "ParameterValue": "aws-efs"
+    },
+    {
+        "ParameterKey": "CustomValueYaml",
+        "ParameterValue": ""
+    },
+    {
+        "ParameterKey": "NumberOfMasterNodes",
+        "ParameterValue": "2"
+    },
+    {
+        "ParameterKey": "NumberOfRegularNodes",
+        "ParameterValue": "1"
+    },
+    {
+        "ParameterKey": "NumberOfSpotNodes",
+        "ParameterValue": "1"
     },
     {
         "ParameterKey": "RemoteAccessCIDR",

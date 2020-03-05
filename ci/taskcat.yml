@@ -25,7 +25,6 @@ tests:
   #   template_file: cloudbees-core-addl-nodes.template.yaml
   #   regions:
   #     - us-east-1
-  # cloudbees-core-existing-cluster:
   # cloudbees-core-workload:
   #   parameter_input: cloudbees-core-workload.json
   #   template_file: cloudbees-core-workload.template.yaml

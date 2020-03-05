@@ -1,3 +1,10 @@
+# taskcat CLI
 taskcat_outputs/
 alchemist
 taskcat
+
+# IDE
+.vscode
+
+# Python (pyenv / pyenv-virtualenv)
+.python-version
