@@ -37,6 +37,7 @@ Metadata:
           - AgentNodeVolumeSize
           - KubernetesVersion
           - StorageClassName
+          - ProvisionedThroughputInMibps
           - CustomValueYaml
       - Label:
           default: AWS Quick Start configuration
