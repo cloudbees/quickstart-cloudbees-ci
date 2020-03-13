@@ -526,6 +526,9 @@ Parameters:
     Default: 20
     Description: Size for node volumes
     Type: String
+  CustomAmiId:
+    Default: ""
+    Type: String
   EKSControlPlane: 
     Type: String
   ControlPlaneSecurityGroup: 
@@ -577,6 +580,7 @@ Resources:
         NumberOfNodes: !Ref NumberOfRegularNodes
         NodeGroupName: "cloudbees-core-regular-agents"
         NodeVolumeSize: !Ref NodeVolumeSize
+        CustomAmiId: !Ref CustomAmiId
         EKSControlPlane: !Ref EKSControlPlane
         ControlPlaneSecurityGroup: !Ref ControlPlaneSecurityGroup
         NodeInstanceProfile: !Ref NodeInstanceProfile
@@ -601,6 +605,7 @@ Resources:
         NumberOfNodes: !Ref NumberOfSpotNodes
         NodeGroupName: "cloudbees-core-spot-agents"
         NodeVolumeSize: !Ref NodeVolumeSize
+        CustomAmiId: !Ref CustomAmiId
         EKSControlPlane: !Ref EKSControlPlane
         ControlPlaneSecurityGroup: !Ref ControlPlaneSecurityGroup
         NodeInstanceProfile: !Ref NodeInstanceProfile

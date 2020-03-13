@@ -28,6 +28,10 @@
         "ParameterValue": "1"
     },
     {
+        "ParameterKey": "CustomAmiId",
+        "ParameterValue": ""
+    },
+    {
         "ParameterKey": "RemoteAccessCIDR",
         "ParameterValue": "10.0.0.0/16"
     },
