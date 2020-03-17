@@ -17,9 +17,9 @@ project:
     NumberOfRegularNodes: '1'
     NumberOfSpotNodes: '1'
     QSS3BucketName: $[taskcat_autobucket]
+    QSS3BucketRegion: $[taskcat_current_region]
     RemoteAccessCIDR: 10.0.0.0/16
     StorageClassName: aws-efs
-    QSS3BucketRegion: $[taskcat_current_region]
   template: templates/cloudbees-core-master.template.yaml
 tests:
   default:
