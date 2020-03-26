@@ -27,7 +27,7 @@ Resources:
       KubeConfigKmsContext: !Ref KubeConfigKmsContext
       RepoUrl: https://charts.cloudbees.com/public/cloudbees
       Chart: cloudbees/cloudbees-core
-      Version: 3.11.0+911efa82c48d
+      Version: 3.12.0+80c17a044bc4
       Name: cloudbees-core
       Namespace: cloudbees-core
       ValueYaml: !Sub |
