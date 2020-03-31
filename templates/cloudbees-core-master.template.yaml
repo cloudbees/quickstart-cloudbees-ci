@@ -14,6 +14,7 @@ Metadata:
       - Label:
           default: Network configuration
         Parameters:
+          - NumberOfAZs
           - AvailabilityZones
           - VPCCIDR
           - PrivateSubnet1CIDR
@@ -57,6 +58,8 @@ Metadata:
         default: Additional EKS admin ARNs
       KubeConfigKmsContext:
         default: Kubernetes config KMS context
+      NumberOfAZs:
+        default: Number of Availability Zones
       AvailabilityZones:
         default: Availability Zones
       VPCCIDR:
@@ -134,6 +137,11 @@ Parameters:
     Description: String value used by KMS to encrypt/decrypt Kubernetes config
     Type: String
     Default: "CloudBeesCore"
+  NumberOfAZs:
+    Type: String
+    AllowedValues: ["2", "3"]
+    Default: "3"
+    Description: Number of Availability Zones to use in the VPC. This must match your selections in the list of Availability Zones parameter.
   AvailabilityZones:
     Description:
       List of Availability Zones to use for the subnets in the VPC. Three
@@ -888,8 +896,13 @@ Rules:
              - ap-northeast-1
              - ap-northeast-2
              - ap-south-1
+             - ca-central-1
           - !Ref 'AWS::Region'
 Conditions:
+  3AZDeployment: !Equals [!Ref NumberOfAZs, "3"]
+  2AZDeployment: !Or
+    - !Equals [!Ref NumberOfAZs, "2"]
+    - !Equals [!Ref NumberOfAZs, "3"]
   UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
 Resources:
   VPCStack:
@@ -902,7 +915,7 @@ Resources:
       Parameters:
         KeyPairName: !Ref KeyPairName
         AvailabilityZones: !Join [",", !Ref AvailabilityZones]
-        NumberOfAZs: '3'
+        NumberOfAZs: !Ref 'NumberOfAZs'
         VPCCIDR: !Ref VPCCIDR
         PrivateSubnet1ACIDR: !Ref 'PrivateSubnet1CIDR'
         PrivateSubnet2ACIDR: !Ref 'PrivateSubnet2CIDR'
@@ -925,12 +938,24 @@ Resources:
         AdditionalEKSAdminArns: !Join [ ",", !Ref AdditionalEKSAdminArns ]
         KubeConfigKmsContext: !Ref KubeConfigKmsContext
         VPCID: !GetAtt 'VPCStack.Outputs.VPCID'
-        PrivateSubnet1ID: !GetAtt 'VPCStack.Outputs.PrivateSubnet1AID'
-        PrivateSubnet2ID: !GetAtt 'VPCStack.Outputs.PrivateSubnet2AID'
-        PrivateSubnet3ID: !GetAtt 'VPCStack.Outputs.PrivateSubnet3AID'
-        PublicSubnet1ID: !GetAtt 'VPCStack.Outputs.PublicSubnet1ID'
-        PublicSubnet2ID: !GetAtt 'VPCStack.Outputs.PublicSubnet2ID'
-        PublicSubnet3ID: !GetAtt 'VPCStack.Outputs.PublicSubnet3ID'
+        PublicSubnet1ID: !GetAtt VPCStack.Outputs.PublicSubnet1ID
+        PublicSubnet2ID: !If
+          - 2AZDeployment
+          - !GetAtt VPCStack.Outputs.PublicSubnet2ID
+          - !Ref AWS::NoValue
+        PublicSubnet3ID: !If
+          - 3AZDeployment
+          - !GetAtt VPCStack.Outputs.PublicSubnet3ID
+          - !Ref AWS::NoValue
+        PrivateSubnet1ID: !GetAtt VPCStack.Outputs.PrivateSubnet1AID
+        PrivateSubnet2ID: !If
+          - 2AZDeployment
+          - !GetAtt VPCStack.Outputs.PrivateSubnet2AID
+          - !Ref AWS::NoValue
+        PrivateSubnet3ID: !If
+          - 3AZDeployment
+          - !GetAtt VPCStack.Outputs.PrivateSubnet3AID
+          - !Ref AWS::NoValue
         KubernetesVersion: !Ref KubernetesVersion
         StorageClassName: !Ref StorageClassName
         ProvisionedThroughputInMibps: !Ref ProvisionedThroughputInMibps

@@ -8,9 +8,9 @@ project:
   - us-east-2
   - us-west-2
   - eu-west-1
+  - ca-central-1
   parameters:
     AvailabilityZones: $[taskcat_genaz_3]
-    CustomValueYaml: ''
     KeyPairName: override
     KubernetesVersion: '1.14'
     NumberOfMasterNodes: '2'

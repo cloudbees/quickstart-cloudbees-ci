@@ -15,9 +15,17 @@ Parameters:
   PrivateSubnet1ID:
     Type: AWS::EC2::Subnet::Id
   PrivateSubnet2ID:
-    Type: AWS::EC2::Subnet::Id
+    Type: String
+    Default: ""
   PrivateSubnet3ID:
-    Type: AWS::EC2::Subnet::Id
+    Type: String
+    Default: ""
+
+Conditions:
+  3AZDeployment: !Not [!Equals [!Ref PrivateSubnet3ID, ""]]
+  2AZDeployment: !Or
+    - !Not [!Equals [!Ref PrivateSubnet2ID, ""]]
+    - !Not [!Equals [!Ref PrivateSubnet3ID, ""]]
 
 Resources:
   EFSFileSystem:
@@ -37,12 +45,14 @@ Resources:
       SecurityGroups: [ !Ref InitialNodeGroupSecurityGroup ]
       SubnetId: !Ref PrivateSubnet1ID
   MountTargetPrivateSubnet2:
+    Condition: 2AZDeployment
     Type: AWS::EFS::MountTarget
     Properties:
       FileSystemId: !Ref EFSFileSystem
       SecurityGroups: [ !Ref InitialNodeGroupSecurityGroup ]
       SubnetId: !Ref PrivateSubnet2ID
   MountTargetPrivateSubnet3:
+    Condition: 3AZDeployment
     Type: AWS::EFS::MountTarget
     Properties:
       FileSystemId: !Ref EFSFileSystem

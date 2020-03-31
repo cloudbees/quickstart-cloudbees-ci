@@ -11,9 +11,11 @@ Parameters:
   PrivateSubnet1ID:
     Type: "AWS::EC2::Subnet::Id"
   PrivateSubnet2ID:
-    Type: "AWS::EC2::Subnet::Id"
+    Type: String
+    Default: ""
   PrivateSubnet3ID:
-    Type: "AWS::EC2::Subnet::Id"
+    Type: String
+    Default: ""
   RegularNodeInstanceType:
     Default: m5.large
     AllowedValues:

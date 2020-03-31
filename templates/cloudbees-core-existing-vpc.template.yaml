@@ -136,27 +136,33 @@ Parameters:
   PrivateSubnet1ID:
     Description: ID of private subnet 1 in Availability Zone 1 for the Workload (e.g.,
       subnet-a0246dcd)
-    Type: AWS::EC2::Subnet::Id
+    Type: String
+    Default: ""
   PrivateSubnet2ID:
     Description: ID of private subnet 2 in Availability Zone 2 for the Workload (e.g.,
       subnet-b1f432cd)
-    Type: AWS::EC2::Subnet::Id
+    Type: String
+    Default: ""
   PrivateSubnet3ID:
     Description: ID of private subnet 3 in Availability Zone 3 for the Workload (e.g.,
       subnet-b1f4a2cd)
-    Type: AWS::EC2::Subnet::Id
+    Type: String
+    Default: ""
   PublicSubnet1ID:
     Description: ID of public subnet 1 in Availability Zone 1 for the ELB load balancer
       (e.g., subnet-9bc642ac)
-    Type: AWS::EC2::Subnet::Id
+    Type: String
+    Default: ""
   PublicSubnet2ID:
     Description: ID of public subnet 2 in Availability Zone 2 for the ELB load balancer
       (e.g., subnet-e3246d8e)
-    Type: AWS::EC2::Subnet::Id
+    Type: String
+    Default: ""
   PublicSubnet3ID:
     Description: ID of public subnet 3 in Availability Zone 3 for the ELB load balancer
       (e.g., subnet-5e26bac2)
-    Type: AWS::EC2::Subnet::Id
+    Type: String
+    Default: ""
   MasterNodeInstanceType:
     Default: r5.xlarge
     AllowedValues:
@@ -859,11 +865,17 @@ Rules:
              - ap-northeast-1
              - ap-northeast-2
              - ap-south-1
+             - ca-central-1
           - !Ref 'AWS::Region'
 
 Conditions:
+  3AZDeployment: !Not [!Equals [!Ref PrivateSubnet3ID, ""]]
+  2AZDeployment: !Or
+    - !Not [!Equals [!Ref PrivateSubnet2ID, ""]]
+    - !Not [!Equals [!Ref PrivateSubnet3ID, ""]]
   EFSCondition: !Equals [!Ref 'StorageClassName', 'aws-efs']
   UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
+
 Resources:
   EKSStack:
     Type: AWS::CloudFormation::Stack
@@ -877,12 +889,24 @@ Resources:
         RemoteAccessCIDR: !Ref RemoteAccessCIDR
         AdditionalEKSAdminArns: !Join [ ",", !Ref AdditionalEKSAdminArns ]
         VPCID: !Ref VPCID
-        PrivateSubnet1ID: !Ref PrivateSubnet1ID
-        PrivateSubnet2ID: !Ref PrivateSubnet2ID
-        PrivateSubnet3ID: !Ref PrivateSubnet3ID
         PublicSubnet1ID: !Ref PublicSubnet1ID
-        PublicSubnet2ID: !Ref PublicSubnet2ID
-        PublicSubnet3ID: !Ref PublicSubnet3ID
+        PublicSubnet2ID: !If
+          - 2AZDeployment
+          - !Ref PublicSubnet2ID
+          - !Ref AWS::NoValue
+        PublicSubnet3ID: !If
+          - 3AZDeployment
+          - !Ref PublicSubnet3ID
+          - !Ref AWS::NoValue
+        PrivateSubnet1ID: !Ref PrivateSubnet1ID
+        PrivateSubnet2ID: !If
+          - 2AZDeployment
+          - !Ref PrivateSubnet2ID
+          - !Ref AWS::NoValue
+        PrivateSubnet3ID: !If
+          - 3AZDeployment
+          - !Ref PrivateSubnet3ID
+          - !Ref AWS::NoValue
         KubernetesVersion: !Ref KubernetesVersion
         NodeInstanceType: !Ref MasterNodeInstanceType
         NumberOfNodes: !Ref NumberOfMasterNodes

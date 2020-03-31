@@ -32,9 +32,11 @@ Parameters:
   PrivateSubnet1ID:
     Type: "AWS::EC2::Subnet::Id"
   PrivateSubnet2ID:
-    Type: "AWS::EC2::Subnet::Id"
+    Type: String
+    Default: ""
   PrivateSubnet3ID:
-    Type: "AWS::EC2::Subnet::Id"
+    Type: String
+    Default: ""
   SpotNodeInstanceType1:
     Default: m4.large #2x8
     AllowedValues:
@@ -461,6 +463,10 @@ Parameters:
     Default: "1.15"
   
 Conditions:
+  3AZDeployment: !Not [!Equals [!Ref PrivateSubnet3ID, ""]]
+  2AZDeployment: !Or
+    - !Not [!Equals [!Ref PrivateSubnet2ID, ""]]
+    - !Not [!Equals [!Ref PrivateSubnet3ID, ""]]
   IsSingleInstance: !Equals
     - !Ref NumberOfNodes
     - 1
@@ -747,7 +753,13 @@ Resources:
       - Key: !Sub 'k8s.io/cluster-autoscaler/${EKSControlPlane}'
         Value: ''
         PropagateAtLaunch: true
-      VPCZoneIdentifier: [ !Ref PrivateSubnet1ID, !Ref PrivateSubnet2ID, !Ref PrivateSubnet3ID ]
+      VPCZoneIdentifier: !If
+        - 3AZDeployment
+        - [ !Ref PrivateSubnet1ID, !Ref PrivateSubnet2ID, !Ref PrivateSubnet3ID ]
+        - !If
+          - 2AZDeployment
+          - [ !Ref PrivateSubnet1ID, !Ref PrivateSubnet2ID ]
+          - [ !Ref PrivateSubnet1ID ]
       MixedInstancesPolicy: 
         LaunchTemplate:
           LaunchTemplateSpecification:
