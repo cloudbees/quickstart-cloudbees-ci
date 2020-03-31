@@ -447,6 +447,8 @@ Parameters:
     Default: 20
     Description: Size for node volumes
     Type: String
+  CustomAmiId:
+    Type: String
   EKSControlPlane: 
     Type: String
   ControlPlaneSecurityGroup: 
@@ -462,6 +464,7 @@ Conditions:
   IsSingleInstance: !Equals
     - !Ref NumberOfNodes
     - 1
+  UseCustomAmi: !Not [ !Equals [ !Ref CustomAmiId, "" ] ]
 
 Mappings:
   K8sVersionMap:
@@ -783,16 +786,19 @@ Resources:
             Description: String
             Groups: 
               - !Ref NodeSecurityGroup
-        ImageId: !FindInMap
-        - AWSAMIRegionMap
-        - !Ref "AWS::Region"
+        ImageId: !If
+        - UseCustomAmi
+        - !Ref CustomAmiId
         - !FindInMap
-          - K8sVersionMap
-          - !Ref KubernetesVersion
+          - AWSAMIRegionMap
+          - !Ref "AWS::Region"
           - !FindInMap
-            - InstanceTypes
-            - !Ref SpotNodeInstanceType1
-            - Type
+            - K8sVersionMap
+            - !Ref KubernetesVersion
+            - !FindInMap
+              - InstanceTypes
+              - !Ref SpotNodeInstanceType1
+              - Type
         InstanceType: !Ref SpotNodeInstanceType1
         UserData: 
           Fn::Base64:

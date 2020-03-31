@@ -2,6 +2,8 @@
 taskcat_outputs/
 alchemist
 taskcat
+.taskcat/
+.taskcat_overrides.yml
 
 # IDE
 .vscode

@@ -36,6 +36,7 @@ Metadata:
           - NumberOfSpotNodes
           - MasterNodeVolumeSize
           - AgentNodeVolumeSize
+          - CustomAmiId
           - KubernetesVersion
           - StorageClassName
           - ProvisionedThroughputInMibps
@@ -94,6 +95,8 @@ Metadata:
         default: Master node EBS volume size
       AgentNodeVolumeSize:
         default: Agent node EBS volume size
+      CustomAmiId:
+        default: Custom AMI ID
       KubernetesVersion:
         default: Kubernetes version
       StorageClassName:
@@ -795,12 +798,16 @@ Parameters:
     Type: Number
   MasterNodeVolumeSize:
     Default: 20
-    Description: The size of EBS volumes for master node instances, in GiB
+    Description: The size of EBS volumes for master node instances, in GiB.
     Type: String
   AgentNodeVolumeSize:
     Default: 500
     Description: The EBS volume size for each agent node instance, in GiB.
     Type: String
+  CustomAmiId:
+    Type: String
+    Default: ""
+    Description: Custom AMI ID for Amazon EKS worker nodes.
   KubernetesVersion:
     Type: String
     AllowedValues: [ "1.15", "1.14", "1.13" ]
@@ -857,7 +864,9 @@ Parameters:
       hosted. When using your own bucket, you must specify this value.
     Type: String
   LambdaZipsBucketName:
-    Description: '[OPTIONAL] The name of the S3 bucket where the Lambda .zip files should be placed. If you leave this parameter blank, an S3 bucket will be created.'
+    Description: '[OPTIONAL] The name of the S3 bucket where the Lambda .zip 
+      files should be placed. If you leave this parameter blank, an S3 bucket 
+      will be created.'
     Type: String
     Default: ''
 Rules:
@@ -937,6 +946,7 @@ Resources:
         NumberOfSpotNodes: !Ref NumberOfSpotNodes
         MasterNodeVolumeSize: !Ref MasterNodeVolumeSize
         AgentNodeVolumeSize: !Ref AgentNodeVolumeSize
+        CustomAmiId: !Ref CustomAmiId
         QSS3BucketName: !Ref QSS3BucketName
         QSS3KeyPrefix: !Ref QSS3KeyPrefix
         QSS3BucketRegion: !Ref QSS3BucketRegion

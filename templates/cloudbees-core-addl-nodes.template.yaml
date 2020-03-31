@@ -526,6 +526,9 @@ Parameters:
     Default: 20
     Description: Size for node volumes
     Type: String
+  CustomAmiId:
+    Default: ""
+    Type: String
   EKSControlPlane: 
     Type: String
   ControlPlaneSecurityGroup: 
@@ -539,8 +542,6 @@ Parameters:
   NodeInstanceRoleName:
     Type: String
   KubernetesVersion: 
-    Type: String
-  EKSClusterName:
     Type: String
   QSS3BucketName:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
@@ -586,13 +587,13 @@ Resources:
         NumberOfNodes: !Ref NumberOfRegularNodes
         NodeGroupName: "cloudbees-core-regular-agents"
         NodeVolumeSize: !Ref NodeVolumeSize
+        CustomAmiId: !Ref CustomAmiId
         EKSControlPlane: !Ref EKSControlPlane
         ControlPlaneSecurityGroup: !Ref ControlPlaneSecurityGroup
         NodeInstanceProfile: !Ref NodeInstanceProfile
         NodeInstanceRoleName: !Ref NodeInstanceRoleName
         KubernetesVersion: !Ref KubernetesVersion
         BootstrapArguments: "--kubelet-extra-args '--node-labels=partition=regular-agents --register-with-taints=partition=regular-agents:NoSchedule'"
-        EKSClusterName: !Ref EKSClusterName
   SpotAgentNodesStack:
     Type: "AWS::CloudFormation::Stack"
     Properties:
@@ -613,6 +614,7 @@ Resources:
         NumberOfNodes: !Ref NumberOfSpotNodes
         NodeGroupName: "cloudbees-core-spot-agents"
         NodeVolumeSize: !Ref NodeVolumeSize
+        CustomAmiId: !Ref CustomAmiId
         EKSControlPlane: !Ref EKSControlPlane
         ControlPlaneSecurityGroup: !Ref ControlPlaneSecurityGroup
         NodeInstanceProfile: !Ref NodeInstanceProfile
