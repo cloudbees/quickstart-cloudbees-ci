@@ -541,6 +541,8 @@ Parameters:
     Type: String
   NodeInstanceRoleName:
     Type: String
+  NodeInstanceRoleArn:
+    Type: String
   KubernetesVersion: 
     Type: String
   QSS3BucketName:
@@ -592,6 +594,7 @@ Resources:
         ControlPlaneSecurityGroup: !Ref ControlPlaneSecurityGroup
         NodeInstanceProfile: !Ref NodeInstanceProfile
         NodeInstanceRoleName: !Ref NodeInstanceRoleName
+        NodeInstanceRoleArn: !Ref NodeInstanceRoleArn
         KubernetesVersion: !Ref KubernetesVersion
         BootstrapArguments: "--kubelet-extra-args '--node-labels=partition=regular-agents --register-with-taints=partition=regular-agents:NoSchedule'"
   SpotAgentNodesStack:
