@@ -923,6 +923,7 @@ Resources:
         BastionSecurityGroup: !GetAtt EKSStack.Outputs.BastionSecurityGroup
         NodeInstanceProfile: !GetAtt EKSStack.Outputs.NodeInstanceProfile
         NodeInstanceRoleName: !GetAtt EKSStack.Outputs.NodeInstanceRoleName
+        NodeInstanceRoleArn: !GetAtt EKSStack.Outputs.NodeInstanceRoleArn
         KubernetesVersion: !Ref KubernetesVersion
         QSS3BucketName: !Ref QSS3BucketName
         QSS3KeyPrefix: !Ref QSS3KeyPrefix
