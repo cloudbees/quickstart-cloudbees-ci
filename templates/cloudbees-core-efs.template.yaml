@@ -4,9 +4,7 @@ Description: Deploys an EFS file system and efs-provisioner (qs-1pipqrqhi)
 Parameters:
   HelmLambdaArn:
     Type: String
-  KubeConfigPath:
-    Type: String
-  KubeConfigKmsContext:
+  ClusterName:
     Type: String
   InitialNodeGroupSecurityGroup:
     Type: AWS::EC2::SecurityGroup::Id
@@ -53,8 +51,7 @@ Resources:
     Version: '1.0'
     Properties:
       ServiceToken: !Ref HelmLambdaArn
-      KubeConfigPath: !Ref KubeConfigPath
-      KubeConfigKmsContext: !Ref KubeConfigKmsContext
+      ClusterName: !Ref ClusterName
       Chart: stable/efs-provisioner
       Name: efs-provisioner
       Namespace: efs-provisioner

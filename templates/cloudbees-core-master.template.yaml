@@ -9,8 +9,8 @@ Metadata:
         Parameters:
           - KeyPairName
           - RemoteAccessCIDR
-          - AdditionalEKSAdminArns
-          - KubeConfigKmsContext
+          - AdditionalEKSAdminUserArn
+          - AdditionalEKSAdminRoleArn
       - Label:
           default: Network configuration
         Parameters:
@@ -22,6 +22,9 @@ Metadata:
           - PublicSubnet1CIDR
           - PublicSubnet2CIDR
           - PublicSubnet3CIDR
+          - EKSPublicAccessCIDRs
+          - EKSPublicAccessEndpoint
+          - EKSPrivateAccessEndpoint
       - Label:
           default: CloudBees Core configuration
         Parameters:
@@ -53,10 +56,10 @@ Metadata:
         default: SSH key name
       RemoteAccessCIDR:
         default: Remote access CIDR
-      AdditionalEKSAdminArns:
-        default: Additional EKS admin ARNs
-      KubeConfigKmsContext:
-        default: Kubernetes config KMS context
+      AdditionalEKSAdminUserArn:
+        default: Additional EKS admin ARN (IAM user)
+      AdditionalEKSAdminRoleArn:
+        default: Additional EKS admin ARN (IAM role)
       AvailabilityZones:
         default: Availability Zones
       VPCCIDR:
@@ -73,6 +76,12 @@ Metadata:
         default: Public subnet 2 CIDR
       PublicSubnet3CIDR:
         default: Public subnet 3 CIDR
+      EKSPublicAccessCIDRs:
+        default: EKS public access CIDRs
+      EKSPublicAccessEndpoint:
+        default: EKS public access endpoint
+      EKSPrivateAccessEndpoint:
+        default: EKS private access endpoint
       MasterNodeInstanceType:
         default: Master nodes instance type
       RegularNodeInstanceType:
@@ -126,14 +135,14 @@ Parameters:
       that you set this value to a trusted IP range. Setting this parameter to 0.0.0.0/0 
       will open SSH access to the bastion host from any source address.
     Type: String
-  AdditionalEKSAdminArns:
+  AdditionalEKSAdminUserArn:
     Default: ""
-    Description: "[OPTIONAL] Comma-separated list of IAM users/roles to be granted admin access to the EKS cluster"
-    Type: CommaDelimitedList
-  KubeConfigKmsContext:
-    Description: String value used by KMS to encrypt/decrypt Kubernetes config
+    Description: "[OPTIONAL] IAM user Amazon Resource Name (ARN) to be granted admin access to the EKS cluster"
     Type: String
-    Default: "CloudBeesCore"
+  AdditionalEKSAdminRoleArn:
+    Default: ""
+    Description: "[OPTIONAL] IAM role Amazon Resource Name (ARN) to be granted admin access to the EKS cluster"
+    Type: String
   AvailabilityZones:
     Description:
       List of Availability Zones to use for the subnets in the VPC. Three
@@ -184,6 +193,24 @@ Parameters:
     Default: 10.0.160.0/20
     Description: CIDR block for the public (DMZ) subnet 3 located in Availability Zone 3
     Type: String
+  EKSPublicAccessCIDRs:
+    AllowedPattern: ^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(\/([0-9]|[1-2][0-9]|3[0-2]))$
+    ConstraintDescription: CIDR block parameter must be in the form x.x.x.x/x
+    Description: The public CIDR IP ranges that are permitted to access the Kubernetes API. These values are only used
+      if EKSPublicAccessEndpoint is enabled. Can't contain private IP ranges.
+    Type: List<String>
+    Default: 0.0.0.0/0
+  EKSPublicAccessEndpoint:
+    Type: String
+    AllowedValues: [Enabled, Disabled]
+    Default: Disabled
+    Description: Configure access to the Kubernetes API server endpoint from outside of your VPC.
+  EKSPrivateAccessEndpoint:
+    Type: String
+    AllowedValues: [Enabled, Disabled]
+    Default: Enabled
+    Description: Configure access to the Kubernetes API server endpoint from within your VPC. If this is disabled,
+      EKSPublicAccessEndpoint must be enabled.
   MasterNodeInstanceType:
     Default: r5.xlarge
     AllowedValues:
@@ -922,8 +949,8 @@ Resources:
       Parameters:
         KeyPairName: !Ref KeyPairName
         RemoteAccessCIDR: !Ref RemoteAccessCIDR
-        AdditionalEKSAdminArns: !Join [ ",", !Ref AdditionalEKSAdminArns ]
-        KubeConfigKmsContext: !Ref KubeConfigKmsContext
+        AdditionalEKSAdminUserArn: !Ref AdditionalEKSAdminUserArn
+        AdditionalEKSAdminRoleArn: !Ref AdditionalEKSAdminRoleArn
         VPCID: !GetAtt 'VPCStack.Outputs.VPCID'
         PrivateSubnet1ID: !GetAtt 'VPCStack.Outputs.PrivateSubnet1AID'
         PrivateSubnet2ID: !GetAtt 'VPCStack.Outputs.PrivateSubnet2AID'
@@ -931,6 +958,9 @@ Resources:
         PublicSubnet1ID: !GetAtt 'VPCStack.Outputs.PublicSubnet1ID'
         PublicSubnet2ID: !GetAtt 'VPCStack.Outputs.PublicSubnet2ID'
         PublicSubnet3ID: !GetAtt 'VPCStack.Outputs.PublicSubnet3ID'
+        EKSPublicAccessCIDRs: !Join [ ',', !Ref 'EKSPublicAccessCIDRs' ]
+        EKSPublicAccessEndpoint: !Ref EKSPublicAccessEndpoint
+        EKSPrivateAccessEndpoint: !Ref EKSPrivateAccessEndpoint
         KubernetesVersion: !Ref KubernetesVersion
         StorageClassName: !Ref StorageClassName
         ProvisionedThroughputInMibps: !Ref ProvisionedThroughputInMibps
@@ -959,6 +989,3 @@ Outputs:
   BastionIP:
     Value: !GetAtt CloudBeesCoreExistingVPCStack.Outputs.BastionIP
     Description: Bastion host IP address. Log in (via SSH) to retrieve the initial admin password and administer CloudBees Core.
-  KubeConfigPath:
-    Value: !GetAtt CloudBeesCoreExistingVPCStack.Outputs.KubeConfigPath
-    Description: (Advanced) Amazon S3 bucket containing encrypted Kubernetes config which can be used to access the Kubernetes API.
