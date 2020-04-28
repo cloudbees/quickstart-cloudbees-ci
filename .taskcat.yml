@@ -8,6 +8,7 @@ project:
   - us-east-2
   - us-west-2
   - eu-west-1
+  - ca-central-1
   parameters:
     RemoteAccessCIDR: 10.0.0.0/16
     QSS3BucketName: $[taskcat_autobucket]
