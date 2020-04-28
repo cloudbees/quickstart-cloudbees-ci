@@ -8,18 +8,12 @@ project:
   - us-east-2
   - us-west-2
   - eu-west-1
+  - ca-central-1
   parameters:
-    AvailabilityZones: $[taskcat_genaz_3]
-    CustomValueYaml: ''
-    KeyPairName: override
-    KubernetesVersion: '1.14'
-    NumberOfMasterNodes: '2'
-    NumberOfRegularNodes: '1'
-    NumberOfSpotNodes: '1'
+    RemoteAccessCIDR: 10.0.0.0/16
     QSS3BucketName: $[taskcat_autobucket]
     QSS3BucketRegion: $[taskcat_current_region]
-    RemoteAccessCIDR: 10.0.0.0/16
-    StorageClassName: aws-efs
+    AvailabilityZones: $[taskcat_genaz_3]
   template: templates/cloudbees-core-master.template.yaml
 tests:
   default:

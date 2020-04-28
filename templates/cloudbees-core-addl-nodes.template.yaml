@@ -1,6 +1,12 @@
 AWSTemplateFormatVersion: 2010-09-09
 Description: Deploys additional node pools to an EKS Quick Start cluster (qs-1pipqrqef)
 
+Metadata:
+  cfn-lint:
+    config:
+      ignore_checks:
+      - W2507 # BastionSecurityGroup is intentionally a String instead of AWS::EC2::SecurityGroup::Id
+
 Parameters:
   KeyPairName:
     Description: The name of an existing public/private key pair, which allows you
@@ -11,9 +17,11 @@ Parameters:
   PrivateSubnet1ID:
     Type: "AWS::EC2::Subnet::Id"
   PrivateSubnet2ID:
-    Type: "AWS::EC2::Subnet::Id"
+    Type: String
+    Default: ""
   PrivateSubnet3ID:
-    Type: "AWS::EC2::Subnet::Id"
+    Type: String
+    Default: ""
   RegularNodeInstanceType:
     Default: m5.large
     AllowedValues:
@@ -536,7 +544,7 @@ Parameters:
   InitialNodeGroupSecurityGroup:
     Type: AWS::EC2::SecurityGroup::Id
   BastionSecurityGroup:
-    Type: AWS::EC2::SecurityGroup::Id
+    Type: String
   NodeInstanceProfile: 
     Type: String
   NodeInstanceRoleName:
@@ -571,6 +579,7 @@ Parameters:
     Type: String
 Conditions:
   UsingDefaultBucket: !Equals [!Ref QSS3BucketName, 'aws-quickstart']
+  UsingBastion: !Not [!Equals [!Ref 'BastionSecurityGroup', '']]
 Resources:
   RegularAgentNodesStack:
     Type: "AWS::CloudFormation::Stack"
@@ -624,6 +633,7 @@ Resources:
         KubernetesVersion: !Ref KubernetesVersion
   #Allow the bastion host to SSH into the additional node pools
   BastionToRegularIngress:
+    Condition: UsingBastion
     Type: "AWS::EC2::SecurityGroupIngress"
     Properties:
       Description: Allow SSH from Bastion server to Regular Nodes
@@ -633,6 +643,7 @@ Resources:
       ToPort: 22
       FromPort: 22
   BastionToSpotIngress:
+    Condition: UsingBastion
     Type: "AWS::EC2::SecurityGroupIngress"
     Properties:
       Description: Allow SSH from Bastion server to Spot Nodes

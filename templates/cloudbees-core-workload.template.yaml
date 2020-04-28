@@ -2,15 +2,11 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: Deploys CloudBees Core into an existing Kubernetes cluster (qs-1pipqrqje)
 
 Parameters:
-  # KubeManifestLambdaArn:
-  #   Type: String
   KubeGetLambdaArn:
     Type: String
   HelmLambdaArn:
     Type: String
-  KubeConfigPath:
-    Type: String
-  KubeConfigKmsContext:
+  ClusterName:
     Type: String
   StorageClassName:
     Type: String
@@ -23,11 +19,10 @@ Resources:
     Version: '1.0'
     Properties:
       ServiceToken: !Ref HelmLambdaArn
-      KubeConfigPath: !Ref KubeConfigPath
-      KubeConfigKmsContext: !Ref KubeConfigKmsContext
+      ClusterName: !Ref ClusterName
       RepoUrl: https://charts.cloudbees.com/public/cloudbees
       Chart: cloudbees/cloudbees-core
-      Version: 3.12.0+80c17a044bc4
+      Version: 3.13.0+899a413a0e8f
       Name: cloudbees-core
       Namespace: cloudbees-core
       ValueYaml: !Sub |
@@ -60,8 +55,7 @@ Resources:
     Version: '1.0'
     Properties:
       ServiceToken: !Ref KubeGetLambdaArn
-      KubeConfigPath: !Ref KubeConfigPath
-      KubeConfigKmsContext: !Ref KubeConfigKmsContext
+      ClusterName: !Ref ClusterName
       Namespace: cloudbees-core
       Name: 'svc/cloudbees-core-nginx-ingress-controller'
       JsonPath: '{.status.loadBalancer.ingress[0].hostname}'
@@ -69,4 +63,3 @@ Resources:
 Outputs:
   CloudBeesJenkinsOperationsCenterUrl:
     Value: !Sub "http://${IngressHostName}/cjoc"
-  #InitialAdminPassword: requires `Custom::KubeExec` or similar
