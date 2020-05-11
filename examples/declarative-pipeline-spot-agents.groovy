@@ -17,7 +17,7 @@ spec:
       - cat
       tty: true
     - name: aws-cli
-      image: infrastructureascode/aws-cli:1.16.219
+      image: amazon/aws-cli:latest
       command:
       - cat
       tty: true
