@@ -773,6 +773,10 @@ Resources:
         InstancesDistribution:
           OnDemandPercentageAboveBaseCapacity: 0 #Spot only
           SpotInstancePools: 4
+    CreationPolicy:
+      ResourceSignal:
+        Count: !Ref NumberOfNodes
+        Timeout: PT15M
     UpdatePolicy:
       AutoScalingRollingUpdate:
         MinInstancesInService: !If [IsSingleInstance, 0, 1]
@@ -819,7 +823,7 @@ Resources:
               set -o xtrace
               /etc/eks/bootstrap.sh ${EKSControlPlane} --kubelet-extra-args \
                 '--node-labels=partition=spot-agents \
-                --register-with-taints=partition=spot-agents:NoSchedule' \
+                --register-with-taints=partition=spot-agents:NoSchedule'
               /opt/aws/bin/cfn-signal --exit-code $? \
                     --stack  ${AWS::StackName} \
                     --resource NodeGroup  \
