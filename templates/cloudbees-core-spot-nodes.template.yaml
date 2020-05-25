@@ -4,6 +4,12 @@ Description: Deploys a multi-instance Spot node pool to an existing EKS Quick St
 Metadata:
   AWSAMIRegionMap:
     Filters:
+      AMZNEKS115:
+        name: 'amazon-eks-node-1.15-v20??????'
+        owner-id: '602401143452'
+      AMZNEKS115GPU:
+        name: 'amazon-eks-gpu-node-1.15-v20??????'
+        owner-id: '602401143452'
       AMZNEKS114:
         name: 'amazon-eks-node-1.14-v20??????'
         owner-id: '602401143452'
@@ -15,12 +21,6 @@ Metadata:
         owner-id: '602401143452'
       AMZNEKS113GPU:
         name: 'amazon-eks-gpu-node-1.13-v20??????'
-        owner-id: '602401143452'
-      AMZNEKS112:
-        name: 'amazon-eks-node-1.12-v20??????'
-        owner-id: '602401143452'
-      AMZNEKS112GPU:
-        name: 'amazon-eks-gpu-node-1.12-v20??????'
         owner-id: '602401143452'
 Parameters:
   KeyPairName:
@@ -451,17 +451,17 @@ Parameters:
     Type: String
   CustomAmiId:
     Type: String
-  EKSControlPlane: 
+  EKSControlPlane:
     Type: String
-  ControlPlaneSecurityGroup: 
+  ControlPlaneSecurityGroup:
     Type: AWS::EC2::SecurityGroup::Id
-  NodeInstanceProfile: 
+  NodeInstanceProfile:
     Type: String
-  KubernetesVersion: 
+  KubernetesVersion:
     Type: String
     AllowedValues: [ "1.15", "1.14", "1.13" ]
     Default: "1.15"
-  
+
 Conditions:
   3AZDeployment: !Not [!Equals [!Ref PrivateSubnet3ID, ""]]
   2AZDeployment: !Or
@@ -566,110 +566,110 @@ Mappings:
     z1d.12xlarge: { Type: STD }
   AWSAMIRegionMap:
     ap-northeast-1:
-      AMZNEKS115: ami-06abd5347585f6519
-      AMZNEKS115GPU: ami-005ace3da56246b4c
-      AMZNEKS114: ami-036f46d54262b5179
-      AMZNEKS114GPU: ami-032cb5b350dcc63b3
-      AMZNEKS113: ami-0014f8091770b85ec
-      AMZNEKS113GPU: ami-069e8ff7da399bb30
+      AMZNEKS115: ami-026e39e61d44ff507
+      AMZNEKS115GPU: ami-093c945463034acd8
+      AMZNEKS114: ami-0472f72a6affbe2cc
+      AMZNEKS114GPU: ami-0665d37f861365592
+      AMZNEKS113: ami-087463f05d2c49ed3
+      AMZNEKS113GPU: ami-0b7f0991a89bd191c
     ap-northeast-2:
-      AMZNEKS115: ami-065649f5fee9f227a
-      AMZNEKS115GPU: ami-03e5eff906840d6b6
-      AMZNEKS114: ami-0a13766bf06f0d361
-      AMZNEKS114GPU: ami-0f03c98851b2a32ba
-      AMZNEKS113: ami-0bb5b9f60b268245f
-      AMZNEKS113GPU: ami-0045db77241f9d21f
+      AMZNEKS115: ami-0e1e660d5e393d5f1
+      AMZNEKS115GPU: ami-04ff3d7117b9946d5
+      AMZNEKS114: ami-01b6316fe22d918a9
+      AMZNEKS114GPU: ami-04bd3e8bb22b81bd1
+      AMZNEKS113: ami-092004fafd70c5e38
+      AMZNEKS113GPU: ami-0065bbd4b85a840f4
     ap-south-1:
-      AMZNEKS115: ami-0b0bc41a50e8cd33e
-      AMZNEKS115GPU: ami-0ecdbf70698c1a095
-      AMZNEKS114: ami-01712dedd3b75127b
-      AMZNEKS114GPU: ami-058bcb62a01aff57a
-      AMZNEKS113: ami-0700e3a975b098ae6
-      AMZNEKS113GPU: ami-085147ec06ab3231c
+      AMZNEKS115: ami-040e5afd1b110a399
+      AMZNEKS115GPU: ami-02b5340b229583722
+      AMZNEKS114: ami-09edbbb02478906e3
+      AMZNEKS114GPU: ami-07f39289712b40bd2
+      AMZNEKS113: ami-06ea3235f114e1cdb
+      AMZNEKS113GPU: ami-0d5d61d6ae05d7e6b
     ap-southeast-1:
-      AMZNEKS115: ami-08805da128ddc2ee1
-      AMZNEKS115GPU: ami-0737d7d9fd508ba62
-      AMZNEKS114: ami-0e9f41159c61524c3
-      AMZNEKS114GPU: ami-0e8f68c6904bfb458
-      AMZNEKS113: ami-09089bbfe262fcfa4
-      AMZNEKS113GPU: ami-087e4f38de0b72a4f
+      AMZNEKS115: ami-0d32de2029a9f56fd
+      AMZNEKS115GPU: ami-0233b3e636baa0997
+      AMZNEKS114: ami-069fad55139bcb636
+      AMZNEKS114GPU: ami-0d0c244ad46219038
+      AMZNEKS113: ami-04d9ba03c38df08b5
+      AMZNEKS113GPU: ami-033a9ce6a9c1c756f
     ap-southeast-2:
-      AMZNEKS115: ami-01b5910473e0a2d61
-      AMZNEKS115GPU: ami-0c46350ed213941ae
-      AMZNEKS114: ami-0cff399516eece2a9
-      AMZNEKS114GPU: ami-0ee609a99b160b67b
-      AMZNEKS113: ami-001be96ffa9ef29fb
-      AMZNEKS113GPU: ami-0f8c4ed6719464eb9
+      AMZNEKS115: ami-07aee5ce871a45bcf
+      AMZNEKS115GPU: ami-0f7aee17fdeffdbc0
+      AMZNEKS114: ami-0fbfeefbb99c1783d
+      AMZNEKS114GPU: ami-04791e36cb138607e
+      AMZNEKS113: ami-0bf9234bf8cd4eea2
+      AMZNEKS113GPU: ami-07885a4b174760b28
     ca-central-1:
-      AMZNEKS115: ami-032ef9dea6ae46809
-      AMZNEKS115GPU: ami-0438a035293831e09
-      AMZNEKS114: ami-04cbc38f9488b29d2
-      AMZNEKS114GPU: ami-0e47ff487cd1dfebc
-      AMZNEKS113: ami-07fe93182c47b1a1d
-      AMZNEKS113GPU: ami-0b6870b4dde530075
+      AMZNEKS115: ami-0286b3b75d600924d
+      AMZNEKS115GPU: ami-0a1547fc818671add
+      AMZNEKS114: ami-064fd810d76e41b31
+      AMZNEKS114GPU: ami-0c5dddc53103725e0
+      AMZNEKS113: ami-01d73c6ce56880dd7
+      AMZNEKS113GPU: ami-0b5721fda1a071339
     eu-central-1:
-      AMZNEKS115: ami-0c9af00bc060dfa76
-      AMZNEKS115GPU: ami-0d0051b1940c49614
-      AMZNEKS114: ami-04ff680b843305fef
-      AMZNEKS114GPU: ami-07d5afdacabafb1f0
-      AMZNEKS113: ami-09c880c71cb3541e4
-      AMZNEKS113GPU: ami-03355d4c910644296
+      AMZNEKS115: ami-02497bca9c9dbc206
+      AMZNEKS115GPU: ami-05c4b8f3ef1bb1e19
+      AMZNEKS114: ami-03d9393d97f5959fe
+      AMZNEKS114GPU: ami-0a0a41cca69ec0aae
+      AMZNEKS113: ami-00b8b203722a43adf
+      AMZNEKS113GPU: ami-0ac48ef9b47499768
     eu-north-1:
-      AMZNEKS115: ami-07739287a5dbb16d0
-      AMZNEKS115GPU: ami-03784bd84a5b7597a
-      AMZNEKS114: ami-0f29ff24640121046
-      AMZNEKS114GPU: ami-0e400cfdeca593978
-      AMZNEKS113: ami-0eb0dfebcf752ba27
-      AMZNEKS113GPU: ami-036a280d2c2185640
+      AMZNEKS115: ami-0efc0441f778f5826
+      AMZNEKS115GPU: ami-03d6bc6745788f9dd
+      AMZNEKS114: ami-00aa667bc61a020ac
+      AMZNEKS114GPU: ami-03a41b6e4558aa4c5
+      AMZNEKS113: ami-01179dbad4d43b6a4
+      AMZNEKS113GPU: ami-00e2aa5149bc6ac2f
     eu-west-1:
-      AMZNEKS115: ami-04bf3ca704bd6b643
-      AMZNEKS115GPU: ami-0ef15cd60131b8815
-      AMZNEKS114: ami-0e2d0765fed3e9f0e
-      AMZNEKS114GPU: ami-0fece54bc5fae1f43
-      AMZNEKS113: ami-09da44e458cf22831
-      AMZNEKS113GPU: ami-0737f55195f9bc5a8
+      AMZNEKS115: ami-023736532608ff45e
+      AMZNEKS115GPU: ami-07fdadd8f2bf06e82
+      AMZNEKS114: ami-048d37e92ce89022e
+      AMZNEKS114GPU: ami-09585e5924cde339f
+      AMZNEKS113: ami-0bd1d87604aa3a367
+      AMZNEKS113GPU: ami-05432b1a64feb6423
     eu-west-2:
-      AMZNEKS115: ami-0162c7f5400c6ec02
-      AMZNEKS115GPU: ami-06045cca0604be109
-      AMZNEKS114: ami-0aadced6ae0eb6dce
-      AMZNEKS114GPU: ami-0d0b5399a68bb051d
-      AMZNEKS113: ami-0ea2fbcc0fb987a66
-      AMZNEKS113GPU: ami-003bb101467863c51
+      AMZNEKS115: ami-0a79663bf395ae44d
+      AMZNEKS115GPU: ami-089fe51b1c3b5d6fd
+      AMZNEKS114: ami-0a907f63b13a38029
+      AMZNEKS114GPU: ami-0b155e164db9731e2
+      AMZNEKS113: ami-0cfee0d573de9f673
+      AMZNEKS113GPU: ami-0dc66e10b39d8ff36
     eu-west-3:
-      AMZNEKS115: ami-026d2ac4b345304dc
-      AMZNEKS115GPU: ami-013ffc5d2524593d4
-      AMZNEKS114: ami-0505a173974c9f639
-      AMZNEKS114GPU: ami-018e7d98cb2553521
-      AMZNEKS113: ami-0b022b84fb5b15b0d
-      AMZNEKS113GPU: ami-0ebf563a44a1b35cf
+      AMZNEKS115: ami-0de67e5d090c0eef0
+      AMZNEKS115GPU: ami-0c84727799ef95690
+      AMZNEKS114: ami-043b0c38ebd8435f9
+      AMZNEKS114GPU: ami-0473e8095f62eb9e0
+      AMZNEKS113: ami-0f760dec69360c158
+      AMZNEKS113GPU: ami-04981fe8fd1b08639
     sa-east-1:
-      AMZNEKS115: ami-0fee705e85dc3ac2c
-      AMZNEKS115GPU: ami-0c03b210503cbd9cc
-      AMZNEKS114: ami-00cc2b43dbede4da1
-      AMZNEKS114GPU: ami-0e9559e3b200fb118
-      AMZNEKS113: ami-05f0cffea79b5e9d4
-      AMZNEKS113GPU: ami-05c64ada6d8aff523
+      AMZNEKS115: ami-07b176b7f55c9df7c
+      AMZNEKS115GPU: ami-0c344fca61b2e56af
+      AMZNEKS114: ami-0fb60915ec12aac26
+      AMZNEKS114GPU: ami-0828047d8af068874
+      AMZNEKS113: ami-0f52e1602e8ed4e90
+      AMZNEKS113GPU: ami-0e88ea382d951591c
     us-east-1:
-      AMZNEKS115: ami-0582e4c984a1e848a
-      AMZNEKS115GPU: ami-048e6f7f616f9d59f
-      AMZNEKS114: ami-08ac00d99a673bad0
-      AMZNEKS114GPU: ami-000dbfddbb743f0a3
-      AMZNEKS113: ami-0973bc1f558f5def1
-      AMZNEKS113GPU: ami-01158e6d905c5ed46
+      AMZNEKS115: ami-06d4f570358b1b626
+      AMZNEKS115GPU: ami-08b20aa568bfd9034
+      AMZNEKS114: ami-05e621d4ba5b28dcc
+      AMZNEKS114GPU: ami-04ac5ea8ad53f0718
+      AMZNEKS113: ami-08becd0d34f995483
+      AMZNEKS113GPU: ami-0487c755adba013ba
     us-east-2:
-      AMZNEKS115: ami-08880278b3cac5832
-      AMZNEKS115GPU: ami-03e135b1fb3ca2634
-      AMZNEKS114: ami-00ec371f33c240b7a
-      AMZNEKS114GPU: ami-07b7a091f982c2200
-      AMZNEKS113: ami-0614f930c2ae2d950
-      AMZNEKS113GPU: ami-0260aacd33fb3e443
+      AMZNEKS115: ami-0c1bd9eca9c869a0d
+      AMZNEKS115GPU: ami-09fff3605c34de565
+      AMZNEKS114: ami-0b89776dcfa5f2dee
+      AMZNEKS114GPU: ami-0575560bf57d243b6
+      AMZNEKS113: ami-0cf9a8c09f13b04d1
+      AMZNEKS113GPU: ami-0d30b440fa882e95b
     us-west-2:
-      AMZNEKS115: ami-000a48e69e7695a4a
-      AMZNEKS115GPU: ami-039e96d066cf2418c
-      AMZNEKS114: ami-0907724389e8705d9
-      AMZNEKS114GPU: ami-074dd2e81e1575515
-      AMZNEKS113: ami-03f76b4d810c4f280
-      AMZNEKS113GPU: ami-00338fcd054490543
+      AMZNEKS115: ami-065418523a44331e5
+      AMZNEKS115GPU: ami-0b408465e05e85edb
+      AMZNEKS114: ami-0486134a23d903f10
+      AMZNEKS114GPU: ami-02b0649372044be55
+      AMZNEKS113: ami-0c42eb6db4a35a419
+      AMZNEKS113GPU: ami-0cfb505d6cdd3fc67
 
 Resources:
   NodeSecurityGroup:
@@ -760,7 +760,7 @@ Resources:
           - 2AZDeployment
           - [ !Ref PrivateSubnet1ID, !Ref PrivateSubnet2ID ]
           - [ !Ref PrivateSubnet1ID ]
-      MixedInstancesPolicy: 
+      MixedInstancesPolicy:
         LaunchTemplate:
           LaunchTemplateSpecification:
             LaunchTemplateId: !Ref NodeLaunchTemplate
@@ -773,6 +773,10 @@ Resources:
         InstancesDistribution:
           OnDemandPercentageAboveBaseCapacity: 0 #Spot only
           SpotInstancePools: 4
+    CreationPolicy:
+      ResourceSignal:
+        Count: !Ref NumberOfNodes
+        Timeout: PT15M
     UpdatePolicy:
       AutoScalingRollingUpdate:
         MinInstancesInService: !If [IsSingleInstance, 0, 1]
@@ -783,20 +787,20 @@ Resources:
     Type: AWS::EC2::LaunchTemplate
     Properties:
       LaunchTemplateData:
-        BlockDeviceMappings: 
+        BlockDeviceMappings:
           - DeviceName: /dev/xvda
             Ebs:
               VolumeSize: !Ref NodeVolumeSize
               VolumeType: gp2
               DeleteOnTermination: true
-        IamInstanceProfile: 
+        IamInstanceProfile:
           Name: !Ref NodeInstanceProfile
         KeyName: !Ref KeyPairName
-        NetworkInterfaces: 
+        NetworkInterfaces:
           - DeviceIndex: 0
             AssociatePublicIpAddress: false
             Description: String
-            Groups: 
+            Groups:
               - !Ref NodeSecurityGroup
         ImageId: !If
         - UseCustomAmi
@@ -812,14 +816,14 @@ Resources:
               - !Ref SpotNodeInstanceType1
               - Type
         InstanceType: !Ref SpotNodeInstanceType1
-        UserData: 
+        UserData:
           Fn::Base64:
             !Sub |
               #!/bin/bash
               set -o xtrace
               /etc/eks/bootstrap.sh ${EKSControlPlane} --kubelet-extra-args \
                 '--node-labels=partition=spot-agents \
-                --register-with-taints=partition=spot-agents:NoSchedule' \
+                --register-with-taints=partition=spot-agents:NoSchedule'
               /opt/aws/bin/cfn-signal --exit-code $? \
                     --stack  ${AWS::StackName} \
                     --resource NodeGroup  \
