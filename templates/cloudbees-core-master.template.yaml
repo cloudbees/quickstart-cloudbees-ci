@@ -1010,7 +1010,9 @@ Resources:
 Outputs:
   CloudBeesJenkinsOperationsCenterUrl:
     Value: !GetAtt CloudBeesCoreExistingVPCStack.Outputs.CloudBeesJenkinsOperationsCenterUrl
-    Description: Open this URL to begin using CloudBees Core
+    Description: Open this URL to begin using CloudBees Core. This will not work if you provided a custom DNS name,
+      as you need to tie your DNS name to the ELB manually.
   BastionIP:
     Value: !GetAtt CloudBeesCoreExistingVPCStack.Outputs.BastionIP
-    Description: Bastion host IP address. Log in (via SSH) to retrieve the initial admin password and administer CloudBees Core.
+    Description: Bastion host IP address. Log in (via SSH) to retrieve the initial admin password
+      and administer CloudBees Core.
