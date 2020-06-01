@@ -8,11 +8,10 @@ The Quick Start sets up a CI/CD environment that meets architectural best practi
 
 The Quick Start is automated by AWS CloudFormation templates that deploy CloudBees Core in about 45 minutes in your AWS account. After you deploy the Quick Start, you can use Jenkins plugins to add functionality to your CI/CD environment.
 
-The Quick Start offers three deployment options:
+The Quick Start offers two deployment options:
 
 - Deploying CloudBees Core into a new virtual private cloud (VPC) on AWS
 - Deploying CloudBees Core into an existing VPC on AWS
-- Deploying CloudBees Core into an existing Kubernetes cluster on AWS
 
 You can also use the AWS CloudFormation templates as a starting point for your own implementation.
 
