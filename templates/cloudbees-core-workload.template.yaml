@@ -22,7 +22,7 @@ Resources:
       ClusterName: !Ref ClusterName
       RepoUrl: https://charts.cloudbees.com/public/cloudbees
       Chart: cloudbees/cloudbees-core
-      Version: 3.16.0+f47784f483bf
+      Version: 3.16.1+a3fdb4ae4e87
       Name: cloudbees-core
       Namespace: cloudbees-core
       ValueYaml: !Sub |
