@@ -10,7 +10,7 @@ lambda.zip
 # IDE
 .vscode
 .idea
-quickstart-cloudbees-core.iml
+quickstart-cloudbees-ci.iml
 
 # Python (pyenv / pyenv-virtualenv)
 .python-version
