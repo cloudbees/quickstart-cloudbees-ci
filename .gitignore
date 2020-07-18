@@ -4,8 +4,6 @@ alchemist
 taskcat
 .taskcat/
 .taskcat_overrides.yml
-awsqs-eks-cluster.zip
-lambda.zip
 
 # IDE
 .vscode
@@ -14,3 +12,8 @@ quickstart-cloudbees-ci.iml
 
 # Python (pyenv / pyenv-virtualenv)
 .python-version
+
+# QS packages
+lambda.zip
+awsqs-eks-cluster.zip
+awsqs-kubernetes-helm.zip
