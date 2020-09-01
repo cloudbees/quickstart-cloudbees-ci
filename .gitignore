@@ -12,6 +12,7 @@ quickstart-cloudbees-ci.iml
 
 # Python (pyenv / pyenv-virtualenv)
 .python-version
+venv/
 
 # QS packages
 lambda.zip
