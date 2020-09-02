@@ -18,3 +18,4 @@ venv/
 lambda.zip
 awsqs-eks-cluster.zip
 awsqs-kubernetes-helm.zip
+awsqs_kubernetes*
