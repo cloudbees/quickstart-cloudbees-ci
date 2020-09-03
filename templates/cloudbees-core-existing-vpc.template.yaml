@@ -995,7 +995,6 @@ Resources:
         - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
           S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
       Parameters:
-        HelmLambdaArn: !GetAtt EKSStack.Outputs.HelmLambdaArn
         ClusterName: !GetAtt EKSStack.Outputs.EKSClusterName
         InitialNodeGroupSecurityGroup: !GetAtt EKSStack.Outputs.NodeGroupSecurityGroup
         PrivateSubnet1ID: !Ref PrivateSubnet1ID
@@ -1010,8 +1009,6 @@ Resources:
         - S3Region: !If [UsingDefaultBucket, !Ref 'AWS::Region', !Ref QSS3BucketRegion]
           S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
       Parameters:
-        KubeGetLambdaArn: !GetAtt EKSStack.Outputs.KubeGetLambdaArn
-        HelmLambdaArn: !GetAtt EKSStack.Outputs.HelmLambdaArn
         ClusterName: !GetAtt EKSStack.Outputs.EKSClusterName
         StorageClassName: !Ref StorageClassName
         CustomValueYaml: !Ref CustomValueYaml

@@ -2,10 +2,6 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: Deploys CloudBees Core into an existing Kubernetes cluster (qs-1pipqrqje)
 
 Parameters:
-  KubeGetLambdaArn:
-    Type: String
-  HelmLambdaArn:
-    Type: String
   ClusterName:
     Type: String
   StorageClassName:
@@ -15,14 +11,12 @@ Parameters:
 
 Resources:
   CloudBeesCore:
-    Type: "Custom::Helm"
-    Version: '1.0'
+    Type: "AWSQS::Kubernetes::Helm"
     Properties:
-      ServiceToken: !Ref HelmLambdaArn
-      ClusterName: !Ref ClusterName
-      RepoUrl: https://charts.cloudbees.com/public/cloudbees
+      ClusterID: !Ref ClusterName
+      Repository: https://charts.cloudbees.com/public/cloudbees
       Chart: cloudbees/cloudbees-core
-      Version: 3.16.1+a3fdb4ae4e87
+      #Version: 3.16.1+a3fdb4ae4e87 # uncomment to use something other than latest
       Name: cloudbees-core
       Namespace: cloudbees-core
       ValueYaml: !Sub |
@@ -48,13 +42,11 @@ Resources:
             readOnly: true
         Persistence:
           StorageClass: ${StorageClassName}
-      CustomValueYaml: !Ref CustomValueYaml
+      ValueOverrideUrl: !Ref CustomValueYaml
   IngressHostName:
     DependsOn: CloudBeesCore
-    Type: "Custom::KubeGet"
-    Version: '1.0'
+    Type: "AWSQS::Kubernetes::Get"
     Properties:
-      ServiceToken: !Ref KubeGetLambdaArn
       ClusterName: !Ref ClusterName
       Namespace: cloudbees-core
       Name: 'svc/cloudbees-core-nginx-ingress-controller'
