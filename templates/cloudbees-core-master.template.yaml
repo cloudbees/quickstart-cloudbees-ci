@@ -48,6 +48,8 @@ Metadata:
       - Label:
           default: AWS Quick Start configuration
         Parameters:
+          - PerAccountSharedResources
+          - PerRegionSharedResources
           - QSS3BucketName
           - QSS3KeyPrefix
           - QSS3BucketRegion
@@ -116,6 +118,10 @@ Metadata:
         default: EFS provisioned throughput
       CustomValueYaml:
         default: Link to custom Helm values
+      PerAccountSharedResources:
+        default: Per account shared resources
+      PerRegionSharedResources:
+        default: Per region shared resources
       QSS3BucketName:
         default: Quick Start S3 bucket name
       QSS3KeyPrefix:
@@ -867,6 +873,16 @@ Parameters:
     Description: '[OPTIONAL] HTTP(S) or Amazon S3 URL which points to raw yaml 
       containing "custom" Helm values. Custom values are merged with "internal" 
       (CloudFormation) values during Helm operations such as install and upgrade.'
+  PerAccountSharedResources:
+    Type: String
+    AllowedValues: [ 'Yes', 'No' ]
+    Default: 'Yes'
+    Description: Choose "No" if you have already deployed another EKS Quick Start stack in this AWS account.
+  PerRegionSharedResources:
+    Type: String
+    AllowedValues: [ 'Yes', 'No' ]
+    Default: 'Yes'
+    Description: Choose "No" if you have already deployed another EKS Quick Start stack in this Region.
   QSS3BucketName:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
     ConstraintDescription:
@@ -993,6 +1009,8 @@ Resources:
         MasterNodeVolumeSize: !Ref MasterNodeVolumeSize
         AgentNodeVolumeSize: !Ref AgentNodeVolumeSize
         CustomAmiId: !Ref CustomAmiId
+        PerAccountSharedResources: !Ref PerAccountSharedResources
+        PerRegionSharedResources: !Ref PerRegionSharedResources
         QSS3BucketName: !Ref QSS3BucketName
         QSS3KeyPrefix: !Ref QSS3KeyPrefix
         QSS3BucketRegion: !Ref QSS3BucketRegion
