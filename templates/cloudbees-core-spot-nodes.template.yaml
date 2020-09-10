@@ -4,24 +4,24 @@ Description: Deploys a multi-instance Spot node pool to an existing EKS Quick St
 Metadata:
   AWSAMIRegionMap:
     Filters:
+      AMZNEKS116:
+        name: 'amazon-eks-node-1.16-v20??????'
+        owner-id: [ '602401143452', '558608220178', '800184023465', '918309763551', '961992271922', '877085696533', '590381155156' ]
+      AMZNEKS116GPU:
+        name: 'amazon-eks-gpu-node-1.16-v20??????'
+        owner-id: [ '602401143452', '558608220178', '800184023465', '918309763551', '961992271922', '877085696533', '590381155156' ]
       AMZNEKS115:
         name: 'amazon-eks-node-1.15-v20??????'
-        owner-id: '602401143452'
+        owner-id: [ '602401143452', '558608220178', '800184023465', '918309763551', '961992271922', '877085696533', '590381155156' ]
       AMZNEKS115GPU:
         name: 'amazon-eks-gpu-node-1.15-v20??????'
-        owner-id: '602401143452'
-      AMZNEKS114:
-        name: 'amazon-eks-node-1.14-v20??????'
-        owner-id: '602401143452'
-      AMZNEKS114GPU:
-        name: 'amazon-eks-gpu-node-1.14-v20??????'
-        owner-id: '602401143452'
-      AMZNEKS113:
-        name: 'amazon-eks-node-1.13-v20??????'
-        owner-id: '602401143452'
-      AMZNEKS113GPU:
-        name: 'amazon-eks-gpu-node-1.13-v20??????'
-        owner-id: '602401143452'
+        owner-id: [ '602401143452', '558608220178', '800184023465', '918309763551', '961992271922', '877085696533', '590381155156' ]
+      AMZNEKS117:
+        name: 'amazon-eks-node-1.17-v20??????'
+        owner-id: [ '602401143452', '558608220178', '800184023465', '918309763551', '961992271922', '877085696533', '590381155156' ]
+      AMZNEKS117GPU:
+        name: 'amazon-eks-gpu-node-1.17-v20??????'
+        owner-id: [ '602401143452', '558608220178', '800184023465', '918309763551', '961992271922', '877085696533', '590381155156' ]
 Parameters:
   KeyPairName:
     Description: The name of an existing public/private key pair, which allows you
@@ -39,403 +39,67 @@ Parameters:
     Default: ""
   SpotNodeInstanceType1:
     Default: m4.large #2x8
-    AllowedValues:
-      - t2.small
-      - t2.medium
-      - t2.large
-      - t2.xlarge
-      - t2.2xlarge
-      - t3.nano
-      - t3.micro
-      - t3.small
-      - t3.medium
-      - t3.large
-      - t3.xlarge
-      - t3.2xlarge
-      - m3.medium
-      - m3.large
-      - m3.xlarge
-      - m3.2xlarge
-      - m4.large
-      - m4.xlarge
-      - m4.2xlarge
-      - m4.4xlarge
-      - m4.10xlarge
-      - m5.large
-      - m5.xlarge
-      - m5.2xlarge
-      - m5.4xlarge
-      - m5.12xlarge
-      - m5.24xlarge
-      - m5.metal
-      - m5d.large
-      - m5d.xlarge
-      - m5d.2xlarge
-      - m5d.4xlarge
-      - m5d.12xlarge
-      - m5d.24xlarge
-      - m5d.metal
-      - m5a.large
-      - m5a.xlarge
-      - m5a.2xlarge
-      - m5a.4xlarge
-      - m5a.12xlarge
-      - m5a.24xlarge
-      - c4.large
-      - c4.xlarge
-      - c4.2xlarge
-      - c4.4xlarge
-      - c4.8xlarge
-      - c5.large
-      - c5.xlarge
-      - c5.2xlarge
-      - c5.4xlarge
-      - c5.9xlarge
-      - c5.18xlarge
-      - i3.large
-      - i3.xlarge
-      - i3.2xlarge
-      - i3.4xlarge
-      - i3.8xlarge
-      - i3.16xlarge
-      - r3.xlarge
-      - r3.2xlarge
-      - r3.4xlarge
-      - r3.8xlarge
-      - r4.large
-      - r4.xlarge
-      - r4.2xlarge
-      - r4.4xlarge
-      - r4.8xlarge
-      - r4.16xlarge
-      - x1.16xlarge
-      - x1.32xlarge
-      - p2.xlarge
-      - p2.8xlarge
-      - p2.16xlarge
-      - p3.2xlarge
-      - p3.8xlarge
-      - p3.16xlarge
-      - r5.large
-      - r5.xlarge
-      - r5.2xlarge
-      - r5.4xlarge
-      - r5.12xlarge
-      - r5.24xlarge
-      - r5d.large
-      - r5d.xlarge
-      - r5d.2xlarge
-      - r5d.4xlarge
-      - r5d.12xlarge
-      - r5d.24xlarge
-      - z1d.large
-      - z1d.xlarge
-      - z1d.2xlarge
-      - z1d.3xlarge
-      - z1d.6xlarge
-      - z1d.12xlarge
+    AllowedValues: [ t2.small, t2.medium, t2.large, t2.xlarge, t2.2xlarge, t3.nano, t3.micro, t3.small, t3.medium, t3.large,
+                     t3.xlarge, t3.2xlarge, m3.medium, m3.large, m3.xlarge, m3.2xlarge, m4.large, m4.xlarge, m4.2xlarge,
+                     m4.4xlarge, m4.10xlarge, m5.large, m5.xlarge, m5.2xlarge, m5.4xlarge, m5.12xlarge, m5.24xlarge, m5.metal,
+                     m5d.large, m5d.xlarge, m5d.2xlarge, m5d.4xlarge, m5d.12xlarge, m5d.24xlarge, m5d.metal, m5a.large, m5a.xlarge,
+                     m5a.2xlarge, m5a.4xlarge, m5a.12xlarge, m5a.24xlarge, c4.large, c4.xlarge, c4.2xlarge, c4.4xlarge, c4.8xlarge,
+                     c5.large, c5.xlarge, c5.2xlarge, c5.4xlarge, c5.9xlarge, c5.18xlarge, i3.large, i3.xlarge, i3.2xlarge,
+                     i3.4xlarge, i3.8xlarge, i3.16xlarge, r3.xlarge, r3.2xlarge, r3.4xlarge, r3.8xlarge, r4.large, r4.xlarge,
+                     r4.2xlarge, r4.4xlarge, r4.8xlarge, r4.16xlarge, x1.16xlarge, x1.32xlarge, p2.xlarge, p2.8xlarge, p2.16xlarge,
+                     p3.2xlarge, p3.8xlarge, p3.16xlarge, r5.large, r5.xlarge, r5.2xlarge, r5.4xlarge, r5.12xlarge, r5.24xlarge,
+                     r5d.large, r5d.xlarge, r5d.2xlarge, r5d.4xlarge, r5d.12xlarge, r5d.24xlarge, z1d.large, z1d.xlarge, z1d.2xlarge,
+                     z1d.3xlarge, z1d.6xlarge, z1d.12xlarge ]
     ConstraintDescription: Must be a valid EC2 instance type
-    Description: Type of EC2 instance for the Spot Node group (1 of 4)
+    Description: The first Amazon EC2 instance type for the spot agents node group.
     Type: String
   SpotNodeInstanceType2:
-    Default: m5.large #2x8
-    AllowedValues:
-      - t2.small
-      - t2.medium
-      - t2.large
-      - t2.xlarge
-      - t2.2xlarge
-      - t3.nano
-      - t3.micro
-      - t3.small
-      - t3.medium
-      - t3.large
-      - t3.xlarge
-      - t3.2xlarge
-      - m3.medium
-      - m3.large
-      - m3.xlarge
-      - m3.2xlarge
-      - m4.large
-      - m4.xlarge
-      - m4.2xlarge
-      - m4.4xlarge
-      - m4.10xlarge
-      - m5.large
-      - m5.xlarge
-      - m5.2xlarge
-      - m5.4xlarge
-      - m5.12xlarge
-      - m5.24xlarge
-      - m5.metal
-      - m5d.large
-      - m5d.xlarge
-      - m5d.2xlarge
-      - m5d.4xlarge
-      - m5d.12xlarge
-      - m5d.24xlarge
-      - m5d.metal
-      - m5a.large
-      - m5a.xlarge
-      - m5a.2xlarge
-      - m5a.4xlarge
-      - m5a.12xlarge
-      - m5a.24xlarge
-      - c4.large
-      - c4.xlarge
-      - c4.2xlarge
-      - c4.4xlarge
-      - c4.8xlarge
-      - c5.large
-      - c5.xlarge
-      - c5.2xlarge
-      - c5.4xlarge
-      - c5.9xlarge
-      - c5.18xlarge
-      - i3.large
-      - i3.xlarge
-      - i3.2xlarge
-      - i3.4xlarge
-      - i3.8xlarge
-      - i3.16xlarge
-      - r3.xlarge
-      - r3.2xlarge
-      - r3.4xlarge
-      - r3.8xlarge
-      - r4.large
-      - r4.xlarge
-      - r4.2xlarge
-      - r4.4xlarge
-      - r4.8xlarge
-      - r4.16xlarge
-      - x1.16xlarge
-      - x1.32xlarge
-      - p2.xlarge
-      - p2.8xlarge
-      - p2.16xlarge
-      - p3.2xlarge
-      - p3.8xlarge
-      - p3.16xlarge
-      - r5.large
-      - r5.xlarge
-      - r5.2xlarge
-      - r5.4xlarge
-      - r5.12xlarge
-      - r5.24xlarge
-      - r5d.large
-      - r5d.xlarge
-      - r5d.2xlarge
-      - r5d.4xlarge
-      - r5d.12xlarge
-      - r5d.24xlarge
-      - z1d.large
-      - z1d.xlarge
-      - z1d.2xlarge
-      - z1d.3xlarge
-      - z1d.6xlarge
-      - z1d.12xlarge
+    Default: m5.large #2x8 newer
+    AllowedValues: [ t2.small, t2.medium, t2.large, t2.xlarge, t2.2xlarge, t3.nano, t3.micro, t3.small, t3.medium, t3.large,
+                     t3.xlarge, t3.2xlarge, m3.medium, m3.large, m3.xlarge, m3.2xlarge, m4.large, m4.xlarge, m4.2xlarge,
+                     m4.4xlarge, m4.10xlarge, m5.large, m5.xlarge, m5.2xlarge, m5.4xlarge, m5.12xlarge, m5.24xlarge, m5.metal,
+                     m5d.large, m5d.xlarge, m5d.2xlarge, m5d.4xlarge, m5d.12xlarge, m5d.24xlarge, m5d.metal, m5a.large, m5a.xlarge,
+                     m5a.2xlarge, m5a.4xlarge, m5a.12xlarge, m5a.24xlarge, c4.large, c4.xlarge, c4.2xlarge, c4.4xlarge, c4.8xlarge,
+                     c5.large, c5.xlarge, c5.2xlarge, c5.4xlarge, c5.9xlarge, c5.18xlarge, i3.large, i3.xlarge, i3.2xlarge,
+                     i3.4xlarge, i3.8xlarge, i3.16xlarge, r3.xlarge, r3.2xlarge, r3.4xlarge, r3.8xlarge, r4.large, r4.xlarge,
+                     r4.2xlarge, r4.4xlarge, r4.8xlarge, r4.16xlarge, x1.16xlarge, x1.32xlarge, p2.xlarge, p2.8xlarge, p2.16xlarge,
+                     p3.2xlarge, p3.8xlarge, p3.16xlarge, r5.large, r5.xlarge, r5.2xlarge, r5.4xlarge, r5.12xlarge, r5.24xlarge,
+                     r5d.large, r5d.xlarge, r5d.2xlarge, r5d.4xlarge, r5d.12xlarge, r5d.24xlarge, z1d.large, z1d.xlarge, z1d.2xlarge,
+                     z1d.3xlarge, z1d.6xlarge, z1d.12xlarge ]
     ConstraintDescription: Must be a valid EC2 instance type
-    Description: Type of EC2 instance for the Spot Node group (2 of 4)
+    Description: The second Amazon EC2 instance type for the spot agents node group.
     Type: String
   SpotNodeInstanceType3:
-    Default: m5a.large #2x8
-    AllowedValues:
-      - t2.small
-      - t2.medium
-      - t2.large
-      - t2.xlarge
-      - t2.2xlarge
-      - t3.nano
-      - t3.micro
-      - t3.small
-      - t3.medium
-      - t3.large
-      - t3.xlarge
-      - t3.2xlarge
-      - m3.medium
-      - m3.large
-      - m3.xlarge
-      - m3.2xlarge
-      - m4.large
-      - m4.xlarge
-      - m4.2xlarge
-      - m4.4xlarge
-      - m4.10xlarge
-      - m5.large
-      - m5.xlarge
-      - m5.2xlarge
-      - m5.4xlarge
-      - m5.12xlarge
-      - m5.24xlarge
-      - m5.metal
-      - m5d.large
-      - m5d.xlarge
-      - m5d.2xlarge
-      - m5d.4xlarge
-      - m5d.12xlarge
-      - m5d.24xlarge
-      - m5d.metal
-      - m5a.large
-      - m5a.xlarge
-      - m5a.2xlarge
-      - m5a.4xlarge
-      - m5a.12xlarge
-      - m5a.24xlarge
-      - c4.large
-      - c4.xlarge
-      - c4.2xlarge
-      - c4.4xlarge
-      - c4.8xlarge
-      - c5.large
-      - c5.xlarge
-      - c5.2xlarge
-      - c5.4xlarge
-      - c5.9xlarge
-      - c5.18xlarge
-      - i3.large
-      - i3.xlarge
-      - i3.2xlarge
-      - i3.4xlarge
-      - i3.8xlarge
-      - i3.16xlarge
-      - r3.xlarge
-      - r3.2xlarge
-      - r3.4xlarge
-      - r3.8xlarge
-      - r4.large
-      - r4.xlarge
-      - r4.2xlarge
-      - r4.4xlarge
-      - r4.8xlarge
-      - r4.16xlarge
-      - x1.16xlarge
-      - x1.32xlarge
-      - p2.xlarge
-      - p2.8xlarge
-      - p2.16xlarge
-      - p3.2xlarge
-      - p3.8xlarge
-      - p3.16xlarge
-      - r5.large
-      - r5.xlarge
-      - r5.2xlarge
-      - r5.4xlarge
-      - r5.12xlarge
-      - r5.24xlarge
-      - r5d.large
-      - r5d.xlarge
-      - r5d.2xlarge
-      - r5d.4xlarge
-      - r5d.12xlarge
-      - r5d.24xlarge
-      - z1d.large
-      - z1d.xlarge
-      - z1d.2xlarge
-      - z1d.3xlarge
-      - z1d.6xlarge
-      - z1d.12xlarge
+    Default: m5a.large #2x8 amd
+    AllowedValues: [ t2.small, t2.medium, t2.large, t2.xlarge, t2.2xlarge, t3.nano, t3.micro, t3.small, t3.medium, t3.large,
+                     t3.xlarge, t3.2xlarge, m3.medium, m3.large, m3.xlarge, m3.2xlarge, m4.large, m4.xlarge, m4.2xlarge,
+                     m4.4xlarge, m4.10xlarge, m5.large, m5.xlarge, m5.2xlarge, m5.4xlarge, m5.12xlarge, m5.24xlarge, m5.metal,
+                     m5d.large, m5d.xlarge, m5d.2xlarge, m5d.4xlarge, m5d.12xlarge, m5d.24xlarge, m5d.metal, m5a.large, m5a.xlarge,
+                     m5a.2xlarge, m5a.4xlarge, m5a.12xlarge, m5a.24xlarge, c4.large, c4.xlarge, c4.2xlarge, c4.4xlarge, c4.8xlarge,
+                     c5.large, c5.xlarge, c5.2xlarge, c5.4xlarge, c5.9xlarge, c5.18xlarge, i3.large, i3.xlarge, i3.2xlarge,
+                     i3.4xlarge, i3.8xlarge, i3.16xlarge, r3.xlarge, r3.2xlarge, r3.4xlarge, r3.8xlarge, r4.large, r4.xlarge,
+                     r4.2xlarge, r4.4xlarge, r4.8xlarge, r4.16xlarge, x1.16xlarge, x1.32xlarge, p2.xlarge, p2.8xlarge, p2.16xlarge,
+                     p3.2xlarge, p3.8xlarge, p3.16xlarge, r5.large, r5.xlarge, r5.2xlarge, r5.4xlarge, r5.12xlarge, r5.24xlarge,
+                     r5d.large, r5d.xlarge, r5d.2xlarge, r5d.4xlarge, r5d.12xlarge, r5d.24xlarge, z1d.large, z1d.xlarge, z1d.2xlarge,
+                     z1d.3xlarge, z1d.6xlarge, z1d.12xlarge ]
     ConstraintDescription: Must be a valid EC2 instance type
-    Description: Type of EC2 instance for the Spot Node group (3 of 4)
+    Description: The third Amazon EC2 instance type for the spot agents node group.
     Type: String
   SpotNodeInstanceType4:
-    Default: m5d.large #2x8
-    AllowedValues:
-      - t2.small
-      - t2.medium
-      - t2.large
-      - t2.xlarge
-      - t2.2xlarge
-      - t3.nano
-      - t3.micro
-      - t3.small
-      - t3.medium
-      - t3.large
-      - t3.xlarge
-      - t3.2xlarge
-      - m3.medium
-      - m3.large
-      - m3.xlarge
-      - m3.2xlarge
-      - m4.large
-      - m4.xlarge
-      - m4.2xlarge
-      - m4.4xlarge
-      - m4.10xlarge
-      - m5.large
-      - m5.xlarge
-      - m5.2xlarge
-      - m5.4xlarge
-      - m5.12xlarge
-      - m5.24xlarge
-      - m5.metal
-      - m5d.large
-      - m5d.xlarge
-      - m5d.2xlarge
-      - m5d.4xlarge
-      - m5d.12xlarge
-      - m5d.24xlarge
-      - m5d.metal
-      - m5a.large
-      - m5a.xlarge
-      - m5a.2xlarge
-      - m5a.4xlarge
-      - m5a.12xlarge
-      - m5a.24xlarge
-      - c4.large
-      - c4.xlarge
-      - c4.2xlarge
-      - c4.4xlarge
-      - c4.8xlarge
-      - c5.large
-      - c5.xlarge
-      - c5.2xlarge
-      - c5.4xlarge
-      - c5.9xlarge
-      - c5.18xlarge
-      - i3.large
-      - i3.xlarge
-      - i3.2xlarge
-      - i3.4xlarge
-      - i3.8xlarge
-      - i3.16xlarge
-      - r3.xlarge
-      - r3.2xlarge
-      - r3.4xlarge
-      - r3.8xlarge
-      - r4.large
-      - r4.xlarge
-      - r4.2xlarge
-      - r4.4xlarge
-      - r4.8xlarge
-      - r4.16xlarge
-      - x1.16xlarge
-      - x1.32xlarge
-      - p2.xlarge
-      - p2.8xlarge
-      - p2.16xlarge
-      - p3.2xlarge
-      - p3.8xlarge
-      - p3.16xlarge
-      - r5.large
-      - r5.xlarge
-      - r5.2xlarge
-      - r5.4xlarge
-      - r5.12xlarge
-      - r5.24xlarge
-      - r5d.large
-      - r5d.xlarge
-      - r5d.2xlarge
-      - r5d.4xlarge
-      - r5d.12xlarge
-      - r5d.24xlarge
-      - z1d.large
-      - z1d.xlarge
-      - z1d.2xlarge
-      - z1d.3xlarge
-      - z1d.6xlarge
-      - z1d.12xlarge
+    Default: m5d.large #2x8 fast disk
+    AllowedValues: [ t2.small, t2.medium, t2.large, t2.xlarge, t2.2xlarge, t3.nano, t3.micro, t3.small, t3.medium, t3.large,
+                     t3.xlarge, t3.2xlarge, m3.medium, m3.large, m3.xlarge, m3.2xlarge, m4.large, m4.xlarge, m4.2xlarge,
+                     m4.4xlarge, m4.10xlarge, m5.large, m5.xlarge, m5.2xlarge, m5.4xlarge, m5.12xlarge, m5.24xlarge, m5.metal,
+                     m5d.large, m5d.xlarge, m5d.2xlarge, m5d.4xlarge, m5d.12xlarge, m5d.24xlarge, m5d.metal, m5a.large, m5a.xlarge,
+                     m5a.2xlarge, m5a.4xlarge, m5a.12xlarge, m5a.24xlarge, c4.large, c4.xlarge, c4.2xlarge, c4.4xlarge, c4.8xlarge,
+                     c5.large, c5.xlarge, c5.2xlarge, c5.4xlarge, c5.9xlarge, c5.18xlarge, i3.large, i3.xlarge, i3.2xlarge,
+                     i3.4xlarge, i3.8xlarge, i3.16xlarge, r3.xlarge, r3.2xlarge, r3.4xlarge, r3.8xlarge, r4.large, r4.xlarge,
+                     r4.2xlarge, r4.4xlarge, r4.8xlarge, r4.16xlarge, x1.16xlarge, x1.32xlarge, p2.xlarge, p2.8xlarge, p2.16xlarge,
+                     p3.2xlarge, p3.8xlarge, p3.16xlarge, r5.large, r5.xlarge, r5.2xlarge, r5.4xlarge, r5.12xlarge, r5.24xlarge,
+                     r5d.large, r5d.xlarge, r5d.2xlarge, r5d.4xlarge, r5d.12xlarge, r5d.24xlarge, z1d.large, z1d.xlarge, z1d.2xlarge,
+                     z1d.3xlarge, z1d.6xlarge, z1d.12xlarge ]
     ConstraintDescription: Must be a valid EC2 instance type
-    Description: Type of EC2 instance for the Spot Node group (4 of 4)
+    Description: The fourth Amazon EC2 instance type for the spot agents node group.
     Type: String
   NumberOfNodes:
     Default: 3
@@ -459,8 +123,6 @@ Parameters:
     Type: String
   KubernetesVersion:
     Type: String
-    AllowedValues: [ "1.15", "1.14", "1.13" ]
-    Default: "1.15"
 
 Conditions:
   3AZDeployment: !Not [!Equals [!Ref PrivateSubnet3ID, ""]]
@@ -474,15 +136,15 @@ Conditions:
 
 Mappings:
   K8sVersionMap:
-    "1.13":
-      STD: AMZNEKS113
-      GPU: AMZNEKS113GPU
-    "1.14":
-      STD: AMZNEKS114
-      GPU: AMZNEKS114GPU
     "1.15":
       STD: AMZNEKS115
       GPU: AMZNEKS115GPU
+    "1.16":
+      STD: AMZNEKS116
+      GPU: AMZNEKS116GPU
+    "1.17":
+      STD: AMZNEKS117
+      GPU: AMZNEKS117GPU
   InstanceTypes:
     t2.small: { Type: STD }
     t2.medium: { Type: STD }
@@ -511,6 +173,20 @@ Mappings:
     m5.4xlarge: { Type: STD }
     m5.12xlarge: { Type: STD }
     m5.24xlarge: { Type: STD }
+    m5.metal: { Type: STD }
+    m5d.large: { Type: STD }
+    m5d.xlarge: { Type: STD }
+    m5d.2xlarge: { Type: STD }
+    m5d.4xlarge: { Type: STD }
+    m5d.12xlarge: { Type: STD }
+    m5d.24xlarge: { Type: STD }
+    m5d.metal: { Type: STD }
+    m5a.large: { Type: STD }
+    m5a.xlarge: { Type: STD }
+    m5a.2xlarge: { Type: STD }
+    m5a.4xlarge: { Type: STD }
+    m5a.12xlarge: { Type: STD }
+    m5a.24xlarge: { Type: STD }
     c4.large: { Type: STD }
     c4.xlarge: { Type: STD }
     c4.2xlarge: { Type: STD }
@@ -566,110 +242,152 @@ Mappings:
     z1d.12xlarge: { Type: STD }
   AWSAMIRegionMap:
     ap-northeast-1:
-      AMZNEKS115: ami-026e39e61d44ff507
-      AMZNEKS115GPU: ami-093c945463034acd8
-      AMZNEKS114: ami-0472f72a6affbe2cc
-      AMZNEKS114GPU: ami-0665d37f861365592
-      AMZNEKS113: ami-087463f05d2c49ed3
-      AMZNEKS113GPU: ami-0b7f0991a89bd191c
+      AMZNEKS116: ami-0b6f41e05739de6f7
+      AMZNEKS116GPU: ami-0503df76723c99e5f
+      AMZNEKS115: ami-05d5811f019627d23
+      AMZNEKS115GPU: ami-0fb2fcc2ebea66788
+      AMZNEKS117: ami-048669b0687eb3ad4
+      AMZNEKS117GPU: ami-01abe1aa23729ddbc
     ap-northeast-2:
-      AMZNEKS115: ami-0e1e660d5e393d5f1
-      AMZNEKS115GPU: ami-04ff3d7117b9946d5
-      AMZNEKS114: ami-01b6316fe22d918a9
-      AMZNEKS114GPU: ami-04bd3e8bb22b81bd1
-      AMZNEKS113: ami-092004fafd70c5e38
-      AMZNEKS113GPU: ami-0065bbd4b85a840f4
+      AMZNEKS116: ami-0c4fddcab827ce47e
+      AMZNEKS116GPU: ami-0daffdcd3f9eb32f0
+      AMZNEKS115: ami-0693d32b5c575531b
+      AMZNEKS115GPU: ami-0297c509fe7d56135
+      AMZNEKS117: ami-051a4e2ffdcf3ec03
+      AMZNEKS117GPU: ami-0a1b3d8800cc10635
     ap-south-1:
-      AMZNEKS115: ami-040e5afd1b110a399
-      AMZNEKS115GPU: ami-02b5340b229583722
-      AMZNEKS114: ami-09edbbb02478906e3
-      AMZNEKS114GPU: ami-07f39289712b40bd2
-      AMZNEKS113: ami-06ea3235f114e1cdb
-      AMZNEKS113GPU: ami-0d5d61d6ae05d7e6b
+      AMZNEKS116: ami-05618375e5494e025
+      AMZNEKS116GPU: ami-068a13ddd1751e7de
+      AMZNEKS115: ami-0e8b410d739253a36
+      AMZNEKS115GPU: ami-09835fe28827a0185
+      AMZNEKS117: ami-0f23e10e68fbfad61
+      AMZNEKS117GPU: ami-0538a0821fa5def9a
     ap-southeast-1:
-      AMZNEKS115: ami-0d32de2029a9f56fd
-      AMZNEKS115GPU: ami-0233b3e636baa0997
-      AMZNEKS114: ami-069fad55139bcb636
-      AMZNEKS114GPU: ami-0d0c244ad46219038
-      AMZNEKS113: ami-04d9ba03c38df08b5
-      AMZNEKS113GPU: ami-033a9ce6a9c1c756f
+      AMZNEKS116: ami-08e29804ac624d84c
+      AMZNEKS116GPU: ami-0c64ed9c1d97f4894
+      AMZNEKS115: ami-0eeabedc8395abe2e
+      AMZNEKS115GPU: ami-0572bbd844ee4dc36
+      AMZNEKS117: ami-08468dfdc5c74b9b6
+      AMZNEKS117GPU: ami-06230d459643620be
     ap-southeast-2:
-      AMZNEKS115: ami-07aee5ce871a45bcf
-      AMZNEKS115GPU: ami-0f7aee17fdeffdbc0
-      AMZNEKS114: ami-0fbfeefbb99c1783d
-      AMZNEKS114GPU: ami-04791e36cb138607e
-      AMZNEKS113: ami-0bf9234bf8cd4eea2
-      AMZNEKS113GPU: ami-07885a4b174760b28
+      AMZNEKS116: ami-011d40a39322ee07a
+      AMZNEKS116GPU: ami-0cebfd00623aac2a3
+      AMZNEKS115: ami-07f5c294575341e65
+      AMZNEKS115GPU: ami-0bce3715ecf995cbc
+      AMZNEKS117: ami-0e86ebda4a10a0c9b
+      AMZNEKS117GPU: ami-0d55bdb0d924129a6
     ca-central-1:
-      AMZNEKS115: ami-0286b3b75d600924d
-      AMZNEKS115GPU: ami-0a1547fc818671add
-      AMZNEKS114: ami-064fd810d76e41b31
-      AMZNEKS114GPU: ami-0c5dddc53103725e0
-      AMZNEKS113: ami-01d73c6ce56880dd7
-      AMZNEKS113GPU: ami-0b5721fda1a071339
+      AMZNEKS116: ami-0b5716c37f90ebd4d
+      AMZNEKS116GPU: ami-0b627d9469ed72ca6
+      AMZNEKS115: ami-0572f3b71cdaa6b3f
+      AMZNEKS115GPU: ami-0e2679630c770c68b
+      AMZNEKS117: ami-0a1c0fe138d36c907
+      AMZNEKS117GPU: ami-003f7d1160c85495c
     eu-central-1:
-      AMZNEKS115: ami-02497bca9c9dbc206
-      AMZNEKS115GPU: ami-05c4b8f3ef1bb1e19
-      AMZNEKS114: ami-03d9393d97f5959fe
-      AMZNEKS114GPU: ami-0a0a41cca69ec0aae
-      AMZNEKS113: ami-00b8b203722a43adf
-      AMZNEKS113GPU: ami-0ac48ef9b47499768
+      AMZNEKS116: ami-00341e507eb458a09
+      AMZNEKS116GPU: ami-063b62b734173cd87
+      AMZNEKS115: ami-0503f8258d7df6001
+      AMZNEKS115GPU: ami-0d5041a9735ca2789
+      AMZNEKS117: ami-065ebfccbbb1c5734
+      AMZNEKS117GPU: ami-0d14875522bcaa478
     eu-north-1:
-      AMZNEKS115: ami-0efc0441f778f5826
-      AMZNEKS115GPU: ami-03d6bc6745788f9dd
-      AMZNEKS114: ami-00aa667bc61a020ac
-      AMZNEKS114GPU: ami-03a41b6e4558aa4c5
-      AMZNEKS113: ami-01179dbad4d43b6a4
-      AMZNEKS113GPU: ami-00e2aa5149bc6ac2f
+      AMZNEKS116: ami-08f8bd5d5365ef386
+      AMZNEKS116GPU: ami-0b71dda06df994656
+      AMZNEKS115: ami-0639d11d35fe64d2c
+      AMZNEKS115GPU: ami-04fc4e52561e4c6c7
+      AMZNEKS117: ami-03b82a6422a5fea81
+      AMZNEKS117GPU: ami-09cf4bbfbae9eb09a
     eu-west-1:
-      AMZNEKS115: ami-023736532608ff45e
-      AMZNEKS115GPU: ami-07fdadd8f2bf06e82
-      AMZNEKS114: ami-048d37e92ce89022e
-      AMZNEKS114GPU: ami-09585e5924cde339f
-      AMZNEKS113: ami-0bd1d87604aa3a367
-      AMZNEKS113GPU: ami-05432b1a64feb6423
+      AMZNEKS116: ami-0c62031215595b87a
+      AMZNEKS116GPU: ami-09a7447e3c43872d4
+      AMZNEKS115: ami-05560ab1b38de02bb
+      AMZNEKS115GPU: ami-0ae5f0dfd13abd9bc
+      AMZNEKS117: ami-0e88c067f159fff29
+      AMZNEKS117GPU: ami-05f67d6c4a90acb96
     eu-west-2:
-      AMZNEKS115: ami-0a79663bf395ae44d
-      AMZNEKS115GPU: ami-089fe51b1c3b5d6fd
-      AMZNEKS114: ami-0a907f63b13a38029
-      AMZNEKS114GPU: ami-0b155e164db9731e2
-      AMZNEKS113: ami-0cfee0d573de9f673
-      AMZNEKS113GPU: ami-0dc66e10b39d8ff36
+      AMZNEKS116: ami-060c87ac45f6e8e1f
+      AMZNEKS116GPU: ami-03897338e394beede
+      AMZNEKS115: ami-0c715d71bded1c40e
+      AMZNEKS115GPU: ami-0ad26c54062c16be2
+      AMZNEKS117: ami-0a0e935731c835095
+      AMZNEKS117GPU: ami-02da41dbb05fc1908
     eu-west-3:
-      AMZNEKS115: ami-0de67e5d090c0eef0
-      AMZNEKS115GPU: ami-0c84727799ef95690
-      AMZNEKS114: ami-043b0c38ebd8435f9
-      AMZNEKS114GPU: ami-0473e8095f62eb9e0
-      AMZNEKS113: ami-0f760dec69360c158
-      AMZNEKS113GPU: ami-04981fe8fd1b08639
+      AMZNEKS116: ami-08d3272747bd24ad7
+      AMZNEKS116GPU: ami-0f8e41f304720bb77
+      AMZNEKS115: ami-092783c696a6db223
+      AMZNEKS115GPU: ami-03b0e51270ccad27e
+      AMZNEKS117: ami-08ace09f7833fbcd4
+      AMZNEKS117GPU: ami-01ea22d25b2fb7f75
     sa-east-1:
-      AMZNEKS115: ami-07b176b7f55c9df7c
-      AMZNEKS115GPU: ami-0c344fca61b2e56af
-      AMZNEKS114: ami-0fb60915ec12aac26
-      AMZNEKS114GPU: ami-0828047d8af068874
-      AMZNEKS113: ami-0f52e1602e8ed4e90
-      AMZNEKS113GPU: ami-0e88ea382d951591c
+      AMZNEKS116: ami-01f36e4946e9683aa
+      AMZNEKS116GPU: ami-07f9783a0257a438f
+      AMZNEKS115: ami-06488a769fa5f75c8
+      AMZNEKS115GPU: ami-0cb8238448799101d
+      AMZNEKS117: ami-057a7809330139961
+      AMZNEKS117GPU: ami-096e3bc15eb88796a
     us-east-1:
-      AMZNEKS115: ami-06d4f570358b1b626
-      AMZNEKS115GPU: ami-08b20aa568bfd9034
-      AMZNEKS114: ami-05e621d4ba5b28dcc
-      AMZNEKS114GPU: ami-04ac5ea8ad53f0718
-      AMZNEKS113: ami-08becd0d34f995483
-      AMZNEKS113GPU: ami-0487c755adba013ba
+      AMZNEKS116: ami-04e4992e477024f96
+      AMZNEKS116GPU: ami-0cea991c2c343d5da
+      AMZNEKS115: ami-02bab75c1a52eba68
+      AMZNEKS115GPU: ami-065c27623c6d7487f
+      AMZNEKS117: ami-0925e0a4a64fb6895
+      AMZNEKS117GPU: ami-02e9f477367b0702e
     us-east-2:
-      AMZNEKS115: ami-0c1bd9eca9c869a0d
-      AMZNEKS115GPU: ami-09fff3605c34de565
-      AMZNEKS114: ami-0b89776dcfa5f2dee
-      AMZNEKS114GPU: ami-0575560bf57d243b6
-      AMZNEKS113: ami-0cf9a8c09f13b04d1
-      AMZNEKS113GPU: ami-0d30b440fa882e95b
+      AMZNEKS116: ami-0fbc7e56fb99f5337
+      AMZNEKS116GPU: ami-02e108cd68d254af3
+      AMZNEKS115: ami-0d38d43582b0a32bf
+      AMZNEKS115GPU: ami-07ec0dd544be09fb9
+      AMZNEKS117: ami-072868043b527ff26
+      AMZNEKS117GPU: ami-0dec6dbc0bc92c320
     us-west-2:
-      AMZNEKS115: ami-065418523a44331e5
-      AMZNEKS115GPU: ami-0b408465e05e85edb
-      AMZNEKS114: ami-0486134a23d903f10
-      AMZNEKS114GPU: ami-02b0649372044be55
-      AMZNEKS113: ami-0c42eb6db4a35a419
-      AMZNEKS113GPU: ami-0cfb505d6cdd3fc67
+      AMZNEKS116: ami-0412dd0339679edc9
+      AMZNEKS116GPU: ami-0d5a3b3661cf8e969
+      AMZNEKS115: ami-056b54ee08fc2e5d1
+      AMZNEKS115GPU: ami-0387e5911829c8db4
+      AMZNEKS117: ami-01c3b376c82d7673d
+      AMZNEKS117GPU: ami-03a8d909816d17ee9
+    me-south-1:
+      AMZNEKS116: ami-0080a7be6ffe76791
+      AMZNEKS116GPU: ami-0c79734ffd650f311
+      AMZNEKS115: ami-0f7602db7a6b89cb2
+      AMZNEKS115GPU: ami-096ecef5bf7e650c3
+      AMZNEKS117: ami-0c18449eb960939bb
+      AMZNEKS117GPU: ami-0b4ba8b97b3d26d5c
+    ap-east-1:
+      AMZNEKS116: ami-054ab980feb464a27
+      AMZNEKS116GPU: ami-0d8ae48d38aa6b828
+      AMZNEKS115: ami-034382e3d11643778
+      AMZNEKS115GPU: ami-03b83a1d4c03acbf1
+      AMZNEKS117: ami-0640011b3ac49d33f
+      AMZNEKS117GPU: ami-0559b50941175444b
+    eu-south-1:
+      AMZNEKS116: ami-0a7dab74109ffc60e
+      AMZNEKS116GPU: ami-05c24691f0d47980c
+      AMZNEKS115: ami-0ef9a055d02891de6
+      AMZNEKS115GPU: ami-0f81db845d6ae473c
+      AMZNEKS117: ami-090d32cb702e21337
+      AMZNEKS117GPU: ami-0ba4c1f6187438c65
+    af-south-1:
+      AMZNEKS116: ami-074166677c8aa1d39
+      AMZNEKS116GPU: ami-09b848d1965bcac64
+      AMZNEKS115: ami-0578b807b719cabdd
+      AMZNEKS115GPU: ami-01e400dbc00003039
+      AMZNEKS117: ami-0f9cc438e5b3bf53e
+      AMZNEKS117GPU: ami-00fa48e5cb996201e
+    cn-north-1:
+      AMZNEKS116: ami-003f8f06e8b82f94b
+      AMZNEKS116GPU: ami-0b54cb3e354554bb5
+      AMZNEKS115: ami-05e0d3314085a3128
+      AMZNEKS115GPU: ami-0a66314a65b3b6c42
+      AMZNEKS117: ami-0526894a6aa0738d1
+      AMZNEKS117GPU: ami-0db22cbd99168d507
+    cn-northwest-1:
+      AMZNEKS116: ami-031c837bbc78f55eb
+      AMZNEKS116GPU: ami-03dab94a952a98707
+      AMZNEKS115: ami-05b037b10bdb553b0
+      AMZNEKS115GPU: ami-01a448e7a0714afca
+      AMZNEKS117: ami-0d782e954096a8a9c
+      AMZNEKS117GPU: ami-0f3ea17fd8bb65849
 
 Resources:
   NodeSecurityGroup:
