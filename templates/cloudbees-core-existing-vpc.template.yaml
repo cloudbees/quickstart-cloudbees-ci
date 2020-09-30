@@ -414,7 +414,7 @@ Resources:
         NodeVolumeSize: !Ref MasterNodeVolumeSize
         CustomAmiId: !Ref CustomAmiId
         KubernetesVersion: !Ref KubernetesVersion
-        BootstrapArguments: "--kubelet-extra-args '--node-labels=partition=masters'"
+        Labels: "partition=masters"
   EKSStack:
     Type: AWS::CloudFormation::Stack
     DependsOn: AdvancedEKSConfigStack

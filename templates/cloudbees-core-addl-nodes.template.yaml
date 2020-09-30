@@ -180,7 +180,8 @@ Resources:
         NodeInstanceRoleName: !Ref NodeInstanceRoleName
         NodeInstanceRoleArn: !Ref NodeInstanceRoleArn
         KubernetesVersion: !Ref KubernetesVersion
-        BootstrapArguments: "--kubelet-extra-args '--node-labels=partition=regular-agents --register-with-taints=partition=regular-agents:NoSchedule'"
+        Labels: "partition=regular-agents"
+        Taints: "partition=regular-agents:NoSchedule"
   SpotAgentNodesStack:
     Type: "AWS::CloudFormation::Stack"
     Properties:
