@@ -119,8 +119,6 @@ Parameters:
     Type: String
   ControlPlaneSecurityGroup:
     Type: AWS::EC2::SecurityGroup::Id
-  NodeInstanceProfile:
-    Type: String
   KubernetesVersion:
     Type: String
 
@@ -135,6 +133,8 @@ Conditions:
   UseCustomAmi: !Not [ !Equals [ !Ref CustomAmiId, "" ] ]
 
 Mappings:
+  Config:
+    Prefix: { Value: 'eks-quickstart' }
   K8sVersionMap:
     "1.15":
       STD: AMZNEKS115
@@ -390,6 +390,16 @@ Mappings:
       AMZNEKS117GPU: ami-0f3ea17fd8bb65849
 
 Resources:
+  NodeInstanceProfileArn:
+    Type: Custom::CliQuery
+    Properties:
+      ServiceToken: !Sub [ 'arn:${AWS::Partition}:lambda:${AWS::Region}:${AWS::AccountId}:function:${Prefix}-ResourceReader', { Prefix: !FindInMap [ Config, Prefix, Value ] } ]
+      AwsCliCommand: !Sub
+        - "iam list-instance-profiles --query 'InstanceProfiles[].{role: Roles[0].RoleName, arn: Arn}[?role==`${NodeInstanceRoleName}`] | [0]'"
+        - NodeInstanceRoleName: !Sub
+            - '${Prefix}-UnmanagedNodeInstance'
+            - Prefix: !FindInMap [ Config, Prefix, Value ]
+      IdField: 'arn'
   NodeSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
@@ -512,7 +522,7 @@ Resources:
               VolumeType: gp2
               DeleteOnTermination: true
         IamInstanceProfile:
-          Name: !Ref NodeInstanceProfile
+          Arn: !Ref NodeInstanceProfileArn
         KeyName: !Ref KeyPairName
         NetworkInterfaces:
           - DeviceIndex: 0

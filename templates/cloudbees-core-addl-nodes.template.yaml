@@ -120,12 +120,6 @@ Parameters:
     Type: AWS::EC2::SecurityGroup::Id
   BastionSecurityGroup:
     Type: String
-  NodeInstanceProfile: 
-    Type: String
-  NodeInstanceRoleName:
-    Type: String
-  NodeInstanceRoleArn:
-    Type: String
   KubernetesVersion: 
     Type: String
   QSS3BucketName:
@@ -165,21 +159,15 @@ Resources:
           S3Bucket: !If [UsingDefaultBucket, !Sub '${QSS3BucketName}-${AWS::Region}', !Ref QSS3BucketName]
       Parameters:
         KeyPairName: !Ref 'KeyPairName'
-        PrivateSubnet1ID: !Ref PrivateSubnet1ID
-        PrivateSubnet2ID: !Ref PrivateSubnet2ID
-        PrivateSubnet3ID: !Ref PrivateSubnet3ID
-        VPCID: !Ref VPCID
+        Subnet1ID: !Ref PrivateSubnet1ID
+        Subnet2ID: !Ref PrivateSubnet2ID
+        Subnet3ID: !Ref PrivateSubnet3ID
         NodeInstanceType: !Ref RegularNodeInstanceType
         NumberOfNodes: !Ref NumberOfRegularNodes
         NodeGroupName: "cloudbees-core-regular-agents"
         NodeVolumeSize: !Ref NodeVolumeSize
         CustomAmiId: !Ref CustomAmiId
-        EKSControlPlane: !Ref EKSControlPlane
-        ControlPlaneSecurityGroup: !Ref ControlPlaneSecurityGroup
-        NodeInstanceProfile: !Ref NodeInstanceProfile
-        NodeInstanceRoleName: !Ref NodeInstanceRoleName
-        NodeInstanceRoleArn: !Ref NodeInstanceRoleArn
-        KubernetesVersion: !Ref KubernetesVersion
+        EKSClusterName: !Ref EKSControlPlane
         Labels: "partition=regular-agents"
         Taints: "partition=regular-agents:NoSchedule"
   SpotAgentNodesStack:
@@ -205,7 +193,6 @@ Resources:
         CustomAmiId: !Ref CustomAmiId
         EKSControlPlane: !Ref EKSControlPlane
         ControlPlaneSecurityGroup: !Ref ControlPlaneSecurityGroup
-        NodeInstanceProfile: !Ref NodeInstanceProfile
         KubernetesVersion: !Ref KubernetesVersion
   #Allow the bastion host to SSH into the additional node pools
   BastionToRegularIngress:
