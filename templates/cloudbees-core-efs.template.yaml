@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: Deploys an EFS file system and efs-provisioner (qs-1pipqrqhi)
 
 Parameters:
-  ClusterName:
+  EKSClusterName:
     Type: String
   InitialNodeGroupSecurityGroup:
     Type: AWS::EC2::SecurityGroup::Id
@@ -57,7 +57,7 @@ Resources:
   EFSProvisioner:
     Type: "AWSQS::Kubernetes::Helm"
     Properties:
-      ClusterID: !Ref ClusterName
+      ClusterID: !Ref EKSClusterName
       Chart: stable/efs-provisioner
       Name: efs-provisioner
       Namespace: efs-provisioner

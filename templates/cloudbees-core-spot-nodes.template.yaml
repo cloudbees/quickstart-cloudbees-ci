@@ -1,3 +1,4 @@
+# DEPRECATED Oct. 2020 - It's better to use Amazon's node group template which now supports Spot instances.
 # largely based on https://github.com/aws-quickstart/quickstart-amazon-eks/blob/master/templates/amazon-eks-nodegroup.template.yaml
 AWSTemplateFormatVersion: 2010-09-09
 Description: Deploys a multi-instance Spot node pool to an existing EKS Quick Start cluster (qs-1pipqrqj1)

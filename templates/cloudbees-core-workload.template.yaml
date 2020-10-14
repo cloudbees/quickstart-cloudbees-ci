@@ -2,7 +2,7 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: Deploys CloudBees Core into an existing Kubernetes cluster (qs-1pipqrqje)
 
 Parameters:
-  ClusterName:
+  EKSClusterName:
     Type: String
   StorageClassName:
     Type: String
@@ -13,7 +13,7 @@ Resources:
   CloudBeesCore:
     Type: "AWSQS::Kubernetes::Helm"
     Properties:
-      ClusterID: !Ref ClusterName
+      ClusterID: !Ref EKSClusterName
       Repository: https://charts.cloudbees.com/public/cloudbees
       Chart: cloudbees/cloudbees-core
       #Version: 3.16.1+a3fdb4ae4e87 # uncomment to use something other than latest
@@ -43,15 +43,15 @@ Resources:
         Persistence:
           StorageClass: ${StorageClassName}
       ValueOverrideUrl: !Ref CustomValueYaml
-  IngressHostName:
+  CloudBeesCoreURL:
     DependsOn: CloudBeesCore
     Type: "AWSQS::Kubernetes::Get"
     Properties:
-      ClusterName: !Ref ClusterName
+      ClusterName: !Ref EKSClusterName
       Namespace: cloudbees-core
-      Name: 'svc/cloudbees-core-nginx-ingress-controller'
+      Name: 'service/cloudbees-core-nginx-ingress-controller'
       JsonPath: '{.status.loadBalancer.ingress[0].hostname}'
 
 Outputs:
-  CloudBeesJenkinsOperationsCenterUrl:
-    Value: !Sub "http://${IngressHostName}/cjoc"
+  CloudBeesCoreURL:
+    Value: !Sub "http://${CloudBeesCoreURL.Response}/cjoc"
