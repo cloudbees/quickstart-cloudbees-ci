@@ -35,8 +35,8 @@ spec:
         stage('Checkout SCM') {
             steps {
                 //this step runs on the default jnlp agent, which has git installed:
-                //docker run --rm -i -t jenkins/jnlp-slave:alpine git
-                git 'https://github.com/spring-projects/spring-petclinic.git'
+                //docker run --rm -i -t cloudbees/cloudbees-core-agent git
+                git branch: 'main', url: 'https://github.com/spring-projects/spring-petclinic.git'
             }
         }
         stage('Build and Test with Maven') { //in "spot agents" pool
