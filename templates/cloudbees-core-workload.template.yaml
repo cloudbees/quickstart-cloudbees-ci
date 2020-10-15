@@ -20,7 +20,7 @@ Resources:
       Name: cloudbees-core
       Namespace: cloudbees-core
       ValueYaml: !Sub |
-        nginx-ingress:
+        ingress-nginx:
           Enabled: true
         OperationsCenter:
           Platform: eks
