@@ -60,7 +60,6 @@ Resources:
       ClusterID: !Ref EKSClusterName
       Chart: stable/efs-provisioner
       Name: efs-provisioner
-      Namespace: efs-provisioner
       Values:
         efsProvisioner.efsFileSystemId: !Ref EFSFileSystem
         efsProvisioner.awsRegion: !Ref "AWS::Region"
