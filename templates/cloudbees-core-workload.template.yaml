@@ -40,6 +40,11 @@ Resources:
             mountPath: /var/jenkins_home/.cloudbees-referrer.txt
             subPath: .cloudbees-referrer.txt
             readOnly: true
+        Agents:
+          SeparateNamespace:
+            Enabled: true
+            Create: true
+            Name: cloudbees-agents
         Persistence:
           StorageClass: ${StorageClassName}
       ValueOverrideURL: !Ref ValueOverrideURL
