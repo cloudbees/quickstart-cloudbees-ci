@@ -44,7 +44,7 @@ Metadata:
           - KubernetesVersion
           - StorageClassName
           - ProvisionedThroughputInMibps
-          - CustomValueYaml
+          - ValueOverrideURL
       - Label:
           default: AWS Quick Start configuration
         Parameters:
@@ -116,7 +116,7 @@ Metadata:
         default: Kubernetes Storage Class Name
       ProvisionedThroughputInMibps:
         default: EFS provisioned throughput
-      CustomValueYaml:
+      ValueOverrideURL:
         default: Link to custom Helm values
       PerAccountSharedResources:
         default: Per account shared resources
@@ -303,7 +303,7 @@ Parameters:
       Amount of Amazon EFS provisioned throughput in Mibps. This value is not used 
       when "gp2" (Amazon EBS) is selected as the storage type. The default value 
       (160Mibps) is recommended.
-  CustomValueYaml:
+  ValueOverrideURL:
     Type: String
     Default: ''
     Description: '[OPTIONAL] HTTP(S) or Amazon S3 URL which points to raw yaml 
@@ -432,7 +432,7 @@ Resources:
         KubernetesVersion: !Ref KubernetesVersion
         StorageClassName: !Ref StorageClassName
         ProvisionedThroughputInMibps: !Ref ProvisionedThroughputInMibps
-        CustomValueYaml: !Ref CustomValueYaml
+        ValueOverrideURL: !Ref ValueOverrideURL
         MasterNodeInstanceType: !Ref MasterNodeInstanceType
         RegularNodeInstanceType: !Ref RegularNodeInstanceType
         SpotNodeInstanceType1: !Ref SpotNodeInstanceType1

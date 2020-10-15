@@ -6,7 +6,7 @@ Parameters:
     Type: String
   StorageClassName:
     Type: String
-  CustomValueYaml:
+  ValueOverrideURL:
     Type: String
 
 Resources:
@@ -42,7 +42,7 @@ Resources:
             readOnly: true
         Persistence:
           StorageClass: ${StorageClassName}
-      ValueOverrideUrl: !Ref CustomValueYaml
+      ValueOverrideURL: !Ref ValueOverrideURL
   CloudBeesCoreURL:
     DependsOn: CloudBeesCore
     Type: "AWSQS::Kubernetes::Get"
