@@ -18,7 +18,6 @@ Resources:
       Chart: cloudbees/cloudbees-core
       #Version: 3.16.1+a3fdb4ae4e87 # uncomment to use something other than latest
       Name: cloudbees-core
-      Namespace: cloudbees-core
       ValueYaml: !Sub |
         ingress-nginx:
           Enabled: true
