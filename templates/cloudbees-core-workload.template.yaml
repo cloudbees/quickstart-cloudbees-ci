@@ -31,9 +31,9 @@ Resources:
               .cloudbees-referrer.txt: |
                 Core on AWS Quick Start
           ExtraVolumes:
-            - name: cloudbees-referrer
-              configMap:
-                name:  cloudbees-referrer
+          - name: cloudbees-referrer
+            configMap:
+              name:  cloudbees-referrer
           ExtraVolumeMounts:
           - name: cloudbees-referrer
             mountPath: /var/jenkins_home/.cloudbees-referrer.txt
