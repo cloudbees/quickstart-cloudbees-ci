@@ -3,7 +3,7 @@ project:
   owner: dschott@cloudbees.com
   lambda_source_path: functions/source
   lambda_zip_path: functions/packages
-  package_lambda: false  # uncomment to save time by not packaging unchanged lambdas
+  #package_lambda: false  # uncomment to save time by not packaging unchanged lambdas
   regions:
   - us-east-1
   - us-east-2
