@@ -52,7 +52,7 @@ Resources:
     Type: "AWSQS::Kubernetes::Get"
     Properties:
       ClusterName: !Ref EKSClusterName
-      Namespace: cloudbees-core
+      Namespace: default
       Name: 'service/cloudbees-core-nginx-ingress-controller'
       JsonPath: '{.status.loadBalancer.ingress[0].hostname}'
 
