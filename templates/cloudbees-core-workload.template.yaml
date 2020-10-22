@@ -53,7 +53,7 @@ Resources:
     Properties:
       ClusterName: !Ref EKSClusterName
       Namespace: default
-      Name: 'service/cloudbees-core-nginx-ingress-controller'
+      Name: 'service/cloudbees-core-ingress-nginx-controller'
       JsonPath: '{.status.loadBalancer.ingress[0].hostname}'
 
 Outputs:
