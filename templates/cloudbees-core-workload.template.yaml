@@ -19,7 +19,7 @@ Resources:
       #Version: 3.16.1+a3fdb4ae4e87 # uncomment to use something other than latest
       Name: cloudbees-core
       ValueYaml: !Sub |
-        nginx-ingress:
+        ingress-nginx:
           Enabled: true
         OperationsCenter:
           Platform: eks
