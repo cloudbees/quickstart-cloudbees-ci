@@ -15,7 +15,7 @@ project:
     QSS3BucketName: $[taskcat_autobucket]
     QSS3BucketRegion: $[taskcat_current_region]
     AvailabilityZones: $[taskcat_genaz_3]
-  template: templates/cloudbees-core-master.template.yaml
+  template: templates/cloudbees-ci-entrypoint-new-vpc.template.yaml
 tests:
   default:
     regions:
