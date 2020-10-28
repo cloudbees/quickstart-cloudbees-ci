@@ -3,6 +3,7 @@ project:
   owner: dschott@cloudbees.com
   lambda_source_path: functions/source
   lambda_zip_path: functions/packages
+  #package_lambda: false  # uncomment to save time by not packaging unchanged lambdas
   regions:
   - us-east-1
   - us-east-2
@@ -14,7 +15,7 @@ project:
     QSS3BucketName: $[taskcat_autobucket]
     QSS3BucketRegion: $[taskcat_current_region]
     AvailabilityZones: $[taskcat_genaz_3]
-  template: templates/cloudbees-core-master.template.yaml
+  template: templates/cloudbees-ci-entrypoint-new-vpc.template.yaml
 tests:
   default:
     regions:

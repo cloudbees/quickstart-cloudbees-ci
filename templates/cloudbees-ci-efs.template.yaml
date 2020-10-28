@@ -2,9 +2,7 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: Deploys an EFS file system and efs-provisioner (qs-1pipqrqhi)
 
 Parameters:
-  HelmLambdaArn:
-    Type: String
-  ClusterName:
+  EKSClusterName:
     Type: String
   InitialNodeGroupSecurityGroup:
     Type: AWS::EC2::SecurityGroup::Id
@@ -57,14 +55,11 @@ Resources:
       SecurityGroups: [ !Ref InitialNodeGroupSecurityGroup ]
       SubnetId: !Ref PrivateSubnet3ID
   EFSProvisioner:
-    Type: "Custom::Helm"
-    Version: '1.0'
+    Type: "AWSQS::Kubernetes::Helm"
     Properties:
-      ServiceToken: !Ref HelmLambdaArn
-      ClusterName: !Ref ClusterName
+      ClusterID: !Ref EKSClusterName
       Chart: stable/efs-provisioner
       Name: efs-provisioner
-      Namespace: efs-provisioner
       Values:
         efsProvisioner.efsFileSystemId: !Ref EFSFileSystem
         efsProvisioner.awsRegion: !Ref "AWS::Region"
