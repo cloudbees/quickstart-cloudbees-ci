@@ -7,7 +7,11 @@ Parameters:
   StorageClassName:
     Type: String
   ValueOverrideURL:
+    Default: ''
     Type: String
+
+Conditions:
+  ValueOverrideURLExists: !Not [!Equals [ !Ref ValueOverrideURL, '' ]]
 
 Resources:
   CloudBeesCore:
@@ -46,7 +50,12 @@ Resources:
             Name: cloudbees-agents
         Persistence:
           StorageClass: ${StorageClassName}
-      ValueOverrideURL: !Ref ValueOverrideURL
+      # TODO remove conditional when empty string is checked in:
+      # https://github.com/aws-quickstart/quickstart-helm-resource-provider/blob/bec748ffaf30cab420ddbe19b5d2752cb9a43ba7/cmd/resource/utils.go#L133
+      ValueOverrideURL: !If
+        - ValueOverrideURLExists
+        - !Ref ValueOverrideURL
+        - !Ref AWS::NoValue
   CloudBeesCoreURL:
     DependsOn: CloudBeesCore
     Type: "AWSQS::Kubernetes::Get"
