@@ -276,7 +276,6 @@ Parameters:
       (160Mibps) is recommended.
   ValueOverrideURL:
     Type: String
-    Default: ''
     Description: '[OPTIONAL] Amazon S3 URL which points to raw yaml
       containing "custom" Helm values. Custom values are merged with "internal" 
       (CloudFormation) values during Helm operations such as install and upgrade.'
