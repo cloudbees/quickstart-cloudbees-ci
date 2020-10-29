@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Deploys CloudBees Core into an existing Kubernetes cluster (qs-1pipqrqje)
+
+Parameters:
+  EKSClusterName:
+    Type: String
+  StorageClassName:
+    Type: String
+  ValueOverrideURL:
+    Default: ''
+    Type: String
+
+Conditions:
+  ValueOverrideURLExists: !Not [!Equals [ !Ref ValueOverrideURL, '' ]]
+
+Resources:
+  CloudBeesCore:
+    Type: "AWSQS::Kubernetes::Helm"
+    Properties:
+      ClusterID: !Ref EKSClusterName
+      Repository: https://charts.cloudbees.com/public/cloudbees
+      Chart: cloudbees/cloudbees-core
+      #Version: 3.16.1+a3fdb4ae4e87 # uncomment to use something other than latest
+      Name: cloudbees-core
+      ValueYaml: !Sub |
+        ingress-nginx:
+          Enabled: true
+        OperationsCenter:
+          Platform: eks
+          ExtraConfigMaps:
+          - name: cloudbees-referrer
+            labels:
+              app.kubernetes.io/component: trial-telemetry
+            data:
+              .cloudbees-referrer.txt: |
+                Core on AWS Quick Start
+          ExtraVolumes:
+          - name: cloudbees-referrer
+            configMap:
+              name:  cloudbees-referrer
+          ExtraVolumeMounts:
+          - name: cloudbees-referrer
+            mountPath: /var/jenkins_home/.cloudbees-referrer.txt
+            subPath: .cloudbees-referrer.txt
+            readOnly: true
+        Agents:
+          SeparateNamespace:
+            Enabled: true
+            Create: true
+            Name: cloudbees-agents
+        Persistence:
+          StorageClass: ${StorageClassName}
+      # TODO remove conditional when empty string is checked in:
+      # https://github.com/aws-quickstart/quickstart-helm-resource-provider/blob/bec748ffaf30cab420ddbe19b5d2752cb9a43ba7/cmd/resource/utils.go#L133
+      ValueOverrideURL: !If
+        - ValueOverrideURLExists
+        - !Ref ValueOverrideURL
+        - !Ref AWS::NoValue
+  CloudBeesCoreURL:
+    DependsOn: CloudBeesCore
+    Type: "AWSQS::Kubernetes::Get"
+    Properties:
+      ClusterName: !Ref EKSClusterName
+      Namespace: default
+      Name: 'service/cloudbees-core-ingress-nginx-controller'
+      JsonPath: '{.status.loadBalancer.ingress[0].hostname}'
+
+Outputs:
+  CloudBeesCoreURL:
+    Value: !Sub "https://${CloudBeesCoreURL.Response}/cjoc"
