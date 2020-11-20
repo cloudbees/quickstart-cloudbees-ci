@@ -67,4 +67,4 @@ Resources:
 
 Outputs:
   CloudBeesCoreURL:
-    Value: !Sub "https://${CloudBeesCoreURL.Response}/cjoc"
+    Value: !Sub "http://${CloudBeesCoreURL.Response}/cjoc"
