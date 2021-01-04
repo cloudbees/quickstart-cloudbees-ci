@@ -282,13 +282,13 @@ Parameters:
       (CloudFormation) values during Helm operations such as install and upgrade.'
   PerAccountSharedResources:
     Type: String
-    AllowedValues: [ 'Yes', 'No' ]
-    Default: 'Yes'
+    AllowedValues: [ 'AutoDetect', 'Yes', 'No' ]
+    Default: 'AutoDetect'
     Description: Choose "No" if you have already deployed another EKS Quick Start stack in this AWS account.
   PerRegionSharedResources:
     Type: String
-    AllowedValues: [ 'Yes', 'No' ]
-    Default: 'Yes'
+    AllowedValues: [ 'AutoDetect', 'Yes', 'No' ]
+    Default: 'AutoDetect'
     Description: Choose "No" if you have already deployed another EKS Quick Start stack in this Region.
   QSS3BucketName:
     AllowedPattern: ^[0-9a-zA-Z]+([0-9a-zA-Z-]*[0-9a-zA-Z])*$
