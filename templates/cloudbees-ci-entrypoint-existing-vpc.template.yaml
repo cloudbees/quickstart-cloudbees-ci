@@ -255,8 +255,8 @@ Parameters:
     Description: Custom AMI ID for Amazon EKS worker nodes.
   KubernetesVersion:
     Type: String
-    AllowedValues: [ "1.15", "1.16", "1.17" ]
-    Default: "1.17"
+    AllowedValues: [ "1.15", "1.16", "1.17", "1.18" ]
+    Default: "1.18"
     Description: The Kubernetes control plane version.
   StorageClassName:
     Type: String
