@@ -1,6 +1,9 @@
 # quickstart-cloudbees-ci
-## CloudBees CI on the AWS Cloud
 
+> [!NOTE]  
+> This project has been replaced by the [CloudBees Terraform EKS Blueprints At Scale](https://github.com/cloudbees/terraform-aws-cloudbees-ci-eks-addon/tree/main/blueprints/02-at-scale)
+
+## CloudBees CI on the AWS Cloud
 
 This Quick Start deploys CloudBees Continuous Integration (CI) on the Amazon Web Services (AWS) Cloud, to provide a continuous integration and continuous delivery (CI/CD) solution that’s based on Jenkins and integrated with Amazon Elastic Container Service for Kubernetes (Amazon EKS).
 
